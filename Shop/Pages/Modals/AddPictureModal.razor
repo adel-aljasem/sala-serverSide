@@ -1,0 +1,164 @@
+﻿@inject IUnitOfWork UnitOfWork
+@inject FileUpload FileUpload
+@inject NavigationManager nav
+@inject FileUpload fileUpload
+
+
+
+<div id="modal_product_photos" class="modal fade in" style="display: none; padding-right: 17px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <button @onclick="OnChangePhoto" type="button" class="close" data-dismiss="modal">×</button>
+                <h6 class="modal-title">صور وفيديوهات المنتج</h6>
+            </div>
+            <div class="modal-body">
+                <div id="product-images-tab">
+
+                    <div class="dropArea @dropClass">
+                        اسحب الصورة وافلتها هنا او تصفح من جهازك
+                        <InputFile disabled="@uploading" OnChange="HandleImageUpload" @ondragenter="HandleDragEnter" @ondragleave="HandleDragLeave" multiple />
+
+                    </div>
+                    <div class="form-group add-product-link">
+                        <div class="rec-list rec-list--horizontal">
+                            <div class="rec-list rec-list--horizontal">
+                                <span class="input-group-addon"><i class="sicon-media-player"></i></span>
+                                <input type="text" placeholder="أضف رابط فيديو من اليوتيوب" class="form-control">
+
+                            </div>
+                            <button class="btn btn-tiffany btn-add-link" disabled="">اضافة</button>
+                        </div>
+                    </div>
+                    <div id="product_images" class="rec-uploaded-images">
+
+                        @if (productModel?.ID == ID)
+                        {
+                            @foreach (var image in productModel.Images.Skip(1))
+                            {
+                                
+
+                                <div class="_slim">
+                                    <div class="img-handle"><i class="fa fa-arrows-alt"></i> </div>
+                                    <div class="slim-area">
+                                        <div class="product-photo-seo">
+                                            <i class="alt">Alt</i>
+                                            <input type="text" name="alt" class="form-control alts seo-tags" maxlength="70" value="" placeholder="نص توضيحي لمحركات البحث">
+                                        </div>
+
+                                        <!-- TODO:: add the class modifier "slim-result-video" when the product has a video -->
+                                        <div class="slim-result" data-mode="preview" data-aspect-ratio="0.223" data-center="0.5,0.543">
+                                            <img class="in" style="opacity: 1; z-index: 1; position:relative" src="@image.ImageUrl">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="product-photo-meta">
+                                        <label class="radio-inline">
+                                            <div class="choice">
+                                                <span>
+                                                    <input type="radio" class="styled product_image_main" name="image_main">
+                                                </span>
+                                            </div> الصورة الأساسية
+                                        </label>
+                                        <i data-tippy-content="Tooltip" class="sicon-crop crop-product-photo"></i>
+                                        <i class="sicon-trash-2 action-icon remove-product-photo" @onclick="() => HandleImageDelete(image.ID)"></i>
+                                    </div>
+                                </div>
+                            }
+
+                        }
+
+
+
+
+                    </div>
+                    <div style="clear: both"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button  @onclick="OnChangePhoto" type="button" class="btn bg-grey-400 pull-right" data-dismiss="modal"> <i class="sicon-cancel"></i> إغلاق</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@code{
+    [Parameter]
+    public int ID { get; set; }
+    [Parameter]
+    public ProductModel productModel { get; set; }
+    [Parameter]
+    public EventCallback OnChangePhoto { get; set; }
+
+
+    int q;
+
+    private string dropClass = "";
+    bool uploading = false;
+
+
+    void HandleDragEnter()
+    {
+        dropClass = "dropAreaDrug";
+    }
+
+    void HandleDragLeave()
+    {
+        dropClass = string.Empty;
+    }
+
+
+
+    private async Task HandleImageUpload(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            uploading = true;
+           
+
+            if (e.FileCount > 0)
+            {
+
+                foreach (var file in e.GetMultipleFiles(30))
+                {
+                    FileInfo fileInfo = new FileInfo(file.Name);
+                    string imageUrl = await FileUpload.UploadFile(file);
+                    productModel.Images.Add(new ImageModel { ImageUrl = imageUrl, ProductId = productModel.ID });
+
+                }
+
+
+                if (productModel.Images.Count >= 1)
+                {
+
+                    await UnitOfWork.ProductRepository.Update(productModel.ID, productModel);
+                    await UnitOfWork.Complete();
+
+                   
+                }
+            }
+
+            uploading = false;
+        }
+        catch (Exception ex)
+        {
+            string error = ex.Message;
+        }
+
+    }
+
+    private async Task HandleImageDelete(int id)
+    {
+        var ImageToRemove = productModel.Images.FirstOrDefault(w => w.ID == id);
+        productModel.Images.Remove(ImageToRemove);
+        await UnitOfWork.ImageRepository.Remove(ImageToRemove.ID);
+        var imageName = ImageToRemove.ImageUrl.Replace($"{nav.BaseUri}Images/","");
+        fileUpload.DeleteFile(imageName);
+        await UnitOfWork.Complete();
+    }
+
+  
+}

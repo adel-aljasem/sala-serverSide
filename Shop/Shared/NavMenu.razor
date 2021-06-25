@@ -1,0 +1,65 @@
+﻿
+
+
+<div class="navbar navbar-inverse" id="navbar_box">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/"><span class="logo"></span> سلة</a>
+
+        <a class="sidebar-mobile-main-toggle" id="toggle-sidebar"><i class="sicon-menu"></i></a>
+        <ul class="nav navbar-nav visible-xs navbar-top-mobile">
+            <li class="changelog-headsup"></li>
+            <li><a data-toggle="collapse" data-target="#navbar-user-mobile" class="mobile-avatar-box"><img src="https://www.gravatar.com/avatar/42244408b9891fd459ff321bf6bec578?s=80&amp;d=mm&amp;r=g" class="mobile-avatar" alt=""></a></li>
+        </ul>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar-mobile">
+        <ul class="nav navbar-nav">
+            <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="sicon-menu"></i></a></li>
+        </ul>
+        <form class="navbar-form navbar-left" action="https://s.salla.sa/search" method="get">
+            @* i have to add search group here later*@
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="changelog-headsup">
+                <a href="https://s.salla.sa/changelog" target="_blank"> تحديثات المنصة</a>
+            </li>
+            <li class="dropdown dropdown-user">
+                <a class="dropdown-toggle hidden-xs" data-toggle="dropdown" aria-expanded="false">
+                    <img src="https://www.gravatar.com/avatar/42244408b9891fd459ff321bf6bec578?s=80&amp;d=mm&amp;r=g" alt="">
+                    <span> @authentication.User.Identity.Name </span>
+                    <i class="caret"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="https://s.salla.sa/profile"><i class="sicon-user"></i> الملف الشخصي </a></li>
+                    <li><a href="https://s.salla.sa/app/alerts"><i class="sicon-notification"></i> التنبيهات</a></li>
+
+                    <li class="highlight"><a href="https://s.salla.sa/changelog" target="_blank"><i class="sicon-party-horn"></i> تحديثات المنصة </a></li>
+                    <li class="divider"></li>
+                    <li><a href="identity/account/logout"><i class="sicon-power"></i> تسجيل الخروج</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="navbar-collapse collapse my-navbar" id="navbar-user-mobile">
+        <div class="navbar-item"><a href="https://s.salla.sa/profile"><i class="sicon-user"></i> الملف الشخصي </a></div>
+        <div class="navbar-item"><a href="https://s.salla.sa/app/alerts"><i class="sicon-notification"></i> التنبيهات</a></div>
+
+        <div class="navbar-item highlight"><a href="https://s.salla.sa/changelog" target="_blank"><i class="sicon-party-horn"></i> تحديثات المنصة </a></div>
+        <div class="divider"></div>
+        <div class="navbar-item"><a href="https://s.salla.sa/logout"><i class="sicon-power"></i> تسجيل الخروج</a></div>
+    </div>
+</div>
+
+
+@code{
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
+
+    public AuthenticationState authentication { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        authentication = await AuthenticationState;
+    }
+
+}

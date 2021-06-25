@@ -1,0 +1,123 @@
+﻿@page
+@model LoginModel
+
+
+<div class="page-container login-container">
+
+    <div class="page-content">
+
+
+        <div class="content-wrapper" id="content_box">
+
+            <div class="content">
+
+                <div class="page-container login-container to-right">
+
+                    <div class="page-content">
+
+                        <div class="login-testimonials">
+                            <div class="" style="margin-top:25vh;">
+                                <div class="slider-1 slick-initialized slick-slider slick-dotted">
+                                    <button class="slick-prev slick-arrow" aria-label="Previous" type="button" style="display: block;">Previous</button>
+                                    <div class="slick-list draggable">
+                                        <div class="slick-track" style="opacity: 1; width: 1563px;">
+                                            <div class="testimonials-wrapper slick-slide" data-slick-index="0" aria-hidden="true" tabindex="-1" role="tabpanel" id="slick-slide00" aria-describedby="slick-slide-control00" style="width: 521px; position: relative; right: 0px; top: 0px; z-index: 998; opacity: 0; transition: opacity 500ms ease 0s;">
+                                                <img src="https://assets.salla.sa/cp/assets/images/beautyZoonStore.jpg" alt="store icon">
+                                                <p>لقد عانيت من الاسعار المرتفعة التي تعوق اطلاق أي متجر في بدايته، لكن سلة وفرت لي كل شئ في مكان واحد حتى وفرت علي ان استعين بمحاسب فهي تعطي تقارير كاملة عن المبيعات ونسبة الربح اليومية والشهرية والسنوية بنقرة واحدة</p>
+                                                <div>متجر بيوتي زون</div>
+                                            </div><div class="testimonials-wrapper slick-slide" data-slick-index="1" aria-hidden="true" tabindex="-1" role="tabpanel" id="slick-slide01" aria-describedby="slick-slide-control01" style="width: 521px; position: relative; right: -521px; top: 0px; z-index: 998; opacity: 0; transition: opacity 500ms ease 0s;">
+                                                <img src="https://assets.salla.sa/cp/assets/images/wasm.jpg" alt="store icon">
+                                                <p> سلة جعلتني أستطيع الدخول إلى مشروعي الخاص بأقل التكاليف و بخدمات جداً رائعه.. سعيده لوصولي إلى هناو ممتنه جدا للفريق الذي يعمل في سله </p>
+                                                <div>متجر وسم</div>
+                                            </div><div class="testimonials-wrapper slick-slide slick-current slick-active" data-slick-index="2" aria-hidden="false" tabindex="0" role="tabpanel" id="slick-slide02" aria-describedby="slick-slide-control02" style="width: 521px; position: relative; right: -1042px; top: 0px; z-index: 999; opacity: 1;">
+                                                <img src="https://assets.salla.sa/cp/assets/images/newmatkStore.jpg" alt="store icon">
+                                                <p>تجربتي مع سلة كانت ولازالت مثمرة جدا جدا جدا من نواحي كثيرة ابرزها تسهيل عرض المنتجات للعملاء، معلومات المنتج والشحن كاملة واضحة للعميل بحيث يطلب العميل دون سؤال أو تدخل مني كما في منصات التواصل الاجتماعي </p>
+                                                <div>متجر نوماتك</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <button class="slick-next slick-arrow" aria-label="Next" type="button" style="display: block;">Next</button><ul class="slick-dots" style="display: block;" role="tablist"><li class="" role="presentation"><button type="button" role="tab" id="slick-slide-control00" aria-controls="slick-slide00" aria-label="1 of 3" tabindex="-1">1</button></li><li role="presentation" class=""><button type="button" role="tab" id="slick-slide-control01" aria-controls="slick-slide01" aria-label="2 of 3" tabindex="-1">2</button></li><li role="presentation" class="slick-active"><button type="button" role="tab" id="slick-slide-control02" aria-controls="slick-slide02" aria-label="3 of 3" tabindex="0" aria-selected="true">3</button></li></ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="auth-top">
+                            <img src="https://assets.salla.sa/cp/assets/images/logo-new.png" class="auth-logo" alt="سلة">
+                            <h5 class="auth-title">سلة</h5>
+                        </div>
+                        <div class="panel panel-body login-form">
+
+
+                            @if (!ModelState.IsValid)
+                            {
+                                <div class="alert bg-warning alert-styled-left">
+                                    مشكلة بالبيانات
+                                </div>
+                            }
+
+                            <form id="form" method="post">
+
+                                <div class="form-group has-feedback has-feedback-left">
+                                    <input asp-for="Input.Email" type="email" class="form-control" placeholder="البريد الإلكتروني" />
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+
+
+                                    <div class="form-control-feedback"><i class="sicon-user text-muted text-bottom"></i></div>
+                                </div>
+                                <div class="form-group has-feedback has-feedback-left">
+                                    <input asp-for="Input.Password" type="password" class="form-control" placeholder="كلمة المرور" />
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+
+                                    <div class="form-control-feedback"><i class="sicon-key text-muted text-bottom"></i></div>
+                                </div>
+                                <div class="form-group login-options">
+                                    <div class="row">
+                                        <div class="col-xs-6 align-right" id="remember_box">
+                                            <label asp-for="Input.RememberMe" class="checkbox-inline">
+                                                <div class="checker" id="uniform-remember"><span class="checked"><input asp-for="Input.RememberMe" type="checkbox" name="remember" id="remember" checked="checked" class="styled" /></span></div>
+                                                تذكرني
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-6 align-left">
+                                            <a asp-page="./ForgotPassword">نسيت كلمة المرور؟</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" id="submit_btn" class="btn btn-tiffany btn-block"> الدخول<i class="sicon-caret-left position-right"></i></button>
+                                </div>
+                                <div id="register_box">
+                                    <div class="content-divider text-muted form-group">
+                                        <span>
+                                            ليس لديك حساب متجر ؟
+                                        </span>
+                                    </div>
+                                </div>
+                                <a href="Register" class="btn btn-tiffany btn-block btn-flat content-group">إنشاء متجر جديد</a>
+
+                            </form>
+                        </div>
+
+
+
+
+
+                    </div>
+
+                </div>
+
+
+                <div class="footer text-muted to-right">
+                    <a href="https://s.salla.sa" target="_blank">سلة</a> © 2021
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
