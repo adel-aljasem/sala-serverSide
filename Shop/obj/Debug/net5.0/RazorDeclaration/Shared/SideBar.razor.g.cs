@@ -158,6 +158,41 @@ using Blazored.TextEditor;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 22 "C:\Users\adil\Desktop\Shop\Shop\_Imports.razor"
+using WMBlazorSlickCarousel.WMBSC;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 23 "C:\Users\adil\Desktop\Shop\Shop\_Imports.razor"
+using Helper;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 24 "C:\Users\adil\Desktop\Shop\Shop\_Imports.razor"
+using Moyasar;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 25 "C:\Users\adil\Desktop\Shop\Shop\_Imports.razor"
+using Moyasar.Models;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 26 "C:\Users\adil\Desktop\Shop\Shop\_Imports.razor"
+using Moyasar.Services;
+
+#line default
+#line hidden
+#nullable disable
     public partial class SideBar : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -165,6 +200,25 @@ using Blazored.TextEditor;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 167 "C:\Users\adil\Desktop\Shop\Shop\Shared\SideBar.razor"
+      
+    List<CommentModel> commentModels = new List<CommentModel>();
+    int index;
+    bool showNotifications = false;
+
+    protected override void OnInitialized()
+    {
+        commentModels = unitOfwork.ProductRepository.GetAllComments();
+
+        commentModels.ForEach(w => { if (!w.Reply) { index++; showNotifications = true; } });
+    }
+
+#line default
+#line hidden
+#nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager nav { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IUnitOfWork unitOfwork { get; set; }
     }
 }
 #pragma warning restore 1591

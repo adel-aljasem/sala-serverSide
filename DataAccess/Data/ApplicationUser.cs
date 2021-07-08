@@ -9,8 +9,6 @@ namespace DataAccess.Data
     public class ApplicationUser : IdentityUser
     {
         public string Name { get; set; }
-        public string StoreName { get; set; }
-        public string StoreLink { get; set; }
-        public string StoreType { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }

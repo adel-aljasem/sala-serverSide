@@ -1101,6 +1101,19 @@
           }
         }
       },
+      "Moyasar/2.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CSharp": "4.5.0",
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/Moyasar.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Moyasar.dll": {}
+        }
+      },
       "Newtonsoft.Json/11.0.2": {
         "type": "package",
         "compile": {
@@ -2306,6 +2319,19 @@
         },
         "runtime": {
           "bin/placeholder/DataAccess.dll": {}
+        }
+      },
+      "WMBlazorSlickCarousel/1.0.1": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components.Web": "5.0.0"
+        },
+        "compile": {
+          "bin/placeholder/WMBlazorSlickCarousel.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WMBlazorSlickCarousel.dll": {}
         }
       }
     }
@@ -4178,6 +4204,26 @@
         "runtimes/win/lib/netcoreapp3.0/Microsoft.Win32.SystemEvents.xml",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "Moyasar/2.2.0": {
+      "sha512": "Fb9pbxYhvZPUBaZHuVP0sn2yxxjEKIfqyCyvhB4B2+B/p8J2z9sKWTl/R2lsUApjQOsSBgknezF2hetNEyh9Pg==",
+      "type": "package",
+      "path": "moyasar/2.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "lib/net40/Moyasar.dll",
+        "lib/net45/Moyasar.dll",
+        "lib/net451/Moyasar.dll",
+        "lib/net452/Moyasar.dll",
+        "lib/net46/Moyasar.dll",
+        "lib/net461/Moyasar.dll",
+        "lib/netstandard2.0/Moyasar.dll",
+        "moyasar.2.2.0.nupkg.sha512",
+        "moyasar.nuspec",
+        "package-icon.png"
       ]
     },
     "Newtonsoft.Json/11.0.2": {
@@ -7859,6 +7905,11 @@
       "type": "project",
       "path": "../DataAccess/DataAccess.csproj",
       "msbuildProject": "../DataAccess/DataAccess.csproj"
+    },
+    "WMBlazorSlickCarousel/1.0.1": {
+      "type": "project",
+      "path": "D:\\download\\wm-blazor-slick-carousel-master\\wm-blazor-slick-carousel-master\\WMBlazorSlickCarousel\\WMBlazorSlickCarousel.csproj",
+      "msbuildProject": "D:\\download\\wm-blazor-slick-carousel-master\\wm-blazor-slick-carousel-master\\WMBlazorSlickCarousel\\WMBlazorSlickCarousel.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -7872,7 +7923,9 @@
       "Microsoft.AspNetCore.Identity.UI >= 5.0.6",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.6",
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.6",
-      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 5.0.2"
+      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 5.0.2",
+      "Moyasar >= 2.2.0",
+      "WMBlazorSlickCarousel >= 1.0.1"
     ]
   },
   "packageFolders": {
@@ -7909,6 +7962,9 @@
           "projectReferences": {
             "C:\\Users\\adil\\Desktop\\Shop\\DataAccess\\DataAccess.csproj": {
               "projectPath": "C:\\Users\\adil\\Desktop\\Shop\\DataAccess\\DataAccess.csproj"
+            },
+            "D:\\download\\wm-blazor-slick-carousel-master\\wm-blazor-slick-carousel-master\\WMBlazorSlickCarousel\\WMBlazorSlickCarousel.csproj": {
+              "projectPath": "D:\\download\\wm-blazor-slick-carousel-master\\wm-blazor-slick-carousel-master\\WMBlazorSlickCarousel\\WMBlazorSlickCarousel.csproj"
             }
           }
         }
@@ -7960,6 +8016,10 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "[5.0.2, )"
+          },
+          "Moyasar": {
+            "target": "Package",
+            "version": "[2.2.0, )"
           }
         },
         "imports": [

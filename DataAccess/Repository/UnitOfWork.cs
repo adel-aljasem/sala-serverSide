@@ -25,6 +25,10 @@ namespace DataAccess.Repository
         public UserRepository UserRepository { get; set; }
         public CategoryRepository CategoryRepository { get; private set; }
 
+        public OrderRepository OrderRepository { get; private set; }
+
+        public TotalOrderRepository TotalOrderRepository { get; private set; }
+
         public UnitOfWork(ApplicationDbContext context, IMapper mapper, IJSRuntime jSRuntime ,FileUpload fileUpload , UserManager<ApplicationUser> userManager)
         {
             this.context = context;
@@ -36,28 +40,26 @@ namespace DataAccess.Repository
             ImageRepository = new ImageRepository(context, mapper, jSRuntime);
             CategoryRepository = new CategoryRepository(mapper, jSRuntime, context);
             UserRepository = new UserRepository(mapper, jSRuntime, context, fileUpload, userManager);
-
+            OrderRepository = new OrderRepository(mapper, jSRuntime,context);
+            TotalOrderRepository = new TotalOrderRepository(mapper, jSRuntime, context);
         }
 
 
 
-        public async Task<int> Complete()
+        public int Complete()
         {
             try
             {
-                return await context.SaveChangesAsync();
+                return  context.SaveChanges();
 
             }
             catch (Exception e)
             {
-                await jSRuntime.ToastrError(e.Message);
+                 jSRuntime.ToastrError(e.Message);
                 return 0;
             }
         }
 
-        public void Dispose()
-        {
-            context.Dispose();
-        }
+       
     }
 }

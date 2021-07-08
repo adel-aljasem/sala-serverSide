@@ -1,0 +1,238 @@
+﻿@inject IJSRuntime js
+@inject IUnitOfWork unitOfwork
+@inject NavigationManager Nav
+@inject RealtimeService realtime
+@using System.Timers
+
+<header id="myDiv" class="site-header ">
+    <div class="sub-header p-10 d-none d-lg-block">
+        <div class="container">
+            <div class="row header-wrapper">
+                <div class="col-lg-6">
+                </div>
+                <div class="col-lg-6 text-left">
+                    <div id="cl_switcher_wrapper">
+                    </div>
+                    <div class="dropdown dropdown-store-header dropdown-store-header-left hidden-xs">
+                        <a class="circle-action dropdown-toggle" data-login-link="" href="https://nory.sa/login" rel="nofollow">
+                            <span class="theme-icon-user"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container py-3 header-top">
+        <div class="row header-wrapper">
+            <div class="col-md-3 logo-wrapper d-flex d-lg-block">
+                <a href="#" class="sub-nav__menu ml-2">
+                    <svg width="30px" height="30px" version="1.1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="m23 29c-1.6562 0-3 1.3438-3 3s1.3438 3 3 3h54c1.6562 0 3-1.3438 3-3s-1.3438-3-3-3zm0 18c-1.6562 0-3 1.3438-3 3s1.3438 3 3 3h54c1.6562 0 3-1.3438 3-3s-1.3438-3-3-3zm0 18c-1.6562 0-3 1.3438-3 3s1.3438 3 3 3h54c1.6562 0 3-1.3438 3-3s-1.3438-3-3-3z"></path>
+                    </svg>
+                </a>
+                <h1 class="logo">
+                    <a href="@Nav.BaseUri">
+                        <img src="/logo.png" alt="">
+                    </a>
+                </h1>
+            </div>
+            <div class="col-sm-12 col-md-6 d-lg-flex search-container">
+                <div class="search-wrapper">
+                    <div id="search">
+                        <form id="search_form" action="https://nory.sa/search">
+                            <div class="ui category search">
+                                <div class="ui icon input">
+                                    <input id="searchbox" name="q" class="prompt form-control" type="text" placeholder="أدخل كلمة البحث" autocomplete="off">
+                                    <i class="search icon"></i>
+                                </div>
+                                <div class="results"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex align-items-center d-lg-block actions-container">
+                <a data-cart-small="" href="/cart" class="@cssClass" rel="nofollow">
+                    <div><span class="theme-icon-cart"></span></div>
+                    <div>
+                        <span><strong>سلة المشتريات</strong></span>
+                        <span id="cart_badge" data-cart-badge="" style="float: right">
+                            @realtime.Quantity
+                        </span>
+                        <span style="float: right">
+                            &nbsp;منتج -&nbsp;
+                        </span>
+                        <span id="cart_badge_total_price" data-cart-total="" style="float: right">
+                            @realtime.Price ر.س
+                        </span>
+                    </div>
+                </a>
+                <a data-cart-small="" href="https://nory.sa/cart" class="ml-1 circle-action d-lg-none site-header__mine-cart" rel="nofollow">
+                    <span class="theme-icon-cart"></span>
+                    <span class="badge" data-cart-badge="">0</span>
+                </a>
+                <div class="d-lg-none">
+                    <div class="dropdown dropdown-store-header dropdown-store-header-left hidden-xs">
+                        <a class="circle-action dropdown-toggle" data-login-link="" href="https://nory.sa/login" rel="nofollow">
+                            <span class="theme-icon-user"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="sub-nav">
+    <div class="container-fluid sub-nav-content">
+        <button class="sub-nav__close">
+            <svg width="100pt" height="100pt" version="1.1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="m50 10c-22.109 0-40 17.883-40 40 0 22.109 17.891 40 40 40 22.117 0 40-17.891 40-40 0-22.121-17.879-40-40-40zm-15.25 23c0.074219-0.003906 0.14453-0.003906 0.21875 0 0.53906-0.003906 1.0586 0.20703 1.4375 0.59375l13.594 13.562 13.562-13.562c0.36328-0.37109 0.85547-0.58203 1.375-0.59375 0.82812-0.035156 1.5938 0.44922 1.918 1.2109 0.32812 0.76562 0.14844 1.6484-0.44922 2.2266l-13.594 13.594 13.594 13.562c0.37891 0.375 0.58984 0.88672 0.58984 1.4219 0 0.53125-0.21094 1.043-0.58984 1.4219-0.375 0.375-0.88672 0.58984-1.4219 0.58984s-1.043-0.21484-1.4219-0.58984l-13.562-13.594-13.594 13.594c-0.78516 0.78516-2.0586 0.78516-2.8438 0s-0.78516-2.0586 0-2.8438l13.562-13.562-13.562-13.594c-0.56641-0.54297-0.76562-1.3633-0.50781-2.1016 0.25391-0.73828 0.91797-1.2617 1.6953-1.3359z" fill-rule="evenodd"></path>
+            </svg>
+        </button>
+        <div class="sub-nav-header">
+            <img src="https://assets.salla.cloud/themes/default/assets/images/avatar_male.png" alt="">
+            <a class="login-link" data-login-link="" href="https://nory.sa/login" rel="nofollow"> تسجيل الدخول </a>
+        </div>
+        <ul class="main-menu">
+            @foreach (var category in CategoryModels)
+            {
+                <li>
+                    <a href="@Nav.BaseUri.Remove(Nav.BaseUri.Length -1,1)/category/@category.Name">@category.Name</a>
+                </li>
+            }
+
+
+            <li class="sub-menu-header categories-holder">
+                <span>
+                    <i class="sicon-tag"></i>
+                    تصنيفات المتجر
+                </span>
+                <ul class="store-categories">
+                    <li id="804970">
+                        <a href="https://nory.sa/category/rnXDn">عروض الصيف</a>
+                    </li>
+                    <li id="296644" class="has-children">
+                        <a href="https://nory.sa/category/byKVW">مفاتيح وافياش</a>
+                        <ul class="store-categories">
+                            <li><a href="https://nory.sa/category/byKVW">عرض الكل</a></li>
+                            <li id="296645">
+                                <a href="https://nory.sa/category/gORrv">ابيض</a>
+                            </li>
+                            <li id="296646">
+                                <a href="https://nory.sa/category/RlOVj">ذهبي</a>
+                            </li>
+                            <li id="296647">
+                                <a href="https://nory.sa/category/neBOK">لؤلؤي</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li id="295651" class="has-children">
+                        <a href="https://nory.sa/category/EpxVg">انارة داخلية</a>
+                        <ul class="store-categories">
+                            <li><a href="https://nory.sa/category/EpxVg">عرض الكل</a></li>
+                            <li id="295652">
+                                <a href="https://nory.sa/category/QbepD">لمبات</a>
+                            </li>
+                            <li id="296648" class="has-children">
+                                <a href="https://nory.sa/category/WYWVa">اضاءة اسقف</a>
+                                <ul class="store-categories">
+                                    <li><a href="https://nory.sa/category/WYWVa">عرض الكل</a></li>
+                                    <li id="694119">
+                                        <a href="https://nory.sa/category/eonOx">COB</a>
+                                    </li>
+                                    <li id="694120">
+                                        <a href="https://nory.sa/category/XojGn">بانل</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li id="296649">
+                                <a href="https://nory.sa/category/Dzmoy">شرائط LED</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li id="296637" class="has-children">
+                        <a href="https://nory.sa/category/wybQe">انارة خارجية</a>
+                        <ul class="store-categories">
+                            <li><a href="https://nory.sa/category/wybQe">عرض الكل</a></li>
+                            <li id="296638">
+                                <a href="https://nory.sa/category/yvRqG">كشافات خارجية</a>
+                            </li>
+                            <li id="296650">
+                                <a href="https://nory.sa/category/xdgXq">اضاءات جدارية</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li id="296652" class="has-children">
+                        <a href="https://nory.sa/category/Qbamz">اجهزة كهربائية</a>
+                        <ul class="store-categories">
+                            <li><a href="https://nory.sa/category/Qbamz">عرض الكل</a></li>
+                            <li id="296653">
+                                <a href="https://nory.sa/category/eDbBv">مصائد ناموس</a>
+                            </li>
+                            <li id="296654">
+                                <a href="https://nory.sa/category/XEDmq">شفاطات</a>
+                            </li>
+                            <li id="296655">
+                                <a href="https://nory.sa/category/qeynW">مراوح</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li id="310656">
+                        <a href="https://nory.sa/category/zDblg">مستلزمات حفلات</a>
+                    </li>
+                    <li id="311531">
+                        <a href="https://nory.sa/category/ledzA">مستلزمات كهربائية</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+@code{
+
+    public EventCallback<int> EventCallBackTotalPrice { get; set; }
+    public List<CategoryModel> CategoryModels { get; set; } = new List<CategoryModel>();
+    private List<OrderModel> OrderModel = new List<OrderModel>();
+    public List<OrderModel> OrderModels { get; set; } = new List<OrderModel>();
+    private string cssClass = "ml-1 site-header__cart d-none d-lg-flex";
+    [CascadingParameter]
+    public Task<AuthenticationState> Authentication { get; set; }
+    private AuthenticationState authentication;
+    protected  async override Task OnInitializedAsync()
+    {
+        authentication = await Authentication;
+        CategoryModels = unitOfwork.CategoryRepository.GetAll().Result;
+        OrderModels = unitOfwork.OrderRepository.GetAll(await realtime.GetCurrentUser());
+
+        OrderModels.ForEach(w => { if (!w.Paid) realtime.Price += w.Price; });
+        realtime.UpdateEvent += GetOrders;
+
+
+    }
+
+    private void GetOrders()
+    {
+        double n = 1;
+        cssClass = "ml-1 site-header__cart d-none d-lg-flex animated bounce";
+        Timer timer = new Timer(1000);
+        timer.Elapsed += (w, e) =>
+        {
+            n--;
+            if(n <= 0 )
+            {
+                cssClass = "ml-1 site-header__cart d-none d-lg-flex";
+                InvokeAsync(StateHasChanged);
+                timer.Stop();
+                timer.Dispose();
+
+            }
+            Console.WriteLine(n);
+
+        };
+        timer.Enabled = true;
+
+        InvokeAsync(StateHasChanged);
+    }
+}

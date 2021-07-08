@@ -8,9 +8,9 @@ namespace DataAccess.Models
 {
     public class UserModel
     {
-       
+
         [Required(ErrorMessage = "هذا الحقل الزامي")]
-        public string UserName { get; set; }
+        public string Name { get; set; }
         [Required(ErrorMessage = "هذا الحقل الزامي")]
         [EmailAddress]    
         public string Email { get; set; }
@@ -18,12 +18,7 @@ namespace DataAccess.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
         public string PhoneNumber { get; set; }
-        [Required(ErrorMessage ="هذا الحقل الزامي")]
-        public string StoreLink { get; set; }
-        [Required(ErrorMessage = "هذا الحقل الزامي")]
-        public string StoreName { get; set; }
-        [Required(ErrorMessage = "هذا الحقل الزامي")]
-        public string StoreType { get; set; }
+
 
     }
 }

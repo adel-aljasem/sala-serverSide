@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "V5hBUmMPyurnefKAWyLX85o6CFm55FVUJIwbWXwg/jpW35XQ1nwHVAt/Nv7FVfD6bNQzicC/qVcjDrYLthb/dw==",
+  "dgSpecHash": "gPk5IZ/ViApQtWzlHzygafqg6mjFDsz9GPtewXeeWMZz46WIrQE2oueRR89qKOEoZtzXm0n/qqAPajn5aBLEGw==",
   "success": true,
   "projectFilePath": "C:\\Users\\adil\\Desktop\\Shop\\Shop\\Shop.csproj",
   "expectedPackageFiles": [
@@ -72,6 +72,7 @@
     "C:\\Users\\adil\\.nuget\\packages\\microsoft.visualstudio.web.codegenerators.mvc\\5.0.2\\microsoft.visualstudio.web.codegenerators.mvc.5.0.2.nupkg.sha512",
     "C:\\Users\\adil\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\adil\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\adil\\.nuget\\packages\\moyasar\\2.2.0\\moyasar.2.2.0.nupkg.sha512",
     "C:\\Users\\adil\\.nuget\\packages\\newtonsoft.json\\11.0.2\\newtonsoft.json.11.0.2.nupkg.sha512",
     "C:\\Users\\adil\\.nuget\\packages\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",
     "C:\\Users\\adil\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",
@@ -147,7 +148,8 @@
     "C:\\Users\\adil\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\adil\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\adil\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\adil\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
+    "C:\\Users\\adil\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
+    "C:\\Users\\adil\\.nuget\\packages\\wmblazorslickcarousel\\1.0.1\\wmblazorslickcarousel.1.0.1.nupkg.sha512"
   ],
   "logs": []
 }

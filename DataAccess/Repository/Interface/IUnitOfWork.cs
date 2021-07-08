@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Repository.Interface
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork 
     {
         ProductRepository ProductRepository { get; }
         ImageRepository ImageRepository { get; }
         CategoryRepository CategoryRepository { get; }
-
+        OrderRepository OrderRepository { get; }
+        TotalOrderRepository TotalOrderRepository { get; }
         UserRepository UserRepository { get; }
-        Task<int> Complete();
+        int Complete();
     }
 }

@@ -30,7 +30,7 @@ namespace Common
                 var path = Path.Combine(webHostEnvironment.WebRootPath, "Images", fileName);
                 //await file.RequestImageFileAsync("image/png", 1000, 1000);
                 var memoryStream = new MemoryStream();
-                await file.OpenReadStream(630000).CopyToAsync(memoryStream);
+                await file.OpenReadStream(29825540).CopyToAsync(memoryStream);
                 if (!Directory.Exists(folderDirectory))
                 {
                     Directory.CreateDirectory(folderDirectory);
@@ -44,7 +44,7 @@ namespace Common
                 var fullPath = $"{navigationManager.BaseUri}Images/{fileName}";
                 return fullPath;
             }
-            catch
+            catch(Exception e)
             {
                 throw new Exception();
             }

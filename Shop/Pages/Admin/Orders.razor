@@ -1,0 +1,789 @@
+﻿@page "/orders"
+@layout AdminLayout
+
+    <div class="content-wrapper content-padding" id="content_box">
+        <div id="res_sf">
+            <form class="navbar-form navbar-left" action="https://s.salla.sa/search" method="get">
+                <div class="search-group">
+                    <input type="text" id="searchbox" name="keyword" class="form-control search-input input-lg" placeholder="ابحث برقم الطلب ، اسم العميل ، رقم الشحنة" value="">
+                    <div class="btn-group bootstrap-select search-select hidden">
+                        <button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" role="button" data-id="search_input_type" title="الطلبات"><span class="filter-option pull-left">الطلبات</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open" role="combobox"><ul class="dropdown-menu inner" role="listbox" aria-expanded="false"><li data-original-index="0" class="selected"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="true"><span class="text">الطلبات</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="1"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false"><span class="text">المنتجات</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="2"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false"><span class="text">العملاء</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul></div><select class="search-select hidden" id="search_input_type" name="search_type" data-dropup-auto="false" tabindex="-98" style="display: inline-block;">
+                            <option value="orders" selected="">الطلبات</option>
+                            <option value="products">المنتجات</option>
+                            <option value="customers">العملاء</option>
+                        </select>
+                    </div>
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-tiffany btn-lg"><i class="sicon-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="page-header page-header-xs" id="page_header_box">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="page-header-content">
+
+                        <div class="page-title breadcrumb-container mobile-webview-hide">
+                            <nav class="nav-breadcrumb" aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item home">
+                                        <a href="/">
+                                            <i class="sicon-home"></i>
+                                            الرئيسية
+                                        </a>
+                                    </li>
+                                    <li class="breadcrumb-item active">الطلبات</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="heading-elements heading-help mobile-webview-hide">
+                            <div class="btn-group heading-btn">
+                                <button class="btn bg-tiffany btn-icon btn-sm load_help_center_modal" data-toggle="dropdown">
+                                    <i class="sicon-life-ring"></i>
+                                    <span>مساعدة ؟</span>
+                                </button>
+                            </div>
+                            <div id="help_center_div"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="content ">
+            <div id="progress-report-modal" class="modal modal-backup fade in col-sm-6 col-sm-offset-3" tabindex="-1" style="direction: ltr;">
+            </div>
+
+            <div class="row btns-row">
+                <div class="col-xs-7 sub-btns">
+                    <ul class="nav nav-lg">
+                        <li class="" data-filter-mode="true">
+                            <a id="rec_filter_toggle">
+                                <i class="sicon-filter"></i> تصفية
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" style="white-space: nowrap; padding-top: 8px;" data-toggle="dropdown" aria-expanded="false"><i class="sicon-toolbox"></i> خدمات</a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li class="dropdown-link">
+                                    <a id="orders_export_modal_toggle" href="#">
+                                        <i class="sicon-share"></i>
+                                        تصدير الطلبات
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-xs-5 main-btn">
+                    <a href="https://s.salla.sa/order/new" class="btn btn-tiffany btn-rounded btn-xlg" id="add-btn"><i class="sicon-add"></i> طلب جديد</a>
+                </div>
+            </div>
+
+            <div id="reports_states">
+                <div class="order-cases-wrapper" style="cursor: grab;">
+                    <div class="order-st-entry sicon-watch ">
+                        <button type="button" class="btn" data-status_id="1473353380" data-status_name="بإنتظار الدفع"></button>
+                        <h5>
+                            <span class="status-circle" style="background-color: #f55157"></span>
+                            <span>بإنتظار الدفع</span>
+                            0
+                        </h5>
+                    </div>
+                    <div class="order-st-entry sicon-time ">
+                        <button type="button" class="btn" data-status_id="566146469" data-status_name="بإنتظار المراجعة"></button>
+                        <h5>
+                            <span class="status-circle" style="background-color: #404146"></span>
+                            <span>بإنتظار المراجعة</span>
+                            0
+                        </h5>
+                    </div>
+                    <div class="order-st-entry sicon-gift ">
+                        <button type="button" class="btn" data-status_id="1939592358" data-status_name="قيد التنفيذ"></button>
+                        <h5>
+                            <span class="status-circle" style="background-color: #37baf6"></span>
+                            <span>قيد التنفيذ</span>
+                            0
+                        </h5>
+                    </div>
+                    <div class="order-st-entry sicon-check ">
+                        <button type="button" class="btn" data-status_id="1298199463" data-status_name="تم التنفيذ"></button>
+                        <h5>
+                            <span class="status-circle" style="background-color: #58c9b9"></span>
+                            <span>تم التنفيذ</span>
+                            0
+                        </h5>
+                    </div>
+                    <div class="order-st-entry sicon-shipping ">
+                        <button type="button" class="btn" data-status_id="349994915" data-status_name="جاري التوصيل"></button>
+                        <h5>
+                            <span class="status-circle" style="background-color: #f3b051"></span>
+                            <span>جاري التوصيل</span>
+                            0
+                        </h5>
+                    </div>
+                    <div class="order-st-entry sicon-box-bankers ">
+                        <button type="button" class="btn" data-status_id="1723506348" data-status_name="تم التوصيل"></button>
+                        <h5>
+                            <span class="status-circle" style="background-color: #4FB0C6"></span>
+                            <span>تم التوصيل</span>
+                            0
+                        </h5>
+                    </div>
+                    <div class="order-st-entry sicon-box-bankers ">
+                        <button type="button" class="btn" data-status_id="814202285" data-status_name="تم الشحن"></button>
+                        <h5>
+                            <span class="status-circle" style="background-color: #008c9e"></span>
+                            <span>تم الشحن</span>
+                            0
+                        </h5>
+                    </div>
+                    <div class="order-st-entry sicon-cancel ">
+                        <button type="button" class="btn" data-status_id="525144736" data-status_name="ملغي"></button>
+                        <h5>
+                            <span class="status-circle" style="background-color: #cf444d"></span>
+                            <span>ملغي</span>
+                            0
+                        </h5>
+                    </div>
+                    <div class="order-st-entry sicon-refund ">
+                        <button type="button" class="btn" data-status_id="989286562" data-status_name="مسترجع"></button>
+                        <h5>
+                            <span class="status-circle" style="background-color: #ed696d"></span>
+                            <span>مسترجع</span>
+                            0
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="row orders-row">
+                <div class="col-lg-12" id="load_status_div"></div>
+                <div class="col-lg-12" id="load_orders_div">
+                    <div class="panel panel-flat orders-panel">
+                        <div class="panel-heading">
+                            <h6 class="panel-title r">
+                                <div class="checker" id="uniform-checkbox_all_order"><span><input type="checkbox" class="styled" id="checkbox_all_order"></span></div> &nbsp; الطلبات &nbsp;
+                                <span class="text-muted text-size-small">
+                                    (0 طلب)
+                                </span>
+                                <span class="badge badge--grey badge--medium badge--with-btn orders">
+                                    <span></span>
+                                    <button class="btn"></button>
+                                </span>
+                            </h6>
+                            <div class="heading-elements">
+                                <div id="rec_q_edit" class="btn-group heading-btn">
+                                    <button type="button" class="btn btn-tiffany btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="sicon-magic-wand flip-x"></i> تحرير سريع</button>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li class="dropdown dropdown-submenu dropdown-submenu-left">
+                                            <a data-toggle="tab"><i class="sicon-inbox-multi"></i> تعديل حالة الطلب</a>
+                                            <ul class="dropdown-menu dropdown-menu-xs">
+                                                <li class="button_change_status_multi_order cursor-pointer pl-20 pb-15" data-status_id="1473353380" data-status_name="بإنتظار الدفع">
+                                                    بإنتظار الدفع
+                                                </li>
+                                                <li class="button_change_status_multi_order cursor-pointer pl-20 pb-15" data-status_id="566146469" data-status_name="بإنتظار المراجعة">
+                                                    بإنتظار المراجعة
+                                                </li>
+                                                <li class="button_change_status_multi_order cursor-pointer pl-20 pb-15" data-status_id="1939592358" data-status_name="قيد التنفيذ">
+                                                    قيد التنفيذ
+                                                </li>
+                                                <li class="button_change_status_multi_order cursor-pointer pl-20 pb-15" data-status_id="1298199463" data-status_name="تم التنفيذ">
+                                                    تم التنفيذ
+                                                </li>
+                                                <li class="button_change_status_multi_order cursor-pointer pl-20 pb-15" data-status_id="349994915" data-status_name="جاري التوصيل">
+                                                    جاري التوصيل
+                                                </li>
+                                                <li class="button_change_status_multi_order cursor-pointer pl-20 pb-15" data-status_id="1723506348" data-status_name="تم التوصيل">
+                                                    تم التوصيل
+                                                </li>
+                                                <li class="button_change_status_multi_order cursor-pointer pl-20 pb-15" data-status_id="814202285" data-status_name="تم الشحن">
+                                                    تم الشحن
+                                                </li>
+                                                <li class="button_change_status_multi_order cursor-pointer pl-20 pb-15" data-status_id="525144736" data-status_name="ملغي">
+                                                    ملغي
+                                                </li>
+                                                <li class="button_change_status_multi_order cursor-pointer pl-20 pb-15" data-status_id="989286562" data-status_name="مسترجع">
+                                                    مسترجع
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a class="button_multi_order_action" data-action="print_invoices">
+                                                <i class="sicon-newspaper-alt"></i>
+                                                طباعة الفواتير
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="button_multi_order_action" data-action="print_invoices_summary">
+                                                <i class="sicon-receipt"></i>
+                                                طباعة ملخص الفواتير
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a data-action="exprting_orders" class="button_multi_order_action">
+                                                <i class="sicon-share"></i>
+                                                تصدير الطلبات
+                                            </a>
+                                        </li>
+                                        <li id="button_delete_status_multi_order">
+                                            <a><i class="sicon-trash"></i> حذف الطلب</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="no-more-tables table-with-links">
+                            <div class="render" style="text-align:center;display: none">
+                            </div><table class="table text-nowrap">
+                                <tbody id="table_list_orders" class="infinite-scroll" data-params-transformer="order_status_transformer">
+                                    <tr class="table-row order-row">
+                                        <td>
+                                            <span class="text-muted">لا توجد طلبات بعد</span>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="page-load-status" style="display: none">
+                        <div class="infinite-scroll-request">
+                            <div class="loader"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rec-filter-wrapper">
+                <div class="rec-filter-cont">
+                    <form action="https://s.salla.sa/orders" id="filters_form">
+                        <input type="hidden" name="filtering" value="1">
+                        <div class="rec-filters">
+                            <h1 class="title title--small">
+                                <i class="sicon-filter"></i>
+                                فرز الطلبات حسب
+                                <button id="filter_close" class="btn btn--circular"></button>
+                            </h1>
+                            <div class="rec-filter__section">
+                                <button type="button" data-toggle="collapse" data-target="#filter_StatusFilter_categories" class="btn filter-head collapsed" aria-expanded="true">
+                                    <span>
+                                        <i class="sicon-flag-wave"></i>
+                                        حالة الطلب
+                                    </span>
+                                </button>
+                                <div id="filter_StatusFilter_categories" class="collapse filter-content collapse " aria-expanded="true">
+                                    <ul class="rec-list rec-list--vertical">
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light active ">
+                                                <input type="checkbox" name="status[]" value="all" class="filter-options" id="status_0" checked="">
+                                                <label for="status_0">
+                                                    <span>الكل</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="checkbox" name="status[]" value="draft" class="filter-options" id="status_1">
+                                                <label for="status_1">
+                                                    <span>مسودة</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="checkbox" name="status[]" value="1473353380" class="filter-options" id="status_2">
+                                                <label for="status_2">
+                                                    <span>بإنتظار الدفع</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="checkbox" name="status[]" value="566146469" class="filter-options" id="status_3">
+                                                <label for="status_3">
+                                                    <span>بإنتظار المراجعة</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="checkbox" name="status[]" value="1939592358" class="filter-options" id="status_4">
+                                                <label for="status_4">
+                                                    <span>قيد التنفيذ</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="checkbox" name="status[]" value="1298199463" class="filter-options" id="status_5">
+                                                <label for="status_5">
+                                                    <span>تم التنفيذ</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="checkbox" name="status[]" value="349994915" class="filter-options" id="status_6">
+                                                <label for="status_6">
+                                                    <span>جاري التوصيل</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="checkbox" name="status[]" value="1723506348" class="filter-options" id="status_7">
+                                                <label for="status_7">
+                                                    <span>تم التوصيل</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="checkbox" name="status[]" value="814202285" class="filter-options" id="status_8">
+                                                <label for="status_8">
+                                                    <span>تم الشحن</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="checkbox" name="status[]" value="525144736" class="filter-options" id="status_9">
+                                                <label for="status_9">
+                                                    <span>ملغي</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="checkbox" name="status[]" value="989286562" class="filter-options" id="status_10">
+                                                <label for="status_10">
+                                                    <span>مسترجع</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="rec-filter__section">
+                                <button type="button" data-toggle="collapse" data-target="#filter_ShippingFilter_categories" class="btn filter-head collapsed" aria-expanded="true">
+                                    <span>
+                                        <i class="sicon-shipping"></i>
+                                        شركة الشحن
+                                    </span>
+                                </button>
+                                <div id="filter_ShippingFilter_categories" class="collapse filter-content collapse " aria-expanded="true">
+                                    <ul class="rec-list rec-list--vertical">
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="checkbox" name="shipping[]" value="all" class="filter-options" id="shipping_0" checked="">
+                                                <label for="shipping_0">
+                                                    <span>الكل</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="rec-filter__section">
+                                <button type="button" data-toggle="collapse" data-target="#filter_SourceFilter_categories" class="btn filter-head collapsed" aria-expanded="true">
+                                    <span>
+                                        <i class="sicon-credit-card"></i>
+                                        نوع الطلب
+                                    </span>
+                                </button>
+                                <div id="filter_SourceFilter_categories" class="collapse filter-content collapse " aria-expanded="true">
+                                    <ul class="rec-list rec-list--vertical">
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light active ">
+                                                <input type="checkbox" name="source[]" value="all" class="filter-options" id="source_0" checked="">
+                                                <label for="source_0">
+                                                    <span>الكل</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="checkbox" name="source[]" value="one-click" class="filter-options" id="source_1">
+                                                <label for="source_1">
+                                                    <span>طلب فوري</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="rec-filter__section">
+                                <button type="button" data-toggle="collapse" data-target="#filter_PaymentMethodFilter_categories" class="btn filter-head collapsed" aria-expanded="true">
+                                    <span>
+                                        <i class="sicon-full-wallet"></i>
+                                        طريقة الدفع
+                                    </span>
+                                </button>
+                                <div id="filter_PaymentMethodFilter_categories" class="collapse filter-content collapse " aria-expanded="true">
+                                    <ul class="rec-list rec-list--vertical">
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="checkbox" name="payment_method[]" value="all" class="filter-options" id="payment_method_0" checked="">
+                                                <label for="payment_method_0">
+                                                    <span>الكل</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="checkbox" name="payment_method[]" value="cod" class="filter-options" id="payment_method_1">
+                                                <label for="payment_method_1">
+                                                    <span>الدفع عند الاستلام</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="rec-filter__section">
+                                <button type="button" data-toggle="collapse" data-target="#filter_CountyAndCityFilter_categories" class="btn filter-head collapsed" aria-expanded="true">
+                                    <span>
+                                        <i class="sicon-location"></i>
+                                        الدولة والمدينة
+                                    </span>
+                                </button>
+                                <div id="filter_CountyAndCityFilter_categories" class="collapse filter-content collapse " aria-expanded="true">
+                                    <ul class="rec-list rec-list--vertical">
+                                        <li>
+                                            <div class="form-group">
+                                                <label>الدولة</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon input-group-addon-small"><i class="sicon-flag-wave"></i></span>
+                                                    <div class="btn-group bootstrap-select input-group-btn">
+                                                        <button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" role="button" data-id="country_filter" title="الكل"><span class="filter-option pull-left">الكل</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open" role="combobox"><ul class="dropdown-menu inner" role="listbox" aria-expanded="false"><li data-original-index="0" class="selected"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="true"><span class="text">الكل</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul></div><select class="selectpicker bootstrap-select" name="country" id="country_filter" tabindex="-98">
+                                                            <option value="all">الكل</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li id="city_filter_container">
+                                            <div class="form-group">
+                                                <label>المدينة</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon input-group-addon-small"><i class="sicon-flag-wave"></i></span>
+                                                    <div class="btn-group bootstrap-select input-group-btn">
+                                                        <button type="button" class="btn dropdown-toggle bs-placeholder btn-default" data-toggle="dropdown" role="button" data-id="city_filter" title="اختر الدولة أولا"><span class="filter-option pull-left">اختر الدولة أولا</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open" role="combobox"><ul class="dropdown-menu inner" role="listbox" aria-expanded="false"><li data-original-index="0" class="selected"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="true"><span class="text">اختر الدولة أولا</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul></div><select class="selectpicker bootstrap-select" name="city" id="city_filter" tabindex="-98">
+                                                            <option value="">اختر الدولة أولا</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="rec-filter__section">
+                                <button type="button" data-toggle="collapse" data-target="#filter_BranchesFilter_categories" class="btn filter-head collapsed" aria-expanded="true">
+                                    <span>
+                                        <i class="sicon-store"></i>
+                                        الفرع
+                                    </span>
+                                </button>
+                                <div id="filter_BranchesFilter_categories" class="collapse filter-content collapse " aria-expanded="true">
+                                    <ul class="rec-list rec-list--vertical">
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="checkbox" name="branch[]" value="all" class="filter-options" id="branch_0" checked="">
+                                                <label for="branch_0">
+                                                    <span>الكل</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="rec-filter__section">
+                                <button type="button" data-toggle="collapse" data-target="#filter_SortFilter_categories" class="btn filter-head " aria-expanded="false">
+                                    <span>
+                                        <i class="sicon-list-reorder"></i>
+                                        ترتيب الطلبات
+                                    </span>
+                                </button>
+                                <div id="filter_SortFilter_categories" class="collapse filter-content collapse in" aria-expanded="true">
+                                    <ul class="rec-list rec-list--vertical">
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="radio" name="sort_by" value="id-desc" class="filter-options" id="sort_by_0">
+                                                <label for="sort_by_0">
+                                                    <span>رقم الطلب - تنازلياً</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="radio" name="sort_by" value="id-asc" class="filter-options" id="sort_by_1">
+                                                <label for="sort_by_1">
+                                                    <span>رقم الطلب - تصاعدياً</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="radio" name="sort_by" value="total-desc" class="filter-options" id="sort_by_2">
+                                                <label for="sort_by_2">
+                                                    <span>إجمالي الطلب - تنازلياً</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="radio" name="sort_by" value="total-asc" class="filter-options" id="sort_by_3">
+                                                <label for="sort_by_3">
+                                                    <span>إجمالي الطلب - تصاعدياً</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="radio" name="sort_by" value="updated_at-asc" class="filter-options" id="sort_by_4">
+                                                <label for="sort_by_4">
+                                                    <span>تاريخ آخر تحديث - تصاعدياً</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="radio" name="sort_by" value="updated_at-desc" class="filter-options" id="sort_by_5">
+                                                <label for="sort_by_5">
+                                                    <span>تاريخ آخر تحديث - تنازلياً</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="radio" name="sort_by" value="created_at-asc" class="filter-options" id="sort_by_6">
+                                                <label for="sort_by_6">
+                                                    <span>تاريخ الطلب - تصاعدياً</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light active ">
+                                                <input type="radio" name="sort_by" value="created_at-desc" class="filter-options" id="sort_by_7" checked="">
+                                                <label for="sort_by_7">
+                                                    <span>تاريخ الطلب - تنازلياً</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="rec-filter__section">
+                                <button type="button" data-toggle="collapse" data-target="#filter_ChannelFilter_categories" class="btn filter-head collapsed" aria-expanded="true">
+                                    <span>
+                                        <i class="sicon-devices"></i>
+                                        قنوات البيع
+                                    </span>
+                                </button>
+                                <div id="filter_ChannelFilter_categories" class="collapse filter-content collapse " aria-expanded="true">
+                                    <ul class="rec-list rec-list--vertical">
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="checkbox" name="selling-channel[]" value="all" class="filter-options" id="selling-channel_0" checked="">
+                                                <label for="selling-channel_0">
+                                                    <span>الكل</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="checkbox" name="selling-channel[]" value="mobile" class="filter-options" id="selling-channel_1">
+                                                <label for="selling-channel_1">
+                                                    <span>مستعرض جوال</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="checkbox" name="selling-channel[]" value="desktop" class="filter-options" id="selling-channel_2">
+                                                <label for="selling-channel_2">
+                                                    <span>مستعرض كمبيوتر</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="rec-checkbox rec-checkbox--default light ">
+                                                <input type="checkbox" name="selling-channel[]" value="unknown" class="filter-options" id="selling-channel_3">
+                                                <label for="selling-channel_3">
+                                                    <span>غير معروف</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="rec-filter__section">
+                                <button type="button" data-toggle="collapse" data-target="#filter_date_options" class="btn filter-head" aria-expanded="true">
+                                    <span>
+                                        <i class="sicon-calendar-dates"></i>
+                                        تاريخ الطلب
+                                    </span>
+                                </button>
+                                <div id="filter_date_options" class="collapse filter-content collapse in" aria-expanded="true">
+                                    <ul class="rec-list rec-list--vertical">
+                                        <li>
+                                            <div class="form-group">
+                                                <div class="ui filter calendar" id="filter_range_start_order">
+                                                    <div class="input-group">
+                                                        <div class="ui popup calendar"><table class="ui celled center aligned unstackable table day"><thead><tr><th colspan="7"><span class="link">June 2021</span><span class="prev link"><i class="sicon-keyboard_arrow_left"></i></span><span class="next link"><i class="sicon-keyboard_arrow_right"></i></span></th></tr><tr><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th></tr></thead><tbody><tr><td class="link adjacent disabled">30</td><td class="link adjacent disabled">31</td><td class="link">1</td><td class="link">2</td><td class="link">3</td><td class="link">4</td><td class="link">5</td></tr><tr><td class="link">6</td><td class="link">7</td><td class="link">8</td><td class="link">9</td><td class="link">10</td><td class="link">11</td><td class="link">12</td></tr><tr><td class="link">13</td><td class="link">14</td><td class="link">15</td><td class="link">16</td><td class="link">17</td><td class="link today focus">18</td><td class="link">19</td></tr><tr><td class="link">20</td><td class="link">21</td><td class="link">22</td><td class="link">23</td><td class="link">24</td><td class="link">25</td><td class="link">26</td></tr><tr><td class="link">27</td><td class="link">28</td><td class="link">29</td><td class="link">30</td><td class="link adjacent disabled">1</td><td class="link adjacent disabled">2</td><td class="link adjacent disabled">3</td></tr><tr><td class="link adjacent disabled">4</td><td class="link adjacent disabled">5</td><td class="link adjacent disabled">6</td><td class="link adjacent disabled">7</td><td class="link adjacent disabled">8</td><td class="link adjacent disabled">9</td><td class="link adjacent disabled">10</td></tr></tbody></table></div>
+                                                        <span class="input-group-addon input-group-addon-small"><i class="sicon-calendar-alt"></i></span>
+                                                        <input type="text" name="from_date" autocomplete="off" value="" class="form-control" placeholder="من">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group">
+                                                <div class="ui filter calendar" id="filter_range_end_order">
+                                                    <div class="input-group">
+                                                        <div class="ui popup calendar"><table class="ui celled center aligned unstackable table day"><thead><tr><th colspan="7"><span class="link">June 2021</span><span class="prev link"><i class="sicon-keyboard_arrow_left"></i></span><span class="next link"><i class="sicon-keyboard_arrow_right"></i></span></th></tr><tr><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th></tr></thead><tbody><tr><td class="link adjacent disabled">30</td><td class="link adjacent disabled">31</td><td class="link">1</td><td class="link">2</td><td class="link">3</td><td class="link">4</td><td class="link">5</td></tr><tr><td class="link">6</td><td class="link">7</td><td class="link">8</td><td class="link">9</td><td class="link">10</td><td class="link">11</td><td class="link">12</td></tr><tr><td class="link">13</td><td class="link">14</td><td class="link">15</td><td class="link">16</td><td class="link">17</td><td class="link today focus">18</td><td class="link">19</td></tr><tr><td class="link">20</td><td class="link">21</td><td class="link">22</td><td class="link">23</td><td class="link">24</td><td class="link">25</td><td class="link">26</td></tr><tr><td class="link">27</td><td class="link">28</td><td class="link">29</td><td class="link">30</td><td class="link adjacent disabled">1</td><td class="link adjacent disabled">2</td><td class="link adjacent disabled">3</td></tr><tr><td class="link adjacent disabled">4</td><td class="link adjacent disabled">5</td><td class="link adjacent disabled">6</td><td class="link adjacent disabled">7</td><td class="link adjacent disabled">8</td><td class="link adjacent disabled">9</td><td class="link adjacent disabled">10</td></tr></tbody></table></div>
+                                                        <span class="input-group-addon input-group-addon-small"><i class="sicon-calendar-alt"></i></span>
+                                                        <input type="text" name="to_date" autocomplete="off" value="" class="form-control" placeholder="إلى">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="rec-filter__section">
+                                <button type="button" data-toggle="collapse" data-target="#filter_tags_options" class="btn filter-head" aria-expanded="true">
+                                    <span>
+                                        <i class="sicon-tag"></i>
+                                        الوسوم
+                                    </span>
+                                </button>
+                                <div id="filter_tags_options" class="collapse filter-content collapse in" aria-expanded="true">
+                                    <div class="form-group">
+                                        <div class="ui multiple search dropdown selection">
+                                            <select name="tags[]" multiple="">
+                                                <option value="">اختر أحد الوسوم</option>
+                                            </select><i class="dropdown icon"></i><input class="search" autocomplete="off" tabindex="0"><span class="sizer"></span><div class="default text">اختر أحد الوسوم</div><div class="menu" tabindex="-1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rec-filter__submit">
+                                <button type="submit" class="btn btn-tiffany btn-filter-submit">عرض النتائج</button>
+                                <button type="reset" class="btn btn-outline-dark btn-filter-reset">إعادة تعيين</button>
+                            </div>
+                            <div class="rec-filter__section mt-10">
+                                <div class="btn-group rec-btn-group full-width" role="group">
+                                    <a href="https://s.salla.sa/orders/export/filters?" id="filterOptions" type="button" class="btn btn-wide btn-default btn-icon-prepend rec-fvm">
+                                        <i class="sicon-file-download"></i>
+                                        تصدير النتائج
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="modal_export" class="modal fade" style="direction: ltr;">
+                <form method="post" id="export_form" name="export_form" action="https://s.salla.sa/orders/export/orders" onsubmit="return validateExportForm();">
+                    <input type="hidden" name="_token" value="6Kn1DBQxyPe7HnqeFus6lyPYSJcDmj424UOo5Vh7">
+                    <div class="modal-dialog" style="direction: rtl;">
+                        <div class="modal-content">
+                            <div class="modal-header bg-info">
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                                <h6 class="modal-title"> تصدير الطلبات </h6>
+                            </div>
+                            <div class="modal-body">
+                                <div class="alert alert-paid alert-styled-left">
+                                    <a href="https://s.salla.sa/marketplace">
+                                        هذه الميزة متوفرة فقط فى سلة بلس, سلة برو
+                                        <i class="sicon-keyboard_arrow_left pull-right"></i>
+                                    </a>
+                                </div>
+                                <ul class="rec-list rec-list--vertical rec-list--relaxed rec-list--wide">
+                                    <li>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <div class="choice" id="uniform-filter_orders_today"><span class="checked"><input type="radio" id="filter_orders_today" name="filter_orders" class="styled filter_order form-check-input" value="today" checked="checked"></span></div>
+                                                اليوم
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <div class="choice" id="uniform-filter_orders_week"><span><input type="radio" id="filter_orders_week" name="filter_orders" class="styled filter_order" value="week"></span></div>
+                                                آخر ٧ أيام
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <div class="choice" id="uniform-filter_orders_month"><span><input type="radio" id="filter_orders_month" name="filter_orders" class="styled filter_order" value="month"></span></div>
+                                                آخر ٣٠ يوم
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <div class="choice" id="uniform-filter_orders_all"><span><input type="radio" id="filter_orders_all" name="filter_orders" class="styled filter_order" value="all"></span></div>
+                                                الكل
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <div class="choice" id="uniform-filter_orders_dates"><span><input type="radio" id="filter_orders_dates" name="filter_orders" class="styled filter_order" value="dates"></span></div>
+                                                تاريخ محدد
+                                            </label>
+                                        </div>
+                                        <div id="dates_section" style="display:none">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <div class="content-group-lg">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="sicon-calendar-date"></i></span>
+                                                            <input type="text" id="from_date" name="from_date" class="form-control date_plugin" placeholder="من التاريخ" readonly="readonly">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <div class="content-group-lg">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="sicon-calendar-dates"></i></span>
+                                                            <input type="text" id="to_date" name="to_date" class="form-control date_plugin" placeholder="إلى التاريخ" readonly="readonly">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" id="export_orders_btn" class="btn btn-info btn-save">تصدير</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="quick_assign_div_ajax"></div>
+            <div id="assign_multi_order_div_ajax"></div>
+
+        </div>
+
+
+        <div class="footer text-muted">
+            <a href="https://s.salla.sa" target="_blank"> سلة</a> © 2021
+        </div>
+
+    </div>

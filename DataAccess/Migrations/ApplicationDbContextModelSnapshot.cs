@@ -67,15 +67,6 @@ namespace DataAccess.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StoreLink")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StoreName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StoreType")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -112,6 +103,37 @@ namespace DataAccess.Migrations
                     b.ToTable("Category");
                 });
 
+            modelBuilder.Entity("DataAccess.Data.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdProduct")
+                        .HasColumnType("int");
+
+                    b.Property<string>("IdUser")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Reply")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdProduct");
+
+                    b.HasIndex("IdUser");
+
+                    b.ToTable("Comment");
+                });
+
             modelBuilder.Entity("DataAccess.Data.Image", b =>
                 {
                     b.Property<int>("ID")
@@ -132,6 +154,48 @@ namespace DataAccess.Migrations
                     b.ToTable("Images");
                 });
 
+            modelBuilder.Entity("DataAccess.Data.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdProduct")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdTotalOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("IdUser")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("Paid")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TotalOrderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdProduct");
+
+                    b.HasIndex("IdUser");
+
+                    b.HasIndex("TotalOrderId");
+
+                    b.ToTable("Order");
+                });
+
             modelBuilder.Entity("DataAccess.Data.Product", b =>
                 {
                     b.Property<int>("ID")
@@ -145,10 +209,10 @@ namespace DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Price")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Price")
+                        .HasColumnType("int");
 
-                    b.Property<int>("Quantity")
+                    b.Property<int?>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
@@ -192,6 +256,26 @@ namespace DataAccess.Migrations
                         .IsUnique();
 
                     b.ToTable("ProductDetails");
+                });
+
+            modelBuilder.Entity("DataAccess.Data.TotalOrder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("IdUser")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("TotalPrice")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdUser");
+
+                    b.ToTable("TotalOrder");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -325,6 +409,23 @@ namespace DataAccess.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("DataAccess.Data.Comment", b =>
+                {
+                    b.HasOne("DataAccess.Data.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("IdProduct")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAccess.Data.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("IdUser");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("DataAccess.Data.Image", b =>
                 {
                     b.HasOne("DataAccess.Data.Product", "Product")
@@ -334,6 +435,27 @@ namespace DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("DataAccess.Data.Order", b =>
+                {
+                    b.HasOne("DataAccess.Data.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("IdProduct")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAccess.Data.ApplicationUser", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("IdUser");
+
+                    b.HasOne("DataAccess.Data.TotalOrder", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("TotalOrderId");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DataAccess.Data.Product", b =>
@@ -354,6 +476,15 @@ namespace DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("DataAccess.Data.TotalOrder", b =>
+                {
+                    b.HasOne("DataAccess.Data.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("IdUser");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -407,11 +538,21 @@ namespace DataAccess.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DataAccess.Data.ApplicationUser", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
             modelBuilder.Entity("DataAccess.Data.Product", b =>
                 {
                     b.Navigation("Images");
 
                     b.Navigation("ProductDetails");
+                });
+
+            modelBuilder.Entity("DataAccess.Data.TotalOrder", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

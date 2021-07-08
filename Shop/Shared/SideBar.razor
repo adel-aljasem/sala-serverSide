@@ -1,4 +1,7 @@
-﻿<div class="sidebar sidebar-main" data-simplersidebar="closed" style="position: fixed; top: 50px; bottom: 0px; width: 260px; z-index: 3000; right: -260px;">
+﻿@inject IUnitOfWork unitOfwork
+@inject NavigationManager nav
+
+<div class="sidebar sidebar-main" data-simplersidebar="closed" style="position: fixed; top: 50px; bottom: 0px; width: 260px; z-index: 3000; right: -260px;">
     <div class="sidebar-content">
 
 
@@ -7,7 +10,6 @@
                 <div class="media-left no-padding" id="store_avatar">
                     <div class="store-img-wrapper">
                         <img id="store_avatar_img" class="store-img img-circle img-sm" alt="test" src="https://assets.salla.sa/cp/assets/images/placeholder.png">
-                        <a href="https://s.salla.sa/marketplace/plans" class="badge badge--primary plan-name">سلة بيسك</a>
                     </div>
                     <div class="store-name-plan">
                         <h6 class="store-name-side font-regular">
@@ -15,7 +17,7 @@
                             test
                         </h6>
                         <div class="store-link dropdown">
-                            <a href="https://salla.sa/aldmlhe?expires=1621445647&amp;identifier=355962419&amp;utm_source=dashboard&amp;signature=ff9acdce456363d39802f0c24ce44fda042798609c57534fdb87ab9829e80b8a" target="_blank" class="btn visit-store">
+                            <a href="@nav.BaseUri" target="_blank" class="btn visit-store">
                                 زيارة المتجر
                                 <i class="sicon-keyboard_arrow_left"></i>
                             </a>
@@ -24,7 +26,7 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li class="dropdown-link">
-                                    <a href="javascript:void(0)" data-text="https://salla.sa/aldmlhe" id="link_store_url" class="copy-site-url">
+                                    <a href="javascript:void(0)" data-text="@nav.BaseUri" id="link_store_url" class="copy-site-url">
                                         <i class="sicon-swap-stroke"></i>
                                         نسخ رابط المتجر
                                     </a>
@@ -47,8 +49,8 @@
         <div class="sidebar-category sidebar-category-visible">
             <div class="category-content no-padding">
                 <ul class="navigation navigation-main navigation-accordion">
-                    <li class="active">
-                        <a href="https://s.salla.sa/home/">
+                    <li class="">
+                        <a href="/admin">
                             <i class="sicon-home"></i>
                             <span> الرئيسية</span>
                         </a>
@@ -72,74 +74,80 @@
                         </a>
                     </li>
                     <li class="">
-                        <a href="https://s.salla.sa/reports">
+                        <a href="">
                             <i class="sicon-chart-pie"></i>
                             <span> التقارير</span>
                         </a>
                     </li>
                     <li class="">
-                        <a href="https://s.salla.sa/feedback">
+                        <a href="/admin/feedback">
                             <i class="sicon-chat-conversation-alt"></i> <span>الأسئلة والتقييمات</span>
+                            @if (showNotifications)
+                            {
+                                <span class="badge bg-danger" id="feedback_badge">@index</span>
+
+                            }
+
                         </a>
                     </li>
                     <li class="">
-                        <a href="https://s.salla.sa/pages">
+                        <a href="">
                             <i class="sicon-newspaper"></i>
                             <span> الصفحات التعريفية</span>
                         </a>
                     </li>
                     <li class="navigation-header"><span>التسويق</span></li>
                     <li class="">
-                        <a href="https://s.salla.sa/coupons">
+                        <a href="">
                             <i class="sicon-ticket"></i>
                             <span>كوبونات التخفيض</span>
                         </a>
                     </li>
                     <li class="">
-                        <a href="https://s.salla.sa/specialoffer">
+                        <a href="">
                             <i class="sicon-special-discount"></i>
                             <span>العروض الخاصة</span>
                         </a>
                     </li>
                     <li class="">
-                        <a href="https://s.salla.sa/campaign">
+                        <a href="">
                             <i class="sicon-paper-plane-o"></i>
                             <span>الحملات التسويقية</span>
                         </a>
                     </li>
                     <li class="">
-                        <a href="https://s.salla.sa/marketing/abandoned_carts">
+                        <a href="">
                             <i class="sicon-shopping"></i>
                             <span>السلات المتروكة</span>
                         </a>
                     </li>
                     <li class="navigation-header"><span>الاعدادات</span></li>
                     <li class="">
-                        <a href="https://s.salla.sa/settings">
+                        <a href="">
                             <i class="sicon-settings"></i>
                             <span>إعدادات المتجر</span>
                         </a>
                     </li>
                     <li class="">
-                        <a href="https://s.salla.sa/design">
+                        <a href="">
                             <i class="sicon-window-layout"></i>
                             <span>تصميم المتجر</span>
                         </a>
                     </li>
                     <li class="">
-                        <a href="https://s.salla.sa/store-app">
+                        <a href="">
                             <i class="sicon-iphone"></i>
                             <span>تصميم التطبيق</span>
                         </a>
                     </li>
                     <li class="">
-                        <a href="https://s.salla.sa/wallet">
+                        <a href="">
                             <i class="sicon-wallet"></i>
                             <span>المحفظة والفواتير</span>
                         </a>
                     </li>
                     <li class="">
-                        <a href="https://s.salla.sa/marketplace" class="salla-store-link">
+                        <a href="" class="salla-store-link">
                             <i class="sicon-store"></i>
                             <span> متجر سلة</span>
                         </a>
@@ -156,6 +164,17 @@
 
 
 
+@code{
+    List<CommentModel> commentModels = new List<CommentModel>();
+    int index;
+    bool showNotifications = false;
+
+    protected override void OnInitialized()
+    {
+        commentModels = unitOfwork.ProductRepository.GetAllComments();
+
+        commentModels.ForEach(w => { if (!w.Reply) { index++; showNotifications = true; } });
+    }
+}
 
 
-      

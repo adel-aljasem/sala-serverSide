@@ -15,10 +15,10 @@ namespace DataAccess.Models
         public string Name { get; set; }
         [Required(ErrorMessage = "حقل الزامي")]
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "يجب ادخال ارقام فقط")]
-        public string Price { get; set; }
+        public int? Price { get; set; }
         [Required(ErrorMessage = "حقل الزامي")]
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "يجب ادخال ارقام فقط")]
-        public string Quantity { get; set; }
+        public int? Quantity { get; set; }
         public List<ImageModel> Images { get; set; } = new List<ImageModel>();
         public CategoryModel CategoryModel { get; set; } 
         public virtual ProductDetailsModel ProductModelDetails { get; set; } = new ProductDetailsModel();

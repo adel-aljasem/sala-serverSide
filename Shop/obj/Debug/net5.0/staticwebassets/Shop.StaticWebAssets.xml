@@ -2,4 +2,6 @@
   <ContentRoot BasePath="/" Path="C:\Users\adil\Desktop\Shop\Shop\obj\Debug\net5.0\scopedcss\bundle\" />
   <ContentRoot BasePath="/Identity" Path="C:\Users\adil\.nuget\packages\microsoft.aspnetcore.identity.ui\5.0.6\staticwebassets\V4\" />
   <ContentRoot BasePath="_content/Blazored.TextEditor" Path="C:\Users\adil\.nuget\packages\blazored.texteditor\1.0.3\build\..\staticwebassets\" />
+  <ContentRoot BasePath="_content/WMBlazorSlickCarousel" Path="D:\download\wm-blazor-slick-carousel-master\wm-blazor-slick-carousel-master\WMBlazorSlickCarousel\obj\Debug\net5.0\scopedcss\projectbundle\" />
+  <ContentRoot BasePath="_content/WMBlazorSlickCarousel" Path="D:\download\wm-blazor-slick-carousel-master\wm-blazor-slick-carousel-master\WMBlazorSlickCarousel\wwwroot\" />
 </StaticWebAssets>

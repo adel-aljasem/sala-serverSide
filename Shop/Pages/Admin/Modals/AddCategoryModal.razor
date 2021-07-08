@@ -1,0 +1,82 @@
+﻿@inject IUnitOfWork UnitofWork
+@inject IMapper Imapper
+@inject IJSRuntime JSRuntime
+<div id="new_category" class="modal fade modal-backup in" style="display: none; padding-right: 17px;">
+    <div class="modal-dialog" style="direction: rtl;">
+        <EditForm Model="CategoryModel" OnValidSubmit="AddCategory">
+            <DataAnnotationsValidator />
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    اضافة تصنيف جديد
+                    <button data-dismiss="modal" type="button" class="close">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>اسم التصنيف</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="sicon-format-text"></i>
+                            </span>
+                            <input @bind-value="CategoryModel.Name" type="text" placeholder="ادخل اسم التصنيف" class="form-control">
+                            <p style="color:red"><ValidationMessage For="()=>CategoryModel.Name" /></p>
+                        </div>
+                        <span class="help-block cs" style="display: none;">
+
+                        </span>
+                    </div>
+                    <div class="rec-checkbox rec-checkbox--default rec-checkbox--large rec-checkbox--primary-bg">
+                        <input type="checkbox" name="add_to_main" id="add_to_main">
+                        <label for="add_to_main">اضافة الى تصنيف رئيسي</label>
+                    </div>
+                    <div class="form-group mb-0 mt-10 categories" style="display: none;">
+                        <div class="vue-treeselect--custom vue-treeselect--without-effect vue-treeselect--full vue-treeselect vue-treeselect--single vue-treeselect--open-below" is-default-expanded="true">
+                            <!---->
+                            <div class="vue-treeselect__control">
+                                <div class="vue-treeselect__value-container">
+                                    <div class="vue-treeselect__placeholder vue-treeselect-helper-zoom-effect-off">تحديد التصنيف الرئيسي</div>
+                                    <div tabindex="0" class="vue-treeselect__input-container"></div>
+                                </div>
+                                <div class="vue-treeselect__control-arrow-container">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 292.362 292.362" class="vue-treeselect__control-arrow">
+                                        <path d="M286.935 69.377c-3.614-3.617-7.898-5.424-12.848-5.424H18.274c-4.952 0-9.233 1.807-12.85 5.424C1.807 72.998 0 77.279 0 82.228c0 4.948 1.807 9.229 5.424 12.847l127.907 127.907c3.621 3.617 7.902 5.428 12.85 5.428s9.233-1.811 12.847-5.428L286.935 95.074c3.613-3.617 5.427-7.898 5.427-12.847 0-4.948-1.814-9.229-5.427-12.85z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="vue-treeselect__menu-container" style="z-index: 999;">
+                                <!---->
+                            </div>
+                        </div>
+                        <span class="help-block cs" style="display: none;">
+
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-footer no-icons">
+                    <button type="submit" class="btn btn-info btn-save">اضافة التصنيف</button>
+                    <button data-dismiss="modal" class="btn btn-info btn-close">إلغاء</button>
+                </div>
+
+            </div>
+        </EditForm>
+
+    </div>
+</div>
+
+
+@code{
+    public CategoryModel CategoryModel { get; set; } = new CategoryModel();
+
+    private async Task AddCategory()
+    {
+        if (CategoryModel.Name != null)
+        {
+            
+
+            UnitofWork.CategoryRepository.Add(CategoryModel);
+            UnitofWork.Complete();
+            await JSRuntime.InvokeVoidAsync("modalState", "#new_category", "hide");
+            await JSRuntime.SweetAlertSuccess("تمت اضافة الصنف");
+        }
+    }
+
+}

@@ -1,0 +1,490 @@
+﻿@page "/products"
+@inject FileUpload FileUpload
+@inject IUnitOfWork UnitOfWork
+@inject IJSRuntime JSruntime
+@inject NavigationManager nav
+@layout AdminLayout
+
+
+
+<div class="content-wrapper content-padding" id="content_box">
+    <div id="res_sf">
+        <form class="navbar-form navbar-left" action="https://s.salla.sa/search" method="get">
+            <div class="search-group">
+                <input type="text" id="searchbox" name="keyword" class="form-control search-input input-lg" placeholder="ابحث بإسم المنتج ، اسم التصنيف ، وصف المنتج" value="">
+                <div class="btn-group bootstrap-select search-select hidden">
+                    <button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" role="button" data-id="search_input_type" title="المنتجات"><span class="filter-option pull-left">المنتجات</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open" role="combobox"><ul class="dropdown-menu inner" role="listbox" aria-expanded="false"><li data-original-index="0"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false"><span class="text">الطلبات</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="1" class="selected"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="true"><span class="text">المنتجات</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="2"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false"><span class="text">العملاء</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul></div><select class="search-select hidden" id="search_input_type" name="search_type" data-dropup-auto="false" tabindex="-98" style="display: inline-block;">
+                        <option value="orders">الطلبات</option>
+                        <option value="products" selected="">المنتجات</option>
+                        <option value="customers">العملاء</option>
+                    </select>
+                </div>
+                <div class="input-group-btn">
+                    <button type="submit" class="btn btn-tiffany btn-lg"><i class="sicon-search"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="page-header page-header-xs" id="page_header_box">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-header-content">
+
+                    <div class="page-title breadcrumb-container mobile-webview-hide">
+                        <nav class="nav-breadcrumb" aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item home">
+                                    <a href="https://s.salla.sa/home">
+                                        <i class="sicon-home"></i>
+                                        الرئيسية
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item active">المنتجات</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="heading-elements heading-help mobile-webview-hide">
+                        <div class="btn-group heading-btn">
+                            <button class="btn bg-tiffany btn-icon btn-sm load_help_center_modal" data-toggle="dropdown">
+                                <i class="sicon-life-ring"></i>
+                                <span>مساعدة ؟</span>
+                            </button>
+                        </div>
+                        <div id="help_center_div"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="content ">
+        <div id="progress-report-modal" class="modal modal-backup fade in col-sm-6 col-sm-offset-3" tabindex="-1" style="direction: ltr;">
+        </div>
+
+
+        <link rel="stylesheet" href="https://assets.salla.sa/cp/assets/js/plugins/semantic/calendar.css">
+        <link rel="stylesheet" href="https://assets.salla.sa/cp/assets/js/plugins/semantic/dropdown.rtl.min.css">
+        <link rel="stylesheet" href="https://assets.salla.sa/cp/assets/js/plugins/semantic/label.rtl.min.css">
+        <div>
+            <!----> <!----> <div class="view-control rec-list rec-list--horizontal rec-list--space-between mb-20">
+                <div class="dropdown mt-12">
+                    <a id="add-btn" data-toggle="dropdown" aria-expanded="false" class="btn btn-tiffany btn-xlg btn--dropdown mt-0"><i class="sicon-keyboard_arrow_down"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-left dropdown-menu--products-type">
+                        <li data-type="product">
+                            <a @onclick="AddProductsForm" data-product-type="product" class="dropdown-link">
+                                <i class="sicon-packed-box"></i>
+                                <h6>
+                                    منتج جاهز
+                                    <span>المنتجات الملموسة والقابلة للشحن</span>
+                                </h6>
+                            </a>
+                        </li>
+                        <li data-type="service">
+                            <a data-product-type="product" class="dropdown-link">
+                                <i class="sicon-fabric-swatch"></i>
+                                <h6>
+                                    خدمة حسب الطلب
+                                    <span>التصميم، الطباعة، الحجوزات</span>
+                                </h6>
+                            </a>
+                        </li>
+                        <li data-type="food">
+                            <a data-product-type="product" class="dropdown-link">
+                                <i class="sicon-cake"></i>
+                                <h6>
+                                    أكل
+                                    <span>المأكولات والمشروبات التي تتطلب شحن خاص</span>
+                                </h6>
+                            </a>
+                        </li>
+                        <li data-type="digital">
+                            <a data-product-type="product" class="dropdown-link">
+                                <i class="sicon-game-controller-alt"></i>
+                                <h6>
+                                    منتج رقمي
+                                    <span>الكتب الإلكترونية، الدورات، ملفات للتحميل</span>
+                                </h6>
+                            </a>
+                        </li>
+                        <li data-type="codes">
+                            <a data-product-type="product" class="dropdown-link">
+                                <i class="sicon-barcode-scan"></i>
+                                <h6>
+                                    بطاقة رقمية
+                                    <span>بطاقات شحن، حسابات للبيع</span>
+                                </h6>
+                            </a>
+                        </li>
+                        <li data-type="group_products">
+                            <a data-product-type="product" class="dropdown-link">
+                                <i class="sicon-inbox-full"></i>
+                                <h6>
+                                    مجموعة منتجات
+                                    <span>أكثر من منتج في منتج واحد</span>
+                                </h6>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="align-left rec-list rec-list--horizental rec-list--align-center products-control">
+                    <div class="filter-mode bulk-edit-filter">
+                        <a id="rec_filter_toggle" class="btn btn-filter-toggle ">
+                            <i class="sicon-filter"></i> تصفية <i class="sicon-cancel" style="display: none;"></i>
+                        </a>
+                    </div>
+                    <ul class="nav product-action-btn-list">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle btn btn-filter-toggle">
+                                <i class="sicon-toolbox"></i>  خدمات  <span class="loader mt-10" style="display: none;"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right"></ul>
+                        </li>
+                    </ul>
+                    <div class="rec-filter-wrapper rec-filter-wrapper-products checkPlacement">
+                        <div class="rec-filter-cont">
+                            <form>
+                                <div class="rec-filters">
+                                    <h1 class="title title--small">
+                                        <i class="sicon-filter"></i> فرز المنتجات حسب
+                                        <button type="button" id="filter_close" class="btn btn--circular"></button>
+                                    </h1>
+                                    <div class="rec-filter__submit">
+                                        <button type="button" class="btn btn-tiffany btn-filter-submit">
+                                            عرض
+                                            النتائج
+                                        </button>
+                                        <button type="reset" class="btn btn-outline-dark btn-filter-reset">
+                                            إعادة
+                                            تعيين
+                                        </button>
+                                    </div>
+                                    <div class="rec-filter__section mt-10">
+                                        <div role="group" class="btn-group rec-btn-group full-width">
+                                            <a id="filterOptions" type="button" class="btn btn-wide btn-default btn-icon-prepend rec-fvm">
+                                                <i class="sicon-file-download"></i>
+                                                تصدير النتائج
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <button type="button" class="btn switch rec-btn--primary ml-10"><i class="sicon-layout-grid"></i></button>
+                    <button type="button" class="btn switch rec-btn--trans"><i class="sicon-list"></i></button>
+                    <div class="products-checked" style="position: relative; display: none;">
+                        <div class="rec-checkbox rec-checkbox--default rec-checkbox--large rec-checkbox--primary-bg">
+                            <input type="checkbox" name="checked" id="checked_products">
+                            <label for="checked_products"></label>
+                        </div>
+                        <a href="#!" data-toggle="dropdown" aria-expanded="false" class="dropdown-toggle">المنتجات المحددة <span>0</span></a>
+                        <ul class="dropdown-menu dropdown-menu-right mobile-top">
+                            <li>
+                                <a>
+                                    <i class="sicon-inbox-full"></i>
+                                    تعديل المنتجات
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    <i class="sicon-inbox-multi"></i>
+                                    تعديل الكميات
+                                </a>
+                            </li>
+                            <li>
+                                <a class="delete-product danger">
+                                    <i class="sicon-trash"></i>
+                                    حذف المنتج نهائيا
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content wrap">
+                <div class="tab-pane active">
+                    <div id="products_div" class="grid-block main_content grid">
+
+                        @foreach (var product in ProductModels)
+                        {
+
+                            <div class="product-box">
+                                <EditForm Model="product" OnValidSubmit="() => UpdateProductToDataBase(product)" class="product-form">
+                                    <DataAnnotationsValidator />
+                                    <div class="thumbnail save-product">
+                                        <button type="button" @onclick="() => RemoveProductForm(product)" class="btn btn-delete-circle btn-delete-product"><i class="sicon-cancel"></i></button>
+                                        <div class="caption caption-small">
+                                            <div class="product-thumb-wrapper">
+                                                <div class="thumb">
+                                                    <div class="thumb-mask">
+
+                                                        <img @onclick="() => { IdModal = product.ID; productSendToTheModal = product; }" data-target="#modal_product_photos" data-toggle="modal" src="@product.Images.LastOrDefault().ImageUrl  " alt="IMG">
+
+                                                        <Shop.Pages.Admin.Modals.AddPictureModal ID="IdModal" OnChangePhoto="UpdateProduct" productModel="productSendToTheModal" />
+                                                    </div>
+                                                    <div class="product-check rec-checkbox rec-checkbox--default rec-checkbox--large rec-checkbox--primary-bg" style="display: none;">
+                                                        <input type="checkbox" name="product_-957477490" class="product-check">
+                                                        <label for="product_-957477490">
+                                                            <span class="product-type">منتج جاهز</span>
+                                                        </label>
+                                                    </div>
+                                                    <button @onclick="() => { IdModal = product.ID; productSendToTheModal = product; }" data-target="#modal_product_photos" data-toggle="modal" type="button" class="product_image_btn">
+                                                        <i class="sicon-image"></i> <span>إضافة صورة او فيديو</span>
+                                                    </button>
+                                                    <button type="button" class="pin_btn " style="display: none;"><i class="sicon-thumbtack"></i></button>
+                                                </div>
+                                                <div class="product-name-type prfw">
+                                                    <div id="product_name_-957477490" class="form-group tooltip-toggle trans top mb-0">
+                                                        <div class="input-group">
+                                                            <span class="tooltip-content">
+                                                                <i class="sicon-packed-box"></i>
+                                                                منتج جاهز
+                                                            </span>
+                                                            <span class="input-group-addon input-group-addon-small">
+                                                                <i class="sicon-packed-box"></i>
+                                                            </span>
+                                                            <InputText @bind-Value="product.Name" placeholder="منتج جاهز - ادخل اسم المنتج  " class="form-control"></InputText>
+                                                        </div>
+                                                        <span style="color:red" class="help-block cs">
+                                                            <ValidationMessage For="() => product.Name" />
+
+                                                        </span>
+                                                        <span class="help-block cs" style="display: none;">
+
+                                                        </span>
+                                                    </div>
+                                                    <div class="form-group product-price-small-screen">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon input-group-addon-small">
+                                                                <i class="sicon-dollar-coin-stack"></i>
+                                                            </span>
+                                                            <InputNumber @bind-Value="product.Price" placeholder="السعر" class="form-control _parse_parseArabicNumbers"></InputNumber>
+                                                            <span class="input-group-addon">ر.س</span>
+
+                                                        </div>
+                                                        <span style="color:red" class="help-block cs">
+                                                            <ValidationMessage For="() => product.Price" />
+                                                        </span><!---->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="product-fields-wrapper prfw">
+                                                <div class="form-group product-price-large-screen">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon input-group-addon-small"><i class="sicon-dollar-coin-stack"></i></span>
+                                                        <InputNumber @bind-Value="product.Price" placeholder="السعر" class="form-control _parseArabicNumbers"></InputNumber>
+                                                        <span class="input-group-addon">ر.س</span>
+
+                                                    </div>
+                                                    <span style="color:red" class="help-block cs">
+                                                        <ValidationMessage For="() => product.Price" />
+                                                    </span><!---->
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="input-group product-quantities product-quantities--products-group">
+                                                        <div>
+                                                            <span class="input-group-addon input-group-addon-small"><i class="sicon-box-bankers"></i></span>
+                                                            <InputNumber @bind-Value="product.Quantity" placeholder="الكمية المتوفرة" class="form-control product_quantity _parseArabicNumbers"></InputNumber>
+                                                        </div>
+                                                        <span style="color:red" class="help-block cs">
+                                                            <ValidationMessage For="() => product.Quantity" />
+                                                        </span><!---->
+
+
+                                                        <button type="button" class="rec-btn btn-tiffany btn-notify"><i class="sicon-bell-time"></i></button>
+                                                        <button type="button" class="btn btn-tiffany btn-infinite">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30px" height="30px"><path d="M 8 8 C 3.6102416 8 0 11.595515 0 16 C 0 20.400585 3.599415 24 8 24 C 10.646 24 12.420344 22.745203 13.777344 21.033203 C 13.147344 20.063203 12.616672 19.057234 12.138672 18.115234 C 10.996672 19.940234 9.828 21 8 21 C 5.220585 21 3 18.779415 3 16 C 3 13.224485 5.2377584 11 8 11 C 9.4265669 11 10.267624 11.520682 11.15625 12.525391 C 12.044876 13.530099 12.834942 15.048526 13.652344 16.673828 C 14.469745 18.29913 15.315394 20.031983 16.585938 21.464844 C 17.85648 22.897705 19.696851 24 22 24 C 26.362802 24 30 20.414234 30 16 C 30 11.599415 26.400585 8 22 8 C 19.35 8 17.576703 9.2652813 16.220703 10.988281 C 16.849703 11.961281 17.379422 12.969109 17.857422 13.912109 C 19.003422 12.069109 20.172 11 22 11 C 24.779415 11 27 13.220585 27 16 C 27 18.765766 24.719198 21 22 21 C 20.566649 21 19.72091 20.477295 18.830078 19.472656 C 17.939247 18.468017 17.14913 16.95087 16.332031 15.326172 C 15.514933 13.701474 14.671546 11.969901 13.404297 10.537109 C 12.137048 9.1043186 10.298933 8 8 8 z"></path></svg>
+                                                        </button>
+                                                        <div class="rec-list rec-list--horizental left-arrow" style="display: none;">
+                                                            <span>نبهني عند وصول الكمية إلى</span>
+                                                            <input type="text" placeholder="ادخل اقل قيمة..." class="form-control _parseArabicNumbers">
+                                                        </div> <!---->
+                                                    </div>
+                                                    <span style="color:red" class="help-block cs">
+                                                        <ValidationMessage For="() => product.Name" />
+                                                    </span><!---->
+                                                </div>
+                                                <div class="form-group ">
+                                                    <div class="input-group">
+
+                                                        <select @bind="product.IDCategory" @onclick="UpdateSelectCategory" class="vue-treeselect__control">
+                                                            <option selected>اختر تصنيف المنتج</option>
+                                                            @foreach (var category in CategoryModels)
+                                                            {
+                                                                <option value="@category.ID">@category.Name</option>
+                                                            }
+                                                        </select>
+                                                        <span style="color:red" class="help-block cs">
+                                                            <ValidationMessage For="() => product.IDCategory" />
+                                                        </span><!---->
+
+                                                        <div class="input-group-btn">
+                                                            <button type="button" data-toggle="modal" data-target="#new_category" class="btn btn-tiffany btn-icon btn-add-category">
+                                                                اضف تصنيف
+                                                            </button>
+
+                                                        </div>
+
+
+
+
+
+                                                        <!---->
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="controls-wrapper">
+                                                <div class="options-wrapper">
+                                                    <div class="options">
+                                                        <div class="form-group">
+
+                                                            <button type="button" @onclick="() => {IdModal = product.ID; productSendToTheModal = product; }" data-toggle="modal" data-target="#modal_product_options" class="btn border-slate text-slate-800 btn-flat btn-xs product-options-btn">
+                                                                <i class="sicon-tune-alt"></i>
+                                                                بيانات المنتج
+                                                            </button>
+                                                        </div>
+                                                    </div> <!---->
+                                                </div>
+                                                <div class="submit-wrapper">
+                                                    <button type="submit" class="btn btn-tiffany btn-xs btn-full save-product btn-save">
+                                                        حفظ
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </EditForm>
+                            </div>
+                        }
+
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="mugen-scroll align-center" style="display: none;">
+                <span class="loader mt-10"></span>
+            </div>
+            <div id="modal_quantity_management" class="custom-modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info">
+                            <button type="button" class="close">×</button>
+                            <h6 class="modal-title">
+                                إدارة الكميات
+                                -
+                            </h6>
+                        </div>
+                        <div class="modal-body">
+                            <form class="mb-0"><!----> <!----></form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="align-center placeholder empty-placeholder" style="display: none;">
+            <i class="sicon-cart-cancel"> </i>
+            <h4>لايوجد منتجات</h4>
+        </div>
+        <div>
+
+        </div>
+    </div>
+
+
+
+    <div id="product_options"></div>
+    <div id="product_category_div"></div>
+    <div id="product_category"></div>
+    <div id="product_quantity_management"></div>
+    <div id="products_view"></div>
+</div>
+
+
+<div class="footer text-muted">
+    <a href="https://s.salla.sa" target="_blank"> سلة</a> © 2021
+</div>
+<Shop.Pages.Admin.Modals.AddCategoryModal />
+<Shop.Pages.Admin.Modals.AddProductDetailsModal ProductModel="productSendToTheModal" />
+
+@code{
+    ICollection<ProductModel> ProductModels { get; set; } = new List<ProductModel>();
+    IEnumerable<CategoryModel> CategoryModels { get; set; } = new List<CategoryModel>();
+    private const string defaultImage = "https://s.salla.sa/cp/assets/images/placeholder.png";
+    private bool showModal = false;
+    private int IdModal;
+    ProductModel? productSendToTheModal = new ProductModel();
+
+    private async Task AddProductsForm()
+    {
+
+         UnitOfWork.ProductRepository.Add(new ProductModel { Images = new List<ImageModel> { new ImageModel { ImageUrl = defaultImage } } });
+         UnitOfWork.Complete();
+        ProductModels = (ICollection<ProductModel>)await UnitOfWork.ProductRepository.GetALL();
+
+
+    }
+
+    private void RemoveProductForm(ProductModel productModel)
+    {
+        try
+        {
+            ProductModels.Remove(productModel);
+            productModel.Images.ForEach(w => { string OldImageName = w.ImageUrl; string imageName = OldImageName.Replace($"{nav.BaseUri}Images/", ""); FileUpload.DeleteFile(imageName); });
+             UnitOfWork.ProductRepository.Remove(productModel.ID, productModel);
+             UnitOfWork.Complete();
+        }
+        catch (Exception e)
+        {
+
+        }
+
+    }
+
+
+
+    private async Task UpdateProductToDataBase(ProductModel productModel)
+    {
+        try
+        {
+
+             UnitOfWork.ProductRepository.Update(productModel.ID, productModel);
+             UnitOfWork.Complete();
+            await JSruntime.ToastrSuccess("تمت العملية بنجاح");
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+
+    }
+
+    protected async Task UpdateSelectCategory()
+    {
+
+        CategoryModels = await UnitOfWork.CategoryRepository.GetAll();
+
+    }
+
+    private async Task UpdateProduct()
+    {
+        ProductModels = (ICollection<ProductModel>)await UnitOfWork.ProductRepository.GetALL();
+
+    }
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        await UpdateProduct();
+        await UpdateSelectCategory();
+    }
+
+
+
+}

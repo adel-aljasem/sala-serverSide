@@ -9,15 +9,14 @@ namespace DataAccess.Data
 {
     public class Product
     {
-        [Key]
         public int ID { get; set; }
         public int? IDCategory { get; set; }
         public string Name { get; set; }
-        public string Price { get; set; }
-        public int Quantity { get; set; }
-        public List<Image> Images { get; set; }
+        public int? Price { get; set; }
+        public int? Quantity { get; set; }
+        public virtual List<Image> Images { get; set; }
         [ForeignKey("IDCategory")]
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
 
         public virtual ProductDetails ProductDetails { get; set; } 
 

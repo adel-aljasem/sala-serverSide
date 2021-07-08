@@ -29,7 +29,7 @@ namespace DataAccess.Repository
         {
             try
             {
-                return mapper.Map<List<Category>, List<CategoryModel>>(await Db.Category.ToListAsync());
+                return mapper.Map<List<Category>, List<CategoryModel>>( Db.Category.ToList());
 
             }
             catch (Exception e)

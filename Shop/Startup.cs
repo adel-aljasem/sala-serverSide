@@ -21,6 +21,7 @@ using DataAccess.Repository.Interface;
 using Shop.Helper;
 using System.Net.Http;
 using DataAccess.Mapper;
+using Moyasar;
 
 namespace Shop
 {
@@ -37,20 +38,27 @@ namespace Shop
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddAutoMapper(typeof(ProfileMapper).Assembly);
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders().AddDefaultUI();
-            
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddRazorPages();
             services.AddScoped<FileUpload>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<DbInitializer>();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
             services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddWMBSC();
+            services.AddScoped<RealtimeService>();
+            services.AddSingleton<RealtimeServiceOnline>();
+            services.AddScoped<Extensions>();
+            MoyasarService.ApiKey = "sk_test_mBpr6Akgmfn2jivQzKHx6srpqVjRaF2WeAatS3Rm";
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

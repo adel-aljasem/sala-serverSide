@@ -16,8 +16,9 @@ namespace DataAccess.Mapper
             CreateMap<ImageModel, Image>().ReverseMap();
             CreateMap<CategoryModel, Category>().ReverseMap();
             CreateMap<ProductDetailsModel, ProductDetails>().ReverseMap();
-
-            
+            CreateMap<OrderModel, Order>().ForMember(w=>w.Product,a=>a.MapFrom(s=>s.ProductModel)).ForMember(w => w.User, opt => opt.MapFrom(a => a.User)).ReverseMap();
+            CreateMap<TotalOrderModel, TotalOrder>().ForMember(w => w.Orders, a => a.MapFrom(s => s.OrdersModel)).ForMember(w=>w.User,opt=>opt.MapFrom(a=>a.User)).ReverseMap();
+            CreateMap<CommentModel, Comment>().ForMember(w => w.Product, a => a.MapFrom(s => s.ProductModel)).ForMember(w=>w.User,a=>a.MapFrom(s=>s.User)).ReverseMap();
 
         }
     }

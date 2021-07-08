@@ -1,0 +1,5055 @@
+﻿<style >
+/*!
+ * vue-treeselect v0.4.0 | (c) 2017-2019 Riophae Lee
+ * Released under the MIT License.
+ * https://vue-treeselect.js.org/
+ */ .vue-treeselect-helper-hide {
+    display: none
+}
+
+.vue-treeselect-helper-zoom-effect-off {
+    transform: none !important
+}
+
+@-webkit-keyframes vue-treeselect-animation-fade-in {
+    0% {
+        opacity: 0
+    }
+}
+
+@keyframes vue-treeselect-animation-fade-in {
+    0% {
+        opacity: 0
+    }
+}
+
+@-webkit-keyframes vue-treeselect-animation-bounce {
+    0%,to {
+        transform: scale(0)
+    }
+
+    50% {
+        transform: scale(1)
+    }
+}
+
+@keyframes vue-treeselect-animation-bounce {
+    0%,to {
+        transform: scale(0)
+    }
+
+    50% {
+        transform: scale(1)
+    }
+}
+
+@-webkit-keyframes vue-treeselect-animation-rotate {
+    to {
+        transform: rotate(1turn)
+    }
+}
+
+@keyframes vue-treeselect-animation-rotate {
+    to {
+        transform: rotate(1turn)
+    }
+}
+
+.vue-treeselect__multi-value-item--transition-enter-active, .vue-treeselect__multi-value-item--transition-leave-active {
+    transition-duration: .2s;
+    transition-property: transform,opacity
+}
+
+.vue-treeselect__multi-value-item--transition-enter-active {
+    transition-timing-function: cubic-bezier(.075,.82,.165,1)
+}
+
+.vue-treeselect__multi-value-item--transition-leave-active {
+    transition-timing-function: cubic-bezier(.215,.61,.355,1);
+    position: absolute
+}
+
+.vue-treeselect__multi-value-item--transition-enter, .vue-treeselect__multi-value-item--transition-leave-to {
+    transform: scale(.7);
+    opacity: 0
+}
+
+.vue-treeselect__multi-value-item--transition-move {
+    transition: transform .2s cubic-bezier(.165,.84,.44,1)
+}
+
+.vue-treeselect {
+    position: relative;
+    text-align: left
+}
+
+[dir=rtl] .vue-treeselect {
+    text-align: right
+}
+
+.vue-treeselect div, .vue-treeselect span {
+    box-sizing: border-box
+}
+
+.vue-treeselect svg {
+    fill: currentColor
+}
+
+.vue-treeselect__control {
+    padding-left: 5px;
+    padding-right: 5px;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    height: 36px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #fff;
+    transition-duration: .2s;
+    transition-property: border-color,box-shadow,width,height,background-color,opacity;
+    transition-timing-function: cubic-bezier(.215,.61,.355,1)
+}
+
+.vue-treeselect:not(.vue-treeselect--disabled):not(.vue-treeselect--focused) .vue-treeselect__control:hover {
+    border-color: #cfcfcf
+}
+
+.vue-treeselect--focused:not(.vue-treeselect--open) .vue-treeselect__control {
+    border-color: #039be5;
+    box-shadow: 0 0 0 3px rgba(3,155,229,.1)
+}
+
+.vue-treeselect--disabled .vue-treeselect__control {
+    background-color: #f9f9f9
+}
+
+.vue-treeselect--open .vue-treeselect__control {
+    border-color: #cfcfcf
+}
+
+.vue-treeselect--open.vue-treeselect--open-below .vue-treeselect__control {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0
+}
+
+.vue-treeselect--open.vue-treeselect--open-above .vue-treeselect__control {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0
+}
+
+.vue-treeselect__multi-value, .vue-treeselect__value-container {
+    width: 100%;
+    vertical-align: middle
+}
+
+.vue-treeselect__value-container {
+    display: table-cell;
+    position: relative
+}
+
+.vue-treeselect--searchable:not(.vue-treeselect--disabled) .vue-treeselect__value-container {
+    cursor: text
+}
+
+.vue-treeselect__multi-value {
+    display: inline-block
+}
+
+.vue-treeselect--has-value .vue-treeselect__multi-value {
+    margin-bottom: 5px
+}
+
+.vue-treeselect__placeholder, .vue-treeselect__single-value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-left: 5px;
+    padding-right: 5px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    line-height: 34px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none
+}
+
+.vue-treeselect__placeholder {
+    color: #bdbdbd
+}
+
+.vue-treeselect__single-value {
+    color: #333
+}
+
+.vue-treeselect--focused.vue-treeselect--searchable .vue-treeselect__single-value {
+    color: #bdbdbd
+}
+
+.vue-treeselect--disabled .vue-treeselect__single-value {
+    position: static
+}
+
+.vue-treeselect__multi-value-item-container {
+    display: inline-block;
+    padding-top: 5px;
+    padding-right: 5px;
+    vertical-align: top
+}
+
+[dir=rtl] .vue-treeselect__multi-value-item-container {
+    padding-right: 0;
+    padding-left: 5px
+}
+
+.vue-treeselect__multi-value-item {
+    display: inline-table;
+    padding: 2px 0;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    font-size: 12px;
+    vertical-align: top
+}
+
+.vue-treeselect:not(.vue-treeselect--disabled) .vue-treeselect__multi-value-item:not(.vue-treeselect__multi-value-item-disabled):hover .vue-treeselect__multi-value-item:not(.vue-treeselect__multi-value-item-new) .vue-treeselect__multi-value-item:not(.vue-treeselect__multi-value-item-new):hover, .vue-treeselect__multi-value-item {
+    cursor: pointer;
+    background: #e3f2fd;
+    color: #039be5
+}
+
+    .vue-treeselect__multi-value-item.vue-treeselect__multi-value-item-disabled {
+        cursor: default;
+        background: #f5f5f5;
+        color: #757575
+    }
+
+.vue-treeselect--disabled .vue-treeselect__multi-value-item {
+    cursor: default;
+    background: #fff;
+    border-color: #e5e5e5;
+    color: #555
+}
+
+.vue-treeselect__multi-value-item.vue-treeselect__multi-value-item-new, .vue-treeselect__multi-value-item.vue-treeselect__multi-value-item-new:hover {
+    background: #e8f5e9
+}
+
+.vue-treeselect__multi-value-label, .vue-treeselect__value-remove {
+    display: table-cell;
+    padding: 0 5px;
+    vertical-align: middle
+}
+
+.vue-treeselect__value-remove {
+    color: #039be5;
+    padding-left: 5px;
+    border-left: 1px solid #fff;
+    line-height: 0
+}
+
+[dir=rtl] .vue-treeselect__value-remove {
+    border-left: 0;
+    border-right: 1px solid #fff
+}
+
+.vue-treeselect__multi-value-item:hover .vue-treeselect__value-remove {
+    color: #e53935
+}
+
+.vue-treeselect--disabled .vue-treeselect__value-remove, .vue-treeselect__multi-value-item-disabled .vue-treeselect__value-remove {
+    display: none
+}
+
+.vue-treeselect__value-remove > svg {
+    width: 6px;
+    height: 6px
+}
+
+.vue-treeselect__multi-value-label {
+    padding-right: 5px;
+    white-space: pre-line;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+.vue-treeselect__limit-tip {
+    display: inline-block;
+    padding-top: 5px;
+    padding-right: 5px;
+    vertical-align: top
+}
+
+[dir=rtl] .vue-treeselect__limit-tip {
+    padding-right: 0;
+    padding-left: 5px
+}
+
+.vue-treeselect__limit-tip-text {
+    cursor: default;
+    display: block;
+    margin: 2px 0;
+    padding: 1px 0;
+    color: #bdbdbd;
+    font-size: 12px;
+    font-weight: 600
+}
+
+.vue-treeselect__input-container {
+    display: block;
+    max-width: 100%;
+    outline: none
+}
+
+.vue-treeselect--single .vue-treeselect__input-container {
+    font-size: inherit;
+    height: 100%
+}
+
+.vue-treeselect--multi .vue-treeselect__input-container {
+    display: inline-block;
+    font-size: 12px;
+    vertical-align: top
+}
+
+.vue-treeselect--searchable .vue-treeselect__input-container {
+    padding-left: 5px;
+    padding-right: 5px
+}
+
+.vue-treeselect--searchable.vue-treeselect--multi.vue-treeselect--has-value .vue-treeselect__input-container {
+    padding-top: 5px;
+    padding-left: 0
+}
+
+[dir=rtl] .vue-treeselect--searchable.vue-treeselect--multi.vue-treeselect--has-value .vue-treeselect__input-container {
+    padding-left: 5px;
+    padding-right: 0
+}
+
+.vue-treeselect--disabled .vue-treeselect__input-container {
+    display: none
+}
+
+.vue-treeselect__input, .vue-treeselect__sizer {
+    margin: 0;
+    line-height: inherit;
+    font-family: inherit;
+    font-size: inherit
+}
+
+.vue-treeselect__input {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    box-sizing: content-box;
+    box-shadow: none;
+    background: none transparent;
+    line-height: 1;
+    vertical-align: middle
+}
+
+    .vue-treeselect__input::-ms-clear {
+        display: none
+    }
+
+.vue-treeselect--single .vue-treeselect__input {
+    width: 100%;
+    height: 100%
+}
+
+.vue-treeselect--multi .vue-treeselect__input {
+    padding-top: 3px;
+    padding-bottom: 3px
+}
+
+.vue-treeselect--has-value .vue-treeselect__input {
+    line-height: inherit;
+    vertical-align: top
+}
+
+.vue-treeselect__sizer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    height: 0;
+    overflow: scroll;
+    white-space: pre
+}
+
+.vue-treeselect__x-container {
+    display: table-cell;
+    vertical-align: middle;
+    width: 20px;
+    text-align: center;
+    line-height: 0;
+    cursor: pointer;
+    color: #ccc;
+    -webkit-animation: vue-treeselect-animation-fade-in .2s cubic-bezier(.075,.82,.165,1);
+    animation: vue-treeselect-animation-fade-in .2s cubic-bezier(.075,.82,.165,1)
+}
+
+    .vue-treeselect__x-container:hover {
+        color: #e53935
+    }
+
+.vue-treeselect__x {
+    width: 8px;
+    height: 8px
+}
+
+.vue-treeselect__control-arrow-container {
+    display: table-cell;
+    vertical-align: middle;
+    width: 20px;
+    text-align: center;
+    line-height: 0;
+    cursor: pointer
+}
+
+.vue-treeselect--disabled .vue-treeselect__control-arrow-container {
+    cursor: default
+}
+
+.vue-treeselect__control-arrow {
+    width: 9px;
+    height: 9px;
+    color: #ccc
+}
+
+.vue-treeselect:not(.vue-treeselect--disabled) .vue-treeselect__control-arrow-container:hover .vue-treeselect__control-arrow {
+    color: #616161
+}
+
+.vue-treeselect--disabled .vue-treeselect__control-arrow {
+    opacity: .35
+}
+
+.vue-treeselect__control-arrow--rotated {
+    transform: rotate(180deg)
+}
+
+.vue-treeselect__menu-container {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: visible;
+    transition: 0s
+}
+
+.vue-treeselect--open-below:not(.vue-treeselect--append-to-body) .vue-treeselect__menu-container {
+    top: 100%
+}
+
+.vue-treeselect--open-above:not(.vue-treeselect--append-to-body) .vue-treeselect__menu-container {
+    bottom: 100%
+}
+
+.vue-treeselect__menu {
+    cursor: default;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: block;
+    position: absolute;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: auto;
+    border: 1px solid #cfcfcf;
+    background: #fff;
+    line-height: 180%;
+    -webkit-overflow-scrolling: touch
+}
+
+.vue-treeselect--open-below .vue-treeselect__menu {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    top: 0;
+    margin-top: -1px;
+    border-top-color: #f2f2f2;
+    box-shadow: 0 1px 0 rgba(0,0,0,.06)
+}
+
+.vue-treeselect--open-above .vue-treeselect__menu {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    bottom: 0;
+    margin-bottom: -1px;
+    border-bottom-color: #f2f2f2
+}
+
+.vue-treeselect__indent-level-0 .vue-treeselect__option {
+    padding-left: 5px
+}
+
+[dir=rtl] .vue-treeselect__indent-level-0 .vue-treeselect__option {
+    padding-left: 5px;
+    padding-right: 5px
+}
+
+.vue-treeselect__indent-level-0 .vue-treeselect__tip {
+    padding-left: 25px
+}
+
+[dir=rtl] .vue-treeselect__indent-level-0 .vue-treeselect__tip {
+    padding-left: 5px;
+    padding-right: 25px
+}
+
+.vue-treeselect__indent-level-1 .vue-treeselect__option {
+    padding-left: 25px
+}
+
+[dir=rtl] .vue-treeselect__indent-level-1 .vue-treeselect__option {
+    padding-left: 5px;
+    padding-right: 25px
+}
+
+.vue-treeselect__indent-level-1 .vue-treeselect__tip {
+    padding-left: 45px
+}
+
+[dir=rtl] .vue-treeselect__indent-level-1 .vue-treeselect__tip {
+    padding-left: 5px;
+    padding-right: 45px
+}
+
+.vue-treeselect__indent-level-2 .vue-treeselect__option {
+    padding-left: 45px
+}
+
+[dir=rtl] .vue-treeselect__indent-level-2 .vue-treeselect__option {
+    padding-left: 5px;
+    padding-right: 45px
+}
+
+.vue-treeselect__indent-level-2 .vue-treeselect__tip {
+    padding-left: 65px
+}
+
+[dir=rtl] .vue-treeselect__indent-level-2 .vue-treeselect__tip {
+    padding-left: 5px;
+    padding-right: 65px
+}
+
+.vue-treeselect__indent-level-3 .vue-treeselect__option {
+    padding-left: 65px
+}
+
+[dir=rtl] .vue-treeselect__indent-level-3 .vue-treeselect__option {
+    padding-left: 5px;
+    padding-right: 65px
+}
+
+.vue-treeselect__indent-level-3 .vue-treeselect__tip {
+    padding-left: 85px
+}
+
+[dir=rtl] .vue-treeselect__indent-level-3 .vue-treeselect__tip {
+    padding-left: 5px;
+    padding-right: 85px
+}
+
+.vue-treeselect__indent-level-4 .vue-treeselect__option {
+    padding-left: 85px
+}
+
+[dir=rtl] .vue-treeselect__indent-level-4 .vue-treeselect__option {
+    padding-left: 5px;
+    padding-right: 85px
+}
+
+.vue-treeselect__indent-level-4 .vue-treeselect__tip {
+    padding-left: 105px
+}
+
+[dir=rtl] .vue-treeselect__indent-level-4 .vue-treeselect__tip {
+    padding-left: 5px;
+    padding-right: 105px
+}
+
+.vue-treeselect__indent-level-5 .vue-treeselect__option {
+    padding-left: 105px
+}
+
+[dir=rtl] .vue-treeselect__indent-level-5 .vue-treeselect__option {
+    padding-left: 5px;
+    padding-right: 105px
+}
+
+.vue-treeselect__indent-level-5 .vue-treeselect__tip {
+    padding-left: 125px
+}
+
+[dir=rtl] .vue-treeselect__indent-level-5 .vue-treeselect__tip {
+    padding-left: 5px;
+    padding-right: 125px
+}
+
+.vue-treeselect__indent-level-6 .vue-treeselect__option {
+    padding-left: 125px
+}
+
+[dir=rtl] .vue-treeselect__indent-level-6 .vue-treeselect__option {
+    padding-left: 5px;
+    padding-right: 125px
+}
+
+.vue-treeselect__indent-level-6 .vue-treeselect__tip {
+    padding-left: 145px
+}
+
+[dir=rtl] .vue-treeselect__indent-level-6 .vue-treeselect__tip {
+    padding-left: 5px;
+    padding-right: 145px
+}
+
+.vue-treeselect__indent-level-7 .vue-treeselect__option {
+    padding-left: 145px
+}
+
+[dir=rtl] .vue-treeselect__indent-level-7 .vue-treeselect__option {
+    padding-left: 5px;
+    padding-right: 145px
+}
+
+.vue-treeselect__indent-level-7 .vue-treeselect__tip {
+    padding-left: 165px
+}
+
+[dir=rtl] .vue-treeselect__indent-level-7 .vue-treeselect__tip {
+    padding-left: 5px;
+    padding-right: 165px
+}
+
+.vue-treeselect__indent-level-8 .vue-treeselect__option {
+    padding-left: 165px
+}
+
+[dir=rtl] .vue-treeselect__indent-level-8 .vue-treeselect__option {
+    padding-left: 5px;
+    padding-right: 165px
+}
+
+.vue-treeselect__indent-level-8 .vue-treeselect__tip {
+    padding-left: 185px
+}
+
+[dir=rtl] .vue-treeselect__indent-level-8 .vue-treeselect__tip {
+    padding-left: 5px;
+    padding-right: 185px
+}
+
+.vue-treeselect__option {
+    padding-left: 5px;
+    padding-right: 5px;
+    display: table;
+    table-layout: fixed;
+    width: 100%
+}
+
+.vue-treeselect__option--highlight {
+    background: #f5f5f5
+}
+
+.vue-treeselect--single .vue-treeselect__option--selected {
+    background: #e3f2fd;
+    font-weight: 600
+}
+
+    .vue-treeselect--single .vue-treeselect__option--selected:hover {
+        background: #e3f2fd
+    }
+
+.vue-treeselect__option--hide {
+    display: none
+}
+
+.vue-treeselect__option-arrow-container, .vue-treeselect__option-arrow-placeholder {
+    display: table-cell;
+    vertical-align: middle;
+    width: 20px;
+    text-align: center;
+    line-height: 0
+}
+
+.vue-treeselect__option-arrow-container {
+    cursor: pointer
+}
+
+.vue-treeselect__option-arrow {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    color: #ccc;
+    vertical-align: middle;
+    transition: transform .2s cubic-bezier(.19,1,.22,1);
+    transform: rotate(-90deg)
+}
+
+[dir=rtl] .vue-treeselect__option-arrow {
+    transform: rotate(90deg)
+}
+
+.vue-treeselect--branch-nodes-disabled .vue-treeselect__option:hover .vue-treeselect__option-arrow, .vue-treeselect__option-arrow-container:hover .vue-treeselect__option-arrow {
+    color: #616161
+}
+
+.vue-treeselect__option-arrow--rotated, [dir=rtl] .vue-treeselect__option-arrow--rotated {
+    transform: rotate(0)
+}
+
+    .vue-treeselect__option-arrow--rotated.vue-treeselect__option-arrow--prepare-enter {
+        transform: rotate(-90deg) !important
+    }
+
+    [dir=rtl] .vue-treeselect__option-arrow--rotated.vue-treeselect__option-arrow--prepare-enter {
+        transform: rotate(90deg) !important
+    }
+
+.vue-treeselect__label-container {
+    display: table-cell;
+    vertical-align: middle;
+    cursor: pointer;
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    color: inherit
+}
+
+.vue-treeselect__option--disabled .vue-treeselect__label-container {
+    cursor: not-allowed;
+    color: rgba(0,0,0,.25)
+}
+
+.vue-treeselect__checkbox-container {
+    display: table-cell;
+    width: 20px;
+    min-width: 20px;
+    height: 100%;
+    text-align: center;
+    vertical-align: middle
+}
+
+.vue-treeselect__checkbox {
+    display: block;
+    margin: auto;
+    width: 12px;
+    height: 12px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 2px;
+    position: relative;
+    transition: all .2s cubic-bezier(.075,.82,.165,1)
+}
+
+.vue-treeselect__check-mark, .vue-treeselect__minus-mark {
+    display: block;
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: all .2s ease
+}
+
+.vue-treeselect__minus-mark {
+    width: 8px;
+    height: 8px;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAgMAAAC5YVYYAAAACVBMVEUAAAD///////9zeKVjAAAAAnRSTlMAuLMp9oYAAAAPSURBVAjXY4CDrJUgBAMAGaECJ9dz3BAAAAAASUVORK5CYII=);
+    background-size: 8px 8px
+}
+
+@media (-webkit-min-device-pixel-ratio:1.5),(min-resolution:1.5dppx) {
+    .vue-treeselect__minus-mark {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAADFBMVEUAAAD///////////84wDuoAAAAA3RSTlMAyTzPIdReAAAAGUlEQVQI12PAD+b///+Nof7//79gAsLFCwAx/w4blADeeQAAAABJRU5ErkJggg==)
+    }
+}
+
+@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi) {
+    .vue-treeselect__minus-mark {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAADFBMVEUAAAD///////////84wDuoAAAAA3RSTlMAyTzPIdReAAAAGUlEQVQI12PAD+b///+Nof7//79gAsLFCwAx/w4blADeeQAAAABJRU5ErkJggg==)
+    }
+}
+
+@media (-webkit-min-device-pixel-ratio:3),(min-resolution:288dpi) {
+    .vue-treeselect__minus-mark {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAASWSDLAAAAD1BMVEUAAAD///////////////+PQt5oAAAABHRSTlMAy2EFIuWxUgAAACRJREFUGNNjGBBgJOICBY7KDCoucODEAJSAS6FwUJShGjAQAADBPRGrK2/FhgAAAABJRU5ErkJggg==)
+    }
+}
+
+.vue-treeselect__checkbox--indeterminate > .vue-treeselect__minus-mark {
+    opacity: 1
+}
+
+.vue-treeselect__checkbox--disabled .vue-treeselect__minus-mark {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAgMAAAC5YVYYAAAACVBMVEUAAADi4uLh4eHOxeSRAAAAAnRSTlMAuLMp9oYAAAAPSURBVAjXY4CDrJUgBAMAGaECJ9dz3BAAAAAASUVORK5CYII=)
+}
+
+@media (-webkit-min-device-pixel-ratio:1.5),(min-resolution:1.5dppx) {
+    .vue-treeselect__checkbox--disabled .vue-treeselect__minus-mark {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAADFBMVEUAAADi4uLi4uLh4eE5RQaIAAAAA3RSTlMAyTzPIdReAAAAGUlEQVQI12PAD+b///+Nof7//79gAsLFCwAx/w4blADeeQAAAABJRU5ErkJggg==)
+    }
+}
+
+@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi) {
+    .vue-treeselect__checkbox--disabled .vue-treeselect__minus-mark {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAADFBMVEUAAADi4uLi4uLh4eE5RQaIAAAAA3RSTlMAyTzPIdReAAAAGUlEQVQI12PAD+b///+Nof7//79gAsLFCwAx/w4blADeeQAAAABJRU5ErkJggg==)
+    }
+}
+
+@media (-webkit-min-device-pixel-ratio:3),(min-resolution:288dpi) {
+    .vue-treeselect__checkbox--disabled .vue-treeselect__minus-mark {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAASWSDLAAAAD1BMVEUAAADh4eHg4ODNzc3h4eEYfw2wAAAABHRSTlMAy2EFIuWxUgAAACRJREFUGNNjGBBgJOICBY7KDCoucODEAJSAS6FwUJShGjAQAADBPRGrK2/FhgAAAABJRU5ErkJggg==)
+    }
+}
+
+.vue-treeselect__check-mark {
+    width: 8px;
+    height: 8px;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAMAAADz0U65AAAAQlBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////8IX9KGAAAAFXRSTlMA8u24NxILB+Tawb6jiH1zRz0xIQIIP3GUAAAAMklEQVQI1y3FtQEAMQDDQD+EGbz/qkEVOpyEOP6PudKjZNSXn4Jm2CKRdBKzSLsFWl8fMG0Bl6Jk1rMAAAAASUVORK5CYII=);
+    background-size: 8px 8px;
+    transform: scaleY(.125)
+}
+
+@media (-webkit-min-device-pixel-ratio:1.5),(min-resolution:1.5dppx) {
+    .vue-treeselect__check-mark {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAYFBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////98JRy6AAAAH3RSTlMAzu4sDenl38fBvo1OMyIdEQrj1cSihX5hYFpHNycIcQOASAAAAF9JREFUGNN9zEcOgDAMRFHTS0LvNfe/JRmHKAIJ/mqeLJn+k9uDtaeUeFnFziGsBucUTirrprfe81RqZ3Bb6hPWeuZwDFOHyf+ig9CCzQ7INBn7bG5kF+QSt13BHNJnF7AaCT4Y+CW7AAAAAElFTkSuQmCC)
+    }
+}
+
+@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi) {
+    .vue-treeselect__check-mark {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAYFBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////98JRy6AAAAH3RSTlMAzu4sDenl38fBvo1OMyIdEQrj1cSihX5hYFpHNycIcQOASAAAAF9JREFUGNN9zEcOgDAMRFHTS0LvNfe/JRmHKAIJ/mqeLJn+k9uDtaeUeFnFziGsBucUTirrprfe81RqZ3Bb6hPWeuZwDFOHyf+ig9CCzQ7INBn7bG5kF+QSt13BHNJnF7AaCT4Y+CW7AAAAAElFTkSuQmCC)
+    }
+}
+
+@media (-webkit-min-device-pixel-ratio:3),(min-resolution:288dpi) {
+    .vue-treeselect__check-mark {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAWlBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////9ZMre9AAAAHXRSTlMA/PiJhGNI9XlEHJB/b2ldV08+Oibk49vPp6QhAYgGBuwAAACCSURBVCjPrdHdDoIwDAXgTWAqCigo/+f9X5OwnoUwtis4V92XNWladUl+rzQPeQJAN2EHxoOnsPn7/oYk8fxBv08Rr/deOH/aZ2Nm8ZJ+s573QGfWKnNuZGzWm3+lv2V3pcU1XQ385/yjmBoM3Z+dXvlbYLLD3ujhTaOM3KaIXvNkFkuSEvYy1LqOAAAAAElFTkSuQmCC)
+    }
+}
+
+.vue-treeselect__checkbox--checked > .vue-treeselect__check-mark {
+    opacity: 1;
+    transform: scaleY(1)
+}
+
+.vue-treeselect__checkbox--disabled .vue-treeselect__check-mark {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAMAAADz0U65AAAAP1BMVEUAAADj4+Pf39/h4eHh4eHh4eHk5OTh4eHg4ODi4uLh4eHh4eHg4ODh4eHh4eHg4ODh4eHh4eHp6en////h4eFqcyvUAAAAFHRSTlMAOQfy7bgS5NrBvqOIfXNHMSELAgQ/iFsAAAA2SURBVAjXY4AANjYIzcjMAaVFuBkY+RkEWERYmRjYRXjANAOfiIgIFxNIAa8IpxBEi6AwiAQAK2MBd7xY8csAAAAASUVORK5CYII=)
+}
+
+@media (-webkit-min-device-pixel-ratio:1.5),(min-resolution:1.5dppx) {
+    .vue-treeselect__checkbox--disabled .vue-treeselect__check-mark {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAXVBMVEUAAADh4eHh4eHh4eHi4uLb29vh4eHh4eHh4eHh4eHh4eHh4eHh4eHi4uLi4uLj4+Pi4uLk5OTo6Ojh4eHh4eHi4uLg4ODg4ODh4eHg4ODh4eHf39/g4OD////h4eEzIk+wAAAAHnRSTlMAzu6/LA3p5eLZx8ONTjYiHRIKooV+YWBaRzEnCANnm5rnAAAAZElEQVQY033P2wqAIAyA4VWaaWrnc/n+j5mbhBjUf7WPoTD47TJb4i5zTr/sRDRHuyFaoWX7uK/RlbctlPEuyI1f4WY9yQINEkf6rzzo8YIzmUFoCs7J1EjeIaa9bXIEmzl8dgOZEAj/+2IvzAAAAABJRU5ErkJggg==)
+    }
+}
+
+@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi) {
+    .vue-treeselect__checkbox--disabled .vue-treeselect__check-mark {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAXVBMVEUAAADh4eHh4eHh4eHi4uLb29vh4eHh4eHh4eHh4eHh4eHh4eHh4eHi4uLi4uLj4+Pi4uLk5OTo6Ojh4eHh4eHi4uLg4ODg4ODh4eHg4ODh4eHf39/g4OD////h4eEzIk+wAAAAHnRSTlMAzu6/LA3p5eLZx8ONTjYiHRIKooV+YWBaRzEnCANnm5rnAAAAZElEQVQY033P2wqAIAyA4VWaaWrnc/n+j5mbhBjUf7WPoTD47TJb4i5zTr/sRDRHuyFaoWX7uK/RlbctlPEuyI1f4WY9yQINEkf6rzzo8YIzmUFoCs7J1EjeIaa9bXIEmzl8dgOZEAj/+2IvzAAAAABJRU5ErkJggg==)
+    }
+}
+
+@media (-webkit-min-device-pixel-ratio:3),(min-resolution:288dpi) {
+    .vue-treeselect__checkbox--disabled .vue-treeselect__check-mark {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAUVBMVEUAAADh4eHh4eHh4eHh4eHi4uLi4uLh4eHh4eHh4eHf39/j4+Ph4eHh4eHh4eHg4ODi4uLh4eHh4eHi4uLh4eHh4eHh4eHh4eHh4eH////h4eF3FMFTAAAAGnRSTlMA+/eJhGhfSHE9JBzz5KaQf3pXT0Xbz0I5AYDw8F0AAAB+SURBVCjPrdHbDoMgEEVRKAii1dZe9fz/hxplTiKIT7qfYCWTEEZdUvOwbckNAD2WHeh3brHW5f5EzGQ+iN+b1Gt6KPvtv16Dn6JX9M9ya3/A1yfu5dlyduL6Hec7mXY6ddXLPP2lpABGZ8PWXfYLTJxZekVhhl7eTX24zZPNKXoRC7zQLjUAAAAASUVORK5CYII=)
+    }
+}
+
+.vue-treeselect__checkbox--unchecked {
+    border-color: #e0e0e0;
+    background: #fff
+}
+
+.vue-treeselect__label-container:hover .vue-treeselect__checkbox--unchecked {
+    border-color: #039be5;
+    background: #fff
+}
+
+.vue-treeselect__checkbox--checked, .vue-treeselect__checkbox--indeterminate, .vue-treeselect__label-container:hover .vue-treeselect__checkbox--checked, .vue-treeselect__label-container:hover .vue-treeselect__checkbox--indeterminate {
+    border-color: #039be5;
+    background: #039be5
+}
+
+.vue-treeselect__checkbox--disabled, .vue-treeselect__label-container:hover .vue-treeselect__checkbox--disabled {
+    border-color: #e0e0e0;
+    background-color: #f7f7f7
+}
+
+.vue-treeselect__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: table-cell;
+    padding-left: 5px;
+    max-width: 100%;
+    vertical-align: middle;
+    cursor: inherit
+}
+
+[dir=rtl] .vue-treeselect__label {
+    padding-left: 0;
+    padding-right: 5px
+}
+
+.vue-treeselect__count {
+    margin-left: 5px;
+    font-weight: 400;
+    opacity: .6
+}
+
+[dir=rtl] .vue-treeselect__count {
+    margin-left: 0;
+    margin-right: 5px
+}
+
+.vue-treeselect__tip {
+    padding-left: 5px;
+    padding-right: 5px;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    color: #757575
+}
+
+.vue-treeselect__tip-text {
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 5px;
+    padding-right: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    font-size: 12px
+}
+
+.vue-treeselect__error-tip .vue-treeselect__retry {
+    cursor: pointer;
+    margin-left: 5px;
+    font-style: normal;
+    font-weight: 600;
+    text-decoration: none;
+    color: #039be5
+}
+
+[dir=rtl] .vue-treeselect__error-tip .vue-treeselect__retry {
+    margin-left: 0;
+    margin-right: 5px
+}
+
+.vue-treeselect__icon-container {
+    display: table-cell;
+    vertical-align: middle;
+    width: 20px;
+    text-align: center;
+    line-height: 0
+}
+
+.vue-treeselect--single .vue-treeselect__icon-container {
+    padding-left: 5px
+}
+
+[dir=rtl] .vue-treeselect--single .vue-treeselect__icon-container {
+    padding-left: 0;
+    padding-right: 5px
+}
+
+.vue-treeselect__icon-warning {
+    display: block;
+    margin: auto;
+    border-radius: 50%;
+    position: relative;
+    width: 12px;
+    height: 12px;
+    background: #fb8c00
+}
+
+    .vue-treeselect__icon-warning:after {
+        display: block;
+        position: absolute;
+        content: "";
+        left: 5px;
+        top: 2.5px;
+        width: 2px;
+        height: 1px;
+        border-color: #fff;
+        border-style: solid;
+        border-width: 5px 0 1px
+    }
+
+.vue-treeselect__icon-error {
+    display: block;
+    margin: auto;
+    border-radius: 50%;
+    position: relative;
+    width: 12px;
+    height: 12px;
+    background: #e53935
+}
+
+    .vue-treeselect__icon-error:after, .vue-treeselect__icon-error:before {
+        display: block;
+        position: absolute;
+        content: "";
+        background: #fff;
+        transform: rotate(45deg)
+    }
+
+    .vue-treeselect__icon-error:before {
+        width: 6px;
+        height: 2px;
+        left: 3px;
+        top: 5px
+    }
+
+    .vue-treeselect__icon-error:after {
+        width: 2px;
+        height: 6px;
+        left: 5px;
+        top: 3px
+    }
+
+.vue-treeselect__icon-loader {
+    display: block;
+    margin: auto;
+    position: relative;
+    width: 12px;
+    height: 12px;
+    text-align: center;
+    -webkit-animation: vue-treeselect-animation-rotate 1.6s linear infinite;
+    animation: vue-treeselect-animation-rotate 1.6s linear infinite
+}
+
+    .vue-treeselect__icon-loader:after, .vue-treeselect__icon-loader:before {
+        border-radius: 50%;
+        position: absolute;
+        content: "";
+        left: 0;
+        top: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        opacity: .6;
+        -webkit-animation: vue-treeselect-animation-bounce 1.6s ease-in-out infinite;
+        animation: vue-treeselect-animation-bounce 1.6s ease-in-out infinite
+    }
+
+    .vue-treeselect__icon-loader:before {
+        background: #039be5
+    }
+
+    .vue-treeselect__icon-loader:after {
+        background: #b3e5fc;
+        -webkit-animation-delay: -.8s;
+        animation-delay: -.8s
+    }
+
+.vue-treeselect__menu-placeholder {
+    display: none
+}
+
+.vue-treeselect__portal-target {
+    position: absolute;
+    display: block;
+    left: 0;
+    top: 0;
+    height: 0;
+    width: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    overflow: visible;
+    box-sizing: border-box
+}
+
+</style >
+<style >
+/*!
+ * Doka 4.2.0
+ * Copyright 2019 PQINA Inc - All Rights Reserved
+ * Please visit https://pqina.nl/doka/ for further information
+ */ .doka--button-app {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    border: none;
+    font-family: inherit;
+    font-size: 1em;
+    outline: transparent;
+    display: flex;
+    align-items: center;
+    line-height: 2.5;
+    padding: 0 1.5em;
+    color: hsla(0,0%,100%,.9);
+    background-color: hsla(0,0%,100%,.15);
+    font-weight: 500;
+    transition: transform .15s ease-out,background-color .25s;
+    border-radius: 9999em;
+    transform: scale(1)
+}
+
+.doka--button-app svg {
+    flex-grow: 1;
+    margin: 0 auto
+}
+
+    .doka--button-app svg + span {
+        margin-left: .5em
+    }
+
+.doka--button-app span {
+    font-size: .875em
+}
+
+.doka--button-app:focus, .doka--button-app:hover {
+    background-color: hsla(0,0%,100%,.25)
+}
+
+.doka--button-app:active {
+    transition-duration: .25s;
+    transform: scale(.95)
+}
+
+@supports ((-webkit-backdrop-filter:blur(10px)) or (backdrop-filter:blur(10px))) {
+    .doka--button-app {
+        color: hsla(0,0%,100%,.8);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px)
+    }
+}
+
+.doka--button-app.doka--button-icon-only {
+    width: 2.25em;
+    height: 2.25em;
+    padding: 0
+}
+
+.doka--button-action-confirm {
+    color: #000;
+    background-color: #ffd843;
+    font-weight: 600;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none
+}
+
+    .doka--button-action-confirm:focus, .doka--button-action-confirm:hover {
+        background-color: #ffc343
+    }
+
+.doka--root[data-style-viewport~=x-cramped][data-style-viewport~=multi-util] .doka--button-app {
+    font-size: .85em;
+    background-color: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    color: hsla(0,0%,100%,.9)
+}
+
+    .doka--root[data-style-viewport~=x-cramped][data-style-viewport~=multi-util] .doka--button-app svg {
+        width: 1.25em;
+        height: 1.25em
+    }
+
+    .doka--root[data-style-viewport~=x-cramped][data-style-viewport~=multi-util] .doka--button-app.doka--button-icon-only svg {
+        width: 1.75em;
+        height: 1.75em
+    }
+
+    .doka--root[data-style-viewport~=x-cramped][data-style-viewport~=multi-util] .doka--button-app.doka--button-icon-fallback {
+        width: 2.5em;
+        height: 2.5em;
+        padding: 0
+    }
+
+        .doka--root[data-style-viewport~=x-cramped][data-style-viewport~=multi-util] .doka--button-app.doka--button-icon-fallback span {
+            position: absolute;
+            opacity: 0;
+            width: 1px;
+            height: 1px;
+            overflow: hidden
+        }
+
+.doka--button-icon-fallback svg {
+    display: none
+}
+
+    .doka--button-icon-fallback svg + span {
+        margin-left: 0
+    }
+
+.doka--root[data-style-viewport*=x-cramped][data-style-viewport*=multi-util] .doka--button-icon-fallback svg {
+    display: block
+}
+
+    .doka--root[data-style-viewport*=x-cramped][data-style-viewport*=multi-util] .doka--button-icon-fallback svg + span {
+        margin-left: 0
+    }
+
+.doka--button-icon-only span {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    overflow: hidden
+}
+
+.doka--button-tab {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    border: none;
+    font-family: inherit;
+    font-size: 1em;
+    outline: transparent;
+    width: 5em;
+    padding: .875em 0 .75em;
+    color: hsla(0,0%,100%,.9);
+    background-color: transparent;
+    font-weight: 500;
+    transition: transform .15s ease-out,background-color .25s;
+    transform: scale(1)
+}
+
+    .doka--button-tab svg {
+        margin-bottom: .325em
+    }
+
+    .doka--button-tab span {
+        display: block;
+        font-size: .875em
+    }
+
+    .doka--button-tab:focus, .doka--button-tab:hover, .doka--button-tab[data-active=true] {
+        background-color: hsla(0,0%,100%,.15)
+    }
+
+        .doka--button-tab[data-active=true]:focus, .doka--button-tab[data-active=true]:hover {
+            background-color: hsla(0,0%,100%,.25)
+        }
+
+    .doka--button-tab:active {
+        transition-duration: .25s;
+        transform: scale(.95)
+    }
+
+    .doka--button-tab .doka--icon-resize-arrow-ne, .doka--button-tab .doka--icon-resize-arrow-sw {
+        transition: opacity .25s ease-out
+    }
+
+    .doka--button-tab[data-scale-direction=down] .doka--icon-resize-arrow-ne {
+        opacity: 0
+    }
+
+    .doka--button-tab[data-scale-direction=down] .doka--icon-resize-arrow-sw, .doka--button-tab[data-scale-direction=up] .doka--icon-resize-arrow-ne {
+        opacity: 1
+    }
+
+    .doka--button-tab[data-scale-direction=up] .doka--icon-resize-arrow-sw {
+        opacity: 0
+    }
+
+@supports ((-webkit-backdrop-filter:blur(10px)) or (backdrop-filter:blur(10px))) {
+    .doka--button-tab[data-active=true] {
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px)
+    }
+}
+
+.doka--root[data-style-viewport*=x-cramped] .doka--button-tab {
+    width: 3.5em;
+    height: 3.25em;
+    padding: .325em 0 .5em;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.325)
+}
+
+    .doka--root[data-style-viewport*=x-cramped] .doka--button-tab svg {
+        width: 1em;
+        margin: 0 auto -.125em
+    }
+
+    .doka--root[data-style-viewport*=x-cramped] .doka--button-tab span {
+        font-size: .6875em
+    }
+
+    .doka--root[data-style-viewport*=x-cramped] .doka--button-tab:active {
+        transform: scale(1)
+    }
+
+    .doka--root[data-style-viewport*=x-cramped] .doka--button-tab[data-active=true] {
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none
+    }
+
+        .doka--root[data-style-viewport*=x-cramped] .doka--button-tab[data-active=true]:focus, .doka--root[data-style-viewport*=x-cramped] .doka--button-tab[data-active=true]:hover {
+            background-color: hsla(0,0%,100%,.15)
+        }
+
+.doka--button-tool {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    border: none;
+    font-family: inherit;
+    font-size: 1em;
+    outline: transparent;
+    display: flex;
+    padding: 0 .75em 0 .5em;
+    align-items: center;
+    color: hsla(0,0%,100%,.9);
+    background-color: transparent;
+    transition: transform .15s ease-out,background-color .25s;
+    transform: scale(1)
+}
+
+    .doka--button-tool span {
+        font-size: .875em;
+        margin-left: .5em
+    }
+
+    .doka--button-tool:focus, .doka--button-tool:hover {
+        background-color: hsla(0,0%,100%,.15)
+    }
+
+    .doka--button-tool:active {
+        transition-duration: .25s;
+        transform: scale(.95)
+    }
+
+[data-layout=compact] .doka--button-tool {
+    padding: 0 .5em;
+    border-radius: .25em;
+    background-color: hsla(0,0%,100%,.1);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    width: 2.5em;
+    flex-grow: 0
+}
+
+    [data-layout=compact] .doka--button-tool:focus, [data-layout=compact] .doka--button-tool:hover {
+        background-color: hsla(0,0%,100%,.15)
+    }
+
+    [data-layout=compact] .doka--button-tool span {
+        position: absolute;
+        opacity: 0;
+        width: 1px;
+        height: 1px;
+        overflow: hidden
+    }
+
+.doka--button-zoom {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-family: inherit;
+    font-size: 1em;
+    outline: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 2.5;
+    font-weight: 500;
+    transition: transform .15s ease-out,background-color .25s;
+    border-radius: 9999em;
+    height: 2.5em;
+    width: 2.5em;
+    color: #222;
+    background-color: hsla(0,0%,100%,.85)
+}
+
+    .doka--button-zoom span {
+        position: absolute;
+        opacity: 0;
+        width: 1px;
+        height: 1px;
+        overflow: hidden
+    }
+
+    .doka--button-zoom:focus, .doka--button-zoom:hover {
+        background-color: hsla(0,0%,100%,.95)
+    }
+
+@supports ((-webkit-backdrop-filter:blur(10px)) or (backdrop-filter:blur(10px))) {
+    .doka--button-zoom {
+        background-color: hsla(0,0%,100%,.6);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px)
+    }
+
+        .doka--button-zoom:focus, .doka--button-zoom:hover {
+            background-color: hsla(0,0%,100%,.75)
+        }
+}
+
+.doka--checkable {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.15625em;
+    line-height: 1.5;
+    color: hsla(0,0%,100%,.9);
+    transform: scale(1)
+}
+
+    .doka--checkable input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: 0;
+        opacity: 0;
+        outline: transparent
+    }
+
+    .doka--checkable label {
+        display: inline-block;
+        cursor: pointer;
+        transition: opacity .125s ease-out;
+        font-size: .875em
+    }
+
+    .doka--checkable input:active + label, .doka--checkable input:focus + label {
+        background-color: hsla(0,0%,100%,.15);
+        border-radius: .5em
+    }
+
+    .doka--checkable svg {
+        display: block;
+        margin: 0
+    }
+
+    .doka--checkable path {
+        transition: transform .1s ease-out
+    }
+
+    .doka--checkable:active {
+        transition-duration: .25s;
+        transform: scale(.925)
+    }
+
+.doka--container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    touch-action: manipulation
+}
+
+.doka--root[data-style-viewport*=x-cramped] .doka--container {
+    flex-direction: column-reverse
+}
+
+.doka--content {
+    position: relative;
+    flex: 1
+}
+
+    .doka--content > * {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%
+    }
+
+.doka--view-stack {
+    z-index: 2
+}
+
+.doka--image {
+    z-index: 1
+}
+
+.doka--crop-mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    will-change: transform;
+    pointer-events: none
+}
+
+.doka--crop-rect {
+    z-index: 2;
+    position: relative
+}
+
+.doka--crop-rect-corner {
+    position: absolute;
+    pointer-events: all;
+    z-index: 3;
+    width: 20px;
+    height: 20px;
+    left: -10px;
+    top: -10px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 9999em;
+    text-indent: 0;
+    color: transparent;
+    background: #fff;
+    box-shadow: 0 .0625em .125em rgba(0,0,0,.2);
+    will-change: transform
+}
+
+    .doka--crop-rect-corner:after {
+        position: absolute;
+        left: -1em;
+        right: -1em;
+        top: -1em;
+        bottom: -1em;
+        content: ""
+    }
+
+.doka--crop-rect-corner-ne, .doka--crop-rect-corner-sw {
+    cursor: nesw-resize
+}
+
+.doka--crop-rect-corner-nw, .doka--crop-rect-corner-se {
+    cursor: nwse-resize
+}
+
+.doka--crop-rect-focal-line {
+    height: 100px;
+    width: 100px;
+    z-index: 3;
+    background: #fff;
+    pointer-events: none;
+    will-change: transform,opacity
+}
+
+.doka--crop-rect-edge, .doka--crop-rect-focal-line {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform-origin: left top
+}
+
+.doka--crop-rect-edge {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    z-index: 2;
+    pointer-events: all;
+    will-change: transform
+}
+
+    .doka--crop-rect-edge:focus {
+        outline: transparent
+    }
+
+        .doka--crop-rect-edge:focus:after {
+            position: absolute;
+            content: "";
+            background-color: hsla(0,0%,100%,.5)
+        }
+
+.doka--crop-rect-edge-n, .doka--crop-rect-edge-s {
+    width: 100px;
+    top: -20px;
+    height: 40px;
+    cursor: ns-resize
+}
+
+    .doka--crop-rect-edge-n:after, .doka--crop-rect-edge-s:after {
+        left: 0;
+        right: 0;
+        top: 17px;
+        width: 100%;
+        height: 7px
+    }
+
+.doka--crop-rect-edge-e, .doka--crop-rect-edge-w {
+    cursor: ew-resize;
+    height: 100px;
+    left: -20px;
+    width: 40px
+}
+
+    .doka--crop-rect-edge-e:after, .doka--crop-rect-edge-w:after {
+        top: 0;
+        bottom: 0;
+        left: 17px;
+        height: 100%;
+        width: 7px
+    }
+
+.doka--root[data-style-viewport*=touch] .doka--crop-rect-corner:after {
+    border-radius: 50%;
+    opacity: 0;
+    background: #fff;
+    box-shadow: 0 0 0 1em #fff
+}
+
+.doka--root[data-style-viewport*=touch] .doka--crop-rect-corner:active:after {
+    opacity: .25
+}
+
+.doka--root[data-style-viewport*=touch] .doka--crop-rect-edge:active {
+    outline: transparent
+}
+
+    .doka--root[data-style-viewport*=touch] .doka--crop-rect-edge:active:after {
+        position: absolute;
+        background-color: hsla(0,0%,100%,.5);
+        content: ""
+    }
+
+.doka--root[data-style-viewport*=x-cramped] .doka--crop-rect-corner {
+    width: 16px;
+    height: 16px;
+    left: -8px;
+    top: -8px
+}
+
+.doka--crop-resizer {
+    visibility: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999999;
+    background: transparent;
+    pointer-events: none
+}
+
+    .doka--crop-resizer div {
+        position: absolute;
+        cursor: none;
+        left: 0;
+        top: 0;
+        width: 44px;
+        height: 44px;
+        margin-left: -22px;
+        margin-top: -22px;
+        background: hsla(0,0%,100%,.75);
+        border-radius: 22px;
+        box-shadow: 0 2px 5px rgba(0,0,0,.5);
+        pointer-events: all;
+        -webkit-backdrop-filter: blur(5px);
+        backdrop-filter: blur(5px);
+        opacity: 0;
+        transition: opacity .25s ease-out,visibility .25s ease-out
+    }
+
+    .doka--crop-resizer[data-state=multi-touch] {
+        visibility: visible;
+        cursor: none;
+        pointer-events: all
+    }
+
+        .doka--crop-resizer[data-state=multi-touch] div {
+            opacity: 1
+        }
+
+.doka--crop-rotator {
+    position: relative;
+    height: 3.5em;
+    margin-top: .5em;
+    margin-bottom: .5em;
+    z-index: 2;
+    will-change: opacity;
+    color: #fff;
+    pointer-events: all
+}
+
+.doka--crop-rotator-center {
+    left: 50%;
+    position: absolute;
+    overflow: hidden;
+    width: 2em;
+    top: .325em;
+    height: 1.5em;
+    font-size: .75em;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    margin: 0 0 0 -1em;
+    background: transparent;
+    opacity: .25;
+    z-index: 2;
+    color: inherit
+}
+
+    .doka--crop-rotator-center span {
+        color: transparent
+    }
+
+    .doka--crop-rotator-center:after {
+        position: absolute;
+        left: 50%;
+        height: .85em;
+        border-radius: 9999em;
+        width: 1.5px;
+        color: inherit;
+        background: currentColor;
+        margin-left: -.75px;
+        top: 50%;
+        margin-top: -.55em;
+        content: "";
+        pointer-events: none
+    }
+
+    .doka--crop-rotator-center:focus {
+        outline: transparent;
+        opacity: .65
+    }
+
+.doka--crop-rotator-bar {
+    position: absolute;
+    left: 1em;
+    right: 1em;
+    bottom: 0;
+    top: 0;
+    z-index: 1;
+    cursor: ew-resize;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+.doka--crop-rotator-line-mask {
+    height: 100%;
+    overflow: hidden;
+    max-width: 30em;
+    margin: 0 auto
+}
+
+.doka--root[data-style-viewport*=x-cramped] .doka--crop-rotator-line-mask {
+    max-width: 14em
+}
+
+@supports ((-webkit-mask-image:url("")) or (mask-image:url(""))) and (mix-blend-mode:screen) {
+    .doka--crop-rotator-line-mask, .doka--root[data-style-viewport*=x-cramped] .doka--crop-rotator-line-mask {
+        max-width: 40em;
+        margin: 0 auto;
+        -webkit-mask: linear-gradient(90deg,transparent 15%,#000 30%,#000 70%,transparent 85%);
+        mask: linear-gradient(90deg,transparent 15%,#000 30%,#000 70%,transparent 85%)
+    }
+}
+
+.doka--crop-rotator-line {
+    pointer-events: none;
+    height: 100%;
+    will-change: transform
+}
+
+    .doka--crop-rotator-line svg {
+        position: absolute;
+        left: 50%;
+        margin-left: -500px;
+        width: 1000px
+    }
+
+    .doka--crop-rotator-line text {
+        font-weight: 400;
+        font-size: 2px;
+        opacity: .3
+    }
+
+    .doka--crop-rotator-line circle {
+        opacity: .35
+    }
+
+        .doka--crop-rotator-line circle[r="0.5"] {
+            opacity: .85
+        }
+
+.doka--crop-rotator:focus {
+    outline: transparent
+}
+
+    .doka--crop-rotator:focus .doka--crop-rotator-line circle, .doka--crop-rotator:focus .doka--crop-rotator-line text {
+        fill: #fff
+    }
+
+.doka--crop-size {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 3;
+    overflow: hidden;
+    background: hsla(0,0%,100%,.9);
+    color: rgba(0,0,0,.75);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-radius: 9999em;
+    line-height: 1;
+    white-space: nowrap;
+    transform-origin: center center;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+    font-family: Tahoma,Geneva,Verdana,sans-serif
+}
+
+.doka--crop-size-info {
+    font-size: .6875em;
+    padding: .35em .875em
+}
+
+.doka--crop-resize-percentage {
+    padding-right: .4375em;
+    margin-right: -.25em;
+    border-right: 1px solid rgba(0,0,0,.15)
+}
+
+    .doka--crop-resize-percentage:empty {
+        display: none
+    }
+
+.doka--crop-size-multiply {
+    color: rgba(0,0,0,.5);
+    margin: 0 .175em
+}
+
+.doka--root[data-style-viewport*=x-cramped] .doka--crop-size-info {
+    font-size: .5em;
+    padding: .5em .875em
+}
+
+.doka--root[data-style-viewport*=x-cramped] .doka--crop-resize-percentage {
+    padding-right: .4em
+}
+
+.doka--crop-smoke {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    opacity: .8;
+    pointer-events: none
+}
+
+    .doka--crop-smoke > div {
+        position: absolute;
+        background: #000;
+        transform-origin: top left;
+        width: 100px;
+        height: 100px;
+        top: 0;
+        left: 0
+    }
+
+.doka--crop-subject {
+    position: relative;
+    flex: 1 0 auto;
+    margin: 0 1.5em;
+    contain: layout size style
+}
+
+.doka--root[data-style-viewport*=x-cramped] .doka--crop-subject {
+    margin: 0 2em
+}
+
+.doka--zoom-wrapper {
+    position: relative;
+    z-index: 2;
+    pointer-events: all
+}
+
+.doka--button-zoom {
+    position: absolute;
+    z-index: 2;
+    left: -1.25em;
+    top: -1.25em
+}
+
+.doka--dropdown, .doka--view-stack .doka--crop {
+    display: flex;
+    flex-direction: column
+}
+
+.doka--dropdown {
+    position: relative;
+    justify-content: center
+}
+
+    .doka--dropdown > .doka--button {
+        height: 100%
+    }
+
+.doka--dropdown-list {
+    position: absolute;
+    z-index: 3;
+    padding: 0;
+    top: 100%;
+    margin: -.125em 0 0;
+    min-width: 100%;
+    box-shadow: 0 .75em 1em -.75em rgba(0,0,0,.4),0 1em 2em 0 rgba(0,0,0,.05);
+    display: flex;
+    flex-direction: column;
+    border-radius: .25em;
+    background-color: hsla(0,0%,100%,.95)
+}
+
+    .doka--dropdown-list .doka--button {
+        position: static;
+        width: auto;
+        height: auto;
+        font-family: inherit;
+        font-size: 1em;
+        outline: transparent;
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        border: none;
+        line-height: 2.5;
+        margin: 2px;
+        padding: 0 .75em 0 .5em;
+        border-radius: .125em;
+        color: #111;
+        transform: none
+    }
+
+        .doka--dropdown-list .doka--button span {
+            font-size: .875em;
+            text-align: right;
+            flex: 1
+        }
+
+        .doka--dropdown-list .doka--button svg + span {
+            margin-left: .5em
+        }
+
+        .doka--dropdown-list .doka--button svg {
+            margin: 0;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,.3))
+        }
+
+        .doka--dropdown-list .doka--button:active, .doka--dropdown-list .doka--button:focus, .doka--dropdown-list .doka--button:hover {
+            background-color: rgba(0,0,0,.2)
+        }
+
+            .doka--dropdown-list .doka--button:active:hover, .doka--dropdown-list .doka--button:focus:hover {
+                background-color: rgba(0,0,0,.4)
+            }
+
+        .doka--dropdown-list .doka--button:active {
+            transform: none
+        }
+
+        .doka--dropdown-list .doka--button:first-child, .doka--dropdown-list .doka--button:last-child {
+            border-radius: inherit
+        }
+
+        .doka--dropdown-list .doka--button:first-child {
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0
+        }
+
+        .doka--dropdown-list .doka--button:last-child {
+            border-top-right-radius: 0;
+            border-top-left-radius: 0
+        }
+
+        .doka--dropdown-list .doka--button + .doka--button {
+            margin-top: -2px
+        }
+
+    .doka--dropdown-list [aria-selected=true] {
+        color: #eee;
+        background-color: rgba(0,0,0,.9)
+    }
+
+        .doka--dropdown-list [aria-selected=true]:active, .doka--dropdown-list [aria-selected=true]:focus, .doka--dropdown-list [aria-selected=true]:hover {
+            background-color: rgba(0,0,0,.8)
+        }
+
+            .doka--dropdown-list [aria-selected=true]:active:hover, .doka--dropdown-list [aria-selected=true]:focus:hover {
+                background-color: rgba(0,0,0,.6)
+            }
+
+@supports ((-webkit-backdrop-filter:blur(10px)) or (backdrop-filter:blur(10px))) {
+    .doka--dropdown-list {
+        background-color: hsla(0,0%,100%,.75);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px)
+    }
+}
+
+.doka--root[data-style-viewport*=x-cramped] .doka--dropdown {
+    position: static
+}
+
+.doka--root[data-style-viewport*=x-cramped] .doka--dropdown-list {
+    min-width: auto;
+    top: 3em;
+    left: 3em;
+    right: 3em;
+    max-width: 15em;
+    margin: 0 auto
+}
+
+.doka--edit-status {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    contain: strict;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .25s ease-out;
+    background-color: rgba(40,40,40,.5)
+}
+
+    .doka--edit-status .doka--status-bubble {
+        position: absolute
+    }
+
+    .doka--edit-status[data-view-status=busy] {
+        pointer-events: all;
+        opacity: 1
+    }
+
+.doka--editor {
+    height: 100%;
+    width: 100%;
+    flex: 1 0 auto;
+    max-width: 80em;
+    max-height: 60em;
+    opacity: 0
+}
+
+.doka--filter-list {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    flex-wrap: wrap
+}
+
+    .doka--filter-list li {
+        margin: 0;
+        padding: 0;
+        flex: .2 0 0px;
+        max-width: 4em
+    }
+
+        .doka--filter-list li + li {
+            margin-left: 1em
+        }
+
+@media (-ms-high-contrast:none) {
+    .doka--filter-list li, ::-ms-backdrop {
+        flex: none;
+        width: 4em
+    }
+}
+
+.doka--filter-tile {
+    position: relative
+}
+
+    .doka--filter-tile:before {
+        display: block;
+        padding-top: 100%;
+        content: "";
+        height: 0
+    }
+
+    .doka--filter-tile canvas, .doka--filter-tile label {
+        transition: all .125s ease-out
+    }
+
+    .doka--filter-tile label {
+        position: absolute;
+        color: hsla(0,0%,100%,.9);
+        text-align: center;
+        font-size: .6875em;
+        top: calc(100% + .5em);
+        width: 100%;
+        left: 0
+    }
+
+    .doka--filter-tile canvas {
+        -o-object-fit: cover;
+        object-fit: cover;
+        margin-bottom: .5em;
+        z-index: 2
+    }
+
+    .doka--filter-tile canvas, .doka--filter-tile input {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        font-size: 1em
+    }
+
+    .doka--filter-tile input {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        margin: 0;
+        padding: 0;
+        border-radius: 0;
+        opacity: 0;
+        outline: transparent;
+        pointer-events: all
+    }
+
+        .doka--filter-tile input:checked ~ label {
+            color: #ffd843
+        }
+
+        .doka--filter-tile input:checked ~ canvas {
+            box-shadow: 0 .5px 0 1px rgba(0,0,0,.2),0 0 0 4px #ffd843
+        }
+
+        .doka--filter-tile input:focus ~ label {
+            color: #ffd843
+        }
+
+.doka--view-stack .doka--filter {
+    height: calc(100% - 3em);
+    width: calc(100% - 2em);
+    left: 1em;
+    top: 1em
+}
+
+    .doka--view-stack .doka--filter .doka--filter-list {
+        padding-bottom: 2.5em
+    }
+
+.doka--root[data-style-viewport*=x-cramped] .doka--view-stack .doka--filter {
+    display: flex;
+    flex-direction: column-reverse
+}
+
+    .doka--root[data-style-viewport*=x-cramped] .doka--view-stack .doka--filter .doka--filter-list {
+        padding-bottom: .5em
+    }
+
+.doka--image-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    opacity: 1
+}
+
+    .doka--image-container[tabindex] {
+        pointer-events: all;
+        cursor: move
+    }
+
+    .doka--image-container:focus {
+        outline: transparent
+    }
+
+        .doka--image-container:focus:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            opacity: .25;
+            background: #fff
+        }
+
+.doka--image-preview {
+    pointer-events: none !important;
+    position: relative !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: auto !important;
+    max-width: none !important;
+    min-height: auto !important;
+    max-height: none !important
+}
+
+    .doka--image-preview .doka--layer-0 {
+        z-index: 2
+    }
+
+    .doka--image-preview .doka--layer-1 {
+        z-index: 1
+    }
+
+    .doka--image-preview > canvas {
+        position: relative
+    }
+
+        .doka--image-preview > canvas[data-doka-layer-index="0"] {
+            z-index: 0
+        }
+
+        .doka--image-preview > canvas[data-doka-layer-index="1"] {
+            z-index: 1
+        }
+
+        .doka--image-outline, .doka--image-preview > canvas + canvas {
+            position: absolute;
+            left: 0;
+            top: 0
+        }
+
+.doka--image-outline {
+    z-index: 2;
+    pointer-events: none
+}
+
+.doka--image-outline-edge-bottom, .doka--image-outline-edge-left, .doka--image-outline-edge-right, .doka--image-outline-edge-top {
+    position: absolute;
+    background: #fff;
+    transform-origin: top left;
+    width: 100px;
+    height: 100px;
+    top: 0;
+    left: 0
+}
+
+.doka--image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    opacity: .8;
+    pointer-events: none
+}
+
+.doka--image-overlay-panel-bottom, .doka--image-overlay-panel-left, .doka--image-overlay-panel-right, .doka--image-overlay-panel-top {
+    position: absolute;
+    background: #000;
+    transform-origin: top left;
+    width: 100px;
+    height: 100px;
+    top: 0;
+    left: 0
+}
+
+.doka--image {
+    pointer-events: none
+}
+
+.doka--root[data-style-layout-mode~=fullscreen] {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2147483647;
+    opacity: 0
+}
+
+    .doka--root[data-style-layout-mode~=fullscreen]:focus {
+        outline: transparent
+    }
+
+    .doka--root[data-style-layout-mode~=fullscreen] .doka--edit-status {
+        position: fixed
+    }
+
+    .doka--root[data-style-layout-mode~=fullscreen][data-style-fullscreen-safe-area=bottom][data-style-fullscreen=true] {
+        padding-bottom: 40px;
+        box-sizing: border-box
+    }
+
+@media (min-height:635px) {
+    .doka--root[data-style-layout-mode~=fullscreen][data-style-fullscreen-safe-area=bottom][data-style-fullscreen=true] {
+        padding-bottom: 80px
+    }
+}
+
+.doka--parent::-webkit-scrollbar {
+    background-color: #222
+}
+
+.doka--parent::-webkit-scrollbar-track {
+    background: transparent
+}
+
+.doka--parent::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 9999rem;
+    border: 3px solid #222
+}
+
+@media (min-width:56rem) and (min-height:40rem) {
+    .doka--root[data-style-layout-mode~=modal] {
+        background: rgba(36,36,38,.9)
+    }
+
+        .doka--root[data-style-layout-mode~=modal]:before {
+            content: none
+        }
+
+        .doka--root[data-style-layout-mode~=modal] .doka--editor {
+            position: relative;
+            background: #040405;
+            overflow: hidden;
+            box-shadow: 0 1em 4em rgba(0,0,0,.25),0 .5em 2em rgba(0,0,0,.25);
+            width: 70vw;
+            height: 80vh;
+            max-width: 56rem;
+            max-height: 40rem
+        }
+}
+
+.doka--root[data-style-layout-mode~=preview] {
+    background: transparent
+}
+
+    .doka--root[data-style-layout-mode~=preview]:before {
+        content: none
+    }
+
+    .doka--root[data-style-layout-mode~=preview] .doka--content {
+        position: relative;
+        z-index: 1
+    }
+
+    .doka--root[data-style-layout-mode~=preview] .doka--editor {
+        max-width: none;
+        max-height: none
+    }
+
+    .doka--root[data-style-layout-mode~=preview] .doka--menu {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+        pointer-events: none
+    }
+
+        .doka--root[data-style-layout-mode~=preview] .doka--menu .doka--button {
+            pointer-events: all
+        }
+
+    .doka--root[data-style-layout-mode~=preview] .doka--button, .doka--root[data-style-layout-mode~=preview] .doka--crop-rotator {
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 .125em .5em rgba(0,0,0,.325)
+    }
+
+    .doka--root[data-style-layout-mode~=preview] .doka--button-app:not(.doka--button-action-confirm) {
+        background-color: rgba(50,50,50,.8)
+    }
+
+        .doka--root[data-style-layout-mode~=preview] .doka--button-app:not(.doka--button-action-confirm):focus, .doka--root[data-style-layout-mode~=preview] .doka--button-app:not(.doka--button-action-confirm):hover {
+            background-color: rgba(70,70,70,.8)
+        }
+
+    .doka--root[data-style-layout-mode~=preview] .doka--processing-indicator p {
+        color: #fff;
+        background-color: rgba(50,50,50,.8)
+    }
+
+    .doka--root[data-style-layout-mode~=preview][data-style-viewport*=x-cramped] .doka--processing-indicator {
+        bottom: 0
+    }
+
+    .doka--root[data-style-layout-mode~=preview] .doka--toolbar {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 !important;
+        z-index: 3
+    }
+
+        .doka--root[data-style-layout-mode~=preview] .doka--toolbar .doka--button-tool {
+            background-color: rgba(50,50,50,.8);
+            border-radius: .25em
+        }
+
+            .doka--root[data-style-layout-mode~=preview] .doka--toolbar .doka--button-tool:focus, .doka--root[data-style-layout-mode~=preview] .doka--toolbar .doka--button-tool:hover {
+                background-color: rgba(70,70,70,.8)
+            }
+
+    .doka--root[data-style-layout-mode~=preview] .doka--crop-rect {
+        mix-blend-mode: difference;
+        height: 100%;
+        pointer-events: none;
+        -webkit-mask: radial-gradient(ellipse closest-side,#000,transparent);
+        mask: radial-gradient(ellipse closest-side,#000,transparent)
+    }
+
+    .doka--root[data-style-layout-mode~=preview] .doka--crop-rect-focal-line {
+        background-color: hsla(0,0%,100%,.75)
+    }
+
+    .doka--root[data-style-layout-mode~=preview] .doka--crop-rotator {
+        position: absolute;
+        bottom: 0;
+        left: 12rem;
+        right: 12rem;
+        border-radius: 9999rem;
+        background-color: rgba(50,50,50,.8)
+    }
+
+    .doka--root[data-style-layout-mode~=preview] .doka--crop-size {
+        transform: none !important;
+        right: 1em;
+        top: 1em;
+        left: auto
+    }
+
+    .doka--root[data-style-layout-mode~=preview] .doka--crop-rotator-line-mask {
+        max-width: 100%
+    }
+
+    .doka--root[data-style-layout-mode~=preview] .doka--crop-subject {
+        margin: 0
+    }
+
+    .doka--root[data-style-layout-mode~=preview] .doka--image-container[style*="opacity:1"] ~ .doka--image-overlay {
+        background: rgba(0,0,0,.9);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1
+    }
+
+    .doka--root[data-style-layout-mode~=preview][data-style-viewport~=x-cramped] .doka--crop-rotator {
+        display: none
+    }
+
+    .doka--root[data-style-layout-mode~=preview][data-style-viewport~=x-spacious] .doka--crop-rotator {
+        left: 16rem;
+        right: 16rem
+    }
+
+    .doka--root[data-style-layout-mode~=preview] .doka--crop-rect-corner, .doka--root[data-style-layout-mode~=preview] .doka--crop-rect-edge, .doka--root[data-style-layout-mode~=preview] .doka--crop-smoke > div {
+        display: none
+    }
+
+.doka--menu {
+    display: flex;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+    position: relative;
+    padding: 1em;
+    pointer-events: none;
+    transition: background-color .125s ease-out
+}
+
+    .doka--menu > button {
+        pointer-events: all
+    }
+
+        .doka--menu > button + button {
+            margin-left: 1em
+        }
+
+.doka--root[data-style-viewport~=multi-util] .doka--menu .doka--button-action-confirm {
+    margin-left: 4em
+}
+
+.doka--root[data-style-viewport~=single-util] .doka--menu .doka--button-action-reset {
+    margin-right: auto
+}
+
+.doka--root[data-style-viewport~=x-cramped] .doka--menu {
+    margin-top: -.75em
+}
+
+    .doka--root[data-style-viewport~=x-cramped] .doka--menu > button + button {
+        margin-left: .5em
+    }
+
+.doka--root[data-style-viewport~=x-cramped][data-style-viewport*=multi-util] .doka--button-action-reset {
+    position: absolute
+}
+
+.doka--root[data-style-viewport~=x-cramped][data-style-viewport*=multi-util] .doka--menu {
+    overflow: hidden;
+    margin: 0 1em 1em;
+    padding: 0 .6125em;
+    border-radius: 1em;
+    background: hsla(0,0%,100%,.1);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px)
+}
+
+    .doka--root[data-style-viewport~=x-cramped][data-style-viewport*=multi-util] .doka--menu > button {
+        margin-left: 0
+    }
+
+.doka--root[data-view=resize] .doka--menu {
+    background: rgba(0,0,0,.8) !important
+}
+
+.doka--root[data-style-viewport~=single-util][data-style-viewport~=no-flow-controls] .doka--menu {
+    position: absolute;
+    padding: 0;
+    left: 1em;
+    top: 1em;
+    margin: 0
+}
+
+.doka--resize-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: all;
+    padding: 1em 0;
+    margin: 0 -1em;
+    height: 2.5em
+}
+
+    .doka--resize-form fieldset, .doka--resize-form legend {
+        border: none;
+        padding: 0;
+        margin: 0
+    }
+
+    .doka--resize-form legend {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        opacity: 0
+    }
+
+    .doka--resize-form fieldset {
+        margin: 0;
+        padding: 0;
+        flex: 1 0 auto;
+        max-width: 17em
+    }
+
+    .doka--resize-form .doka--size-input {
+        margin: 0;
+        width: calc(50% - 1.125em)
+    }
+
+    .doka--resize-form .doka--checkable {
+        margin: 0 .325em;
+        vertical-align: bottom
+    }
+
+        .doka--resize-form .doka--checkable label {
+            padding: .3125em 0
+        }
+
+    .doka--resize-form button {
+        margin-right: -3.25em;
+        margin-left: 1em;
+        font-size: .875em
+    }
+
+        .doka--resize-form button svg {
+            width: 1.25em;
+            height: 1.25em
+        }
+
+.doka--root[data-view=resize] .doka--resize-form {
+    background-color: rgba(0,0,0,.8)
+}
+
+.doka--root[data-style-viewport~=flow-controls][data-style-viewport~=single-util]:not([data-style-viewport~=x-cramped]) .doka--resize-form {
+    margin-top: -4.5em;
+    background: none
+}
+
+.doka--root[data-style-viewport*=touch] .doka--resize-form button {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    overflow: hidden
+}
+
+.doka--view-stack .doka--resize {
+    height: calc(100% - 1em) !important
+}
+
+.doka--root {
+    position: relative;
+    overflow: hidden;
+    touch-action: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    height: 100%;
+    width: 100%;
+    font-size: 16px;
+    line-height: normal;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    font-weight: 450;
+    text-align: left;
+    text-rendering: optimizeLegibility;
+    direction: ltr;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(4,4,5,.99);
+    contain: strict
+}
+
+    .doka--root:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+        background: radial-gradient(ellipse at center,hsla(0,0%,100%,.15) 0,hsla(0,0%,100%,0) 80%)
+    }
+
+.doka--size-input {
+    position: relative;
+    display: inline-flex;
+    cursor: text
+}
+
+    .doka--size-input input::-webkit-inner-spin-button, .doka--size-input input::-webkit-outer-spin-button {
+        -webkit-appearance: none
+    }
+
+    .doka--size-input input::-ms-clear {
+        display: none
+    }
+
+    .doka--size-input input, .doka--size-input label {
+        padding: .625em .5em;
+        text-indent: .25em;
+        font-size: .875em;
+        font-weight: 400;
+        cursor: inherit
+    }
+
+    .doka--size-input label {
+        pointer-events: none;
+        position: absolute;
+        right: 0;
+        cursor: text;
+        flex: 1;
+        white-space: nowrap;
+        text-align: right;
+        padding-left: 0;
+        padding-right: .75em;
+        color: hsla(0,0%,100%,.9)
+    }
+
+    .doka--size-input input {
+        -webkit-appearance: none;
+        appearance: none;
+        -moz-appearance: textfield;
+        margin: 0;
+        min-width: 7em;
+        width: 100%;
+        font-variant-numeric: tabular-nums;
+        outline: transparent;
+        border-radius: .5em;
+        box-shadow: none;
+        border: none;
+        color: hsla(0,0%,100%,.9);
+        background-color: hsla(0,0%,100%,.15);
+        transition: background-color .1s ease-in-out,color .1s ease-in-out
+    }
+
+        .doka--size-input input:focus {
+            box-shadow: 0 0 0 2px hsla(0,0%,100%,.9)
+        }
+
+        .doka--size-input input:-ms-input-placeholder {
+            color: #777 !important
+        }
+
+@supports ((-webkit-backdrop-filter:blur(10px)) or (backdrop-filter:blur(10px))) {
+    .doka--size-input input {
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px)
+    }
+}
+
+.doka--status-bubble {
+    pointer-events: none
+}
+
+    .doka--status-bubble p {
+        white-space: nowrap;
+        color: rgba(0,0,0,.8);
+        background: hsla(0,0%,100%,.75);
+        font-size: .875em;
+        border-radius: 9999em;
+        line-height: 2;
+        padding: 0 1em;
+        margin: 0;
+        box-shadow: 0 .125em 1em rgba(0,0,0,.2)
+    }
+
+@supports ((-webkit-backdrop-filter:blur(10px)) or (backdrop-filter:blur(10px))) {
+    .doka--status-bubble p {
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        background: hsla(0,0%,100%,.5)
+    }
+}
+
+.doka--toolbar {
+    z-index: 3;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 1em 0;
+    pointer-events: none;
+    margin: 0 2em
+}
+
+    .doka--toolbar > * {
+        pointer-events: all;
+        margin: 0 .75em;
+        height: 2.5em
+    }
+
+    .doka--toolbar svg {
+        flex-shrink: 0
+    }
+
+        .doka--toolbar svg * {
+            transition: opacity .25s ease-out,transform .5s ease-out
+        }
+
+    .doka--toolbar .doka--button {
+        white-space: nowrap;
+        flex-shrink: 0
+    }
+
+.doka--root[data-style-viewport~=flow-controls][data-style-viewport~=single-util]:not([data-style-viewport~=x-cramped]) .doka--toolbar {
+    margin: -4.5em 11em 0
+}
+
+.doka--toolbar[data-layout=compact] > * {
+    margin: 0 .5em
+}
+
+.doka--root[data-style-viewport~=x-cramped] .doka--toolbar > * {
+    margin: 0 .25em
+}
+
+.doka--utils {
+    padding: 0;
+    margin: -1em auto
+}
+
+    .doka--utils > * {
+        pointer-events: all
+    }
+
+        .doka--utils > * + * {
+            margin-left: 1px
+        }
+
+.doka--root[data-style-viewport*=x-cramped] .doka--utils {
+    margin: 0 auto
+}
+
+.doka--view-stack {
+    pointer-events: none
+}
+
+    .doka--view-stack > * {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        outline: transparent
+    }
+
+    .doka--view-stack [data-view-active=false] * {
+        pointer-events: none !important
+    }
+
+    .doka--view-stack [data-view-active=true] {
+        z-index: 1
+    }
+
+</style >
+<style >
+.doka-overlay {
+    position: relative;
+    overflow: hidden
+}
+
+.doka-overlay > img {
+    display: block;
+    width: 100%;
+    height: auto
+}
+
+.doka-overlay > .doka-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%
+}
+
+</style >
+<style >
+.verte {
+    position: relative;
+    display: flex;
+    justify-content: center
+}
+
+.verte * {
+    box-sizing: border-box
+}
+
+.verte--loading {
+    opacity: 0
+}
+
+.verte__guide {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: transparent
+}
+
+    .verte__guide:focus {
+        outline: 0
+    }
+
+    .verte__guide svg {
+        width: 100%;
+        height: 100%;
+        fill: inherit
+    }
+
+.verte__menu {
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    width: 250px;
+    border-radius: 6px;
+    background-color: #fff;
+    will-change: transform;
+    box-shadow: 0 8px 15px rgba(0,0,0,.1)
+}
+
+    .verte__menu:focus {
+        outline: none
+    }
+
+.verte__menu-origin {
+    display: none;
+    position: absolute;
+    z-index: 10
+}
+
+.verte__menu-origin--active {
+    display: flex
+}
+
+.verte__menu-origin--static {
+    position: static;
+    z-index: auto
+}
+
+.verte__menu-origin--top {
+    bottom: 50px
+}
+
+.verte__menu-origin--bottom {
+    top: 50px
+}
+
+.verte__menu-origin--right {
+    right: 0
+}
+
+.verte__menu-origin--left {
+    left: 0
+}
+
+.verte__menu-origin--center {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,.1)
+}
+
+.verte__menu-origin:focus {
+    outline: none
+}
+
+.verte__controller {
+    padding: 0 20px 20px
+}
+
+.verte__recent {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%
+}
+
+.verte__recent-color {
+    margin: 4px;
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    background-image: linear-gradient(45deg,rgba(112,128,144,.5) 25%,transparent 0),linear-gradient(45deg,transparent 75%,rgba(112,128,144,.5) 0),linear-gradient(-45deg,rgba(112,128,144,.5) 25%,transparent 0),linear-gradient(-45deg,transparent 75%,rgba(112,128,144,.5) 0);
+    background-size: 6px 6px;
+    background-position: 0 0,3px -3px,0 3px,-3px 0;
+    overflow: hidden
+}
+
+    .verte__recent-color:after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 100%;
+        background-color: currentColor
+    }
+
+.verte__value {
+    padding: .6em;
+    width: 100%;
+    border: 1px solid #708090;
+    border-radius: 6px 0 0 6px;
+    text-align: center;
+    font-size: 12px;
+    -webkit-appearance: none;
+    -moz-appearance: textfield
+}
+
+    .verte__value:focus {
+        outline: none;
+        border-color: #1a3aff
+    }
+
+.verte__icon {
+    width: 20px;
+    height: 20px
+}
+
+.verte__icon--small {
+    width: 12px;
+    height: 12px
+}
+
+.verte__input {
+    padding: 5px;
+    margin: 0 3px;
+    min-width: 0;
+    text-align: center;
+    border-width: 0 0 1px;
+    -webkit-appearance: none;
+    appearance: none;
+    -moz-appearance: textfield
+}
+
+    .verte__input::-webkit-inner-spin-button, .verte__input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0
+    }
+
+.verte__inputs {
+    display: flex;
+    font-size: 16px;
+    margin-bottom: 5px
+}
+
+.verte__draggable {
+    border-radius: 6px 6px 0 0;
+    height: 8px;
+    width: 100%;
+    cursor: -webkit-grab;
+    cursor: grab;
+    background: linear-gradient(90deg,#fff 2px,transparent 1%) 50%,linear-gradient(#fff 2px,transparent 1%) 50%,rgba(112,128,144,.2);
+    background-size: 4px 4px
+}
+
+.verte__model, .verte__submit {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1px;
+    border: 0;
+    text-align: center;
+    cursor: pointer;
+    background-color: transparent;
+    font-weight: 700;
+    color: #708090;
+    fill: #708090;
+    outline: none
+}
+
+    .verte__model:hover, .verte__submit:hover {
+        fill: #1a3aff;
+        color: #1a3aff
+    }
+
+.verte__close {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 0;
+    transform: translate(50%,-50%);
+    background-color: rgba(0,0,0,.4);
+    fill: #fff;
+    outline: none;
+    box-shadow: 1px 1px 1px rgba(0,0,0,.2)
+}
+
+    .verte__close:hover {
+        background-color: rgba(0,0,0,.6)
+    }
+
+.verte-picker {
+    width: 100%;
+    margin: 0 auto 10px;
+    display: flex;
+    flex-direction: column
+}
+
+.verte-picker--wheel {
+    margin-top: 20px
+}
+
+.verte-picker__origin {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden
+}
+
+.verte-picker__slider {
+    margin: 20px 20px 0
+}
+
+.verte-picker__canvas {
+    display: block
+}
+
+.verte-picker__cursor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: -6px;
+    width: 12px;
+    height: 12px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    will-change: transform;
+    pointer-events: none;
+    background-color: transparent;
+    box-shadow: 0 0 0 1.5px #fff,inset 0 0 1px 1px rgba(0,0,0,.3),0 0 1px 2px rgba(0,0,0,.4)
+}
+
+.slider, .verte-picker__input {
+    display: flex;
+    margin-bottom: 10px
+}
+
+.slider {
+    position: relative;
+    align-items: center;
+    box-sizing: border-box;
+    font-size: 20px
+}
+
+    .slider--dragging .slider-label, .slider:hover .slider-label {
+        visibility: visible;
+        opacity: 1
+    }
+
+.slider__input {
+    margin-bottom: 0;
+    padding: .3em;
+    margin-left: .2em;
+    max-width: 70px;
+    width: 20%;
+    border: 0;
+    text-align: center;
+    font-size: 12px;
+    -webkit-appearance: none;
+    -moz-appearance: textfield
+}
+
+    .slider__input::-webkit-inner-spin-button, .slider__input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0
+    }
+
+    .slider__input:focus {
+        outline: none;
+        border-color: #1a3aff
+    }
+
+.slider__track {
+    position: relative;
+    flex: 1;
+    margin: 3px;
+    width: auto;
+    height: 8px;
+    background: #fff;
+    will-change: transfom;
+    background-image: linear-gradient(45deg,rgba(112,128,144,.5) 25%,transparent 0),linear-gradient(45deg,transparent 75%,rgba(112,128,144,.5) 0),linear-gradient(-45deg,rgba(112,128,144,.5) 25%,transparent 0),linear-gradient(-45deg,transparent 75%,rgba(112,128,144,.5) 0);
+    background-size: 6px 6px;
+    background-position: 0 0,3px -3px,0 3px,-3px 0;
+    border-radius: 10px
+}
+
+.slider__handle {
+    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+    will-change: transform;
+    color: #000;
+    margin: -2px 0 0 -8px;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #fff;
+    background-color: currentColor;
+    border-radius: 50%;
+    box-shadow: 0 1px 4px -2px #000
+}
+
+.slider__label {
+    position: absolute;
+    top: -3em;
+    left: .4em;
+    z-index: 999;
+    visibility: hidden;
+    padding: 6px;
+    min-width: 3em;
+    border-radius: 6px;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1em;
+    opacity: 0;
+    transform: translate(-50%);
+    white-space: nowrap
+}
+
+    .slider__label:before {
+        position: absolute;
+        bottom: -.6em;
+        left: 50%;
+        display: block;
+        width: 0;
+        height: 0;
+        border-color: #000 transparent transparent;
+        border-style: solid;
+        border-width: .6em .6em 0;
+        content: "";
+        transform: translate3d(-50%,0,0)
+    }
+
+.slider__fill {
+    width: 100%;
+    height: 100%;
+    transform-origin: left top;
+    border-radius: 10px
+}
+
+</style >
+<style >
+/*!
+ * FilePondPluginImagePreview 4.6.6
+ * Licensed under MIT, https://opensource.org/licenses/MIT/
+ * Please visit https://pqina.nl/filepond/ for details.
+ */ .filepond--image-preview-markup {
+    position: absolute;
+    left: 0;
+    top: 0
+}
+
+.filepond--image-preview-wrapper {
+    z-index: 2
+}
+
+.filepond--image-preview-overlay {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    min-height: 5rem;
+    max-height: 7rem;
+    margin: 0;
+    opacity: 0;
+    z-index: 2;
+    pointer-events: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+    .filepond--image-preview-overlay svg {
+        width: 100%;
+        height: auto;
+        color: inherit;
+        max-height: inherit
+    }
+
+.filepond--image-preview-overlay-idle {
+    mix-blend-mode: multiply;
+    color: rgba(40,40,40,.85)
+}
+
+.filepond--image-preview-overlay-success {
+    mix-blend-mode: normal;
+    color: #369763
+}
+
+.filepond--image-preview-overlay-failure {
+    mix-blend-mode: normal;
+    color: #c44e47
+}
+
+@supports (-webkit-marquee-repetition:infinite) and ((-o-object-fit:fill) or (object-fit:fill)) {
+    .filepond--image-preview-overlay-idle {
+        mix-blend-mode: normal
+    }
+}
+
+.filepond--image-preview-wrapper {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 100%;
+    margin: 0;
+    border-radius: .45em;
+    overflow: hidden;
+    background: rgba(0,0,0,.01)
+}
+
+.filepond--image-preview {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    background: #222;
+    will-change: transform,opacity
+}
+
+.filepond--image-clip {
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto
+}
+
+    .filepond--image-clip[data-transparency-indicator=grid] canvas, .filepond--image-clip[data-transparency-indicator=grid] img {
+        background-color: #fff;
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg' fill='%23eee'%3E%3Cpath d='M0 0h50v50H0m50 0h50v50H50'/%3E%3C/svg%3E");
+        background-size: 1.25em 1.25em
+    }
+
+.filepond--image-bitmap, .filepond--image-vector {
+    position: absolute;
+    left: 0;
+    top: 0;
+    will-change: transform
+}
+
+.filepond--root[data-style-panel-layout~=integrated] .filepond--image-preview-wrapper {
+    border-radius: 0
+}
+
+.filepond--root[data-style-panel-layout~=integrated] .filepond--image-preview {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.filepond--root[data-style-panel-layout~=circle] .filepond--image-preview-wrapper {
+    border-radius: 99999rem
+}
+
+.filepond--root[data-style-panel-layout~=circle] .filepond--image-preview-overlay {
+    top: auto;
+    bottom: 0;
+    -webkit-transform: scaleY(-1);
+    transform: scaleY(-1)
+}
+
+.filepond--root[data-style-panel-layout~=circle] .filepond--file .filepond--file-action-button[data-align*=bottom]:not([data-align*=center]) {
+    margin-bottom: .325em
+}
+
+.filepond--root[data-style-panel-layout~=circle] .filepond--file [data-align*=left] {
+    left: calc(50% - 3em)
+}
+
+.filepond--root[data-style-panel-layout~=circle] .filepond--file [data-align*=right] {
+    right: calc(50% - 3em)
+}
+
+.filepond--root[data-style-panel-layout~=circle] .filepond--progress-indicator[data-align*=bottom][data-align*=left], .filepond--root[data-style-panel-layout~=circle] .filepond--progress-indicator[data-align*=bottom][data-align*=right] {
+    margin-bottom: .5125em
+}
+
+.filepond--root[data-style-panel-layout~=circle] .filepond--progress-indicator[data-align*=bottom][data-align*=center] {
+    margin-top: 0;
+    margin-bottom: .1875em;
+    margin-left: .1875em
+}
+
+</style >
+<style >
+/*!
+        * FilePondPluginImageEdit 1.6.3
+        * Licensed under MIT, https://opensource.org/licenses/MIT/
+        * Please visit https://pqina.nl/filepond/ for details.
+        */
+.filepond--action-edit-item.filepond--action-edit-item {
+    width: 2em;
+    height: 2em;
+    padding: .1875em
+}
+
+.filepond--action-edit-item.filepond--action-edit-item[data-align*=center] {
+    margin-left: -.1875em
+}
+
+.filepond--action-edit-item.filepond--action-edit-item[data-align*=bottom] {
+    margin-bottom: -.1875em
+}
+
+.filepond--action-edit-item-alt {
+    border: none;
+    line-height: inherit;
+    background: transparent;
+    font-family: inherit;
+    color: inherit;
+    outline: none;
+    padding: 0;
+    margin: 0 0 0 .25em;
+    pointer-events: all;
+    position: absolute
+}
+
+    .filepond--action-edit-item-alt svg {
+        width: 1.3125em;
+        height: 1.3125em
+    }
+
+    .filepond--action-edit-item-alt span {
+        font-size: 0;
+        opacity: 0
+    }
+
+.filepond--root[data-style-panel-layout~=circle] .filepond--action-edit-item {
+    opacity: 1 !important;
+    visibility: visible !important
+}
+
+</style >
+<style >
+/*!
+ * FilePond 4.26.1
+ * Licensed under MIT, https://opensource.org/licenses/MIT/
+ * Please visit https://pqina.nl/filepond/ for details.
+ */ .filepond--assistant {
+    position: absolute;
+    overflow: hidden;
+    height: 1px;
+    width: 1px;
+    padding: 0;
+    border: 0;
+    clip: rect(1px,1px,1px,1px);
+    -webkit-clip-path: inset(50%);
+    clip-path: inset(50%);
+    white-space: nowrap
+}
+
+.filepond--browser.filepond--browser {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    left: 1em;
+    top: 1.75em;
+    width: calc(100% - 2em);
+    opacity: 0;
+    font-size: 0
+}
+
+.filepond--data {
+    width: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+    visibility: hidden;
+    contain: strict
+}
+
+.filepond--data, .filepond--drip {
+    position: absolute;
+    pointer-events: none
+}
+
+.filepond--drip {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    opacity: .1;
+    border-radius: .5em;
+    background: rgba(0,0,0,.01)
+}
+
+.filepond--drip-blob {
+    -webkit-transform-origin: center center;
+    transform-origin: center center;
+    width: 8em;
+    height: 8em;
+    margin-left: -4em;
+    margin-top: -4em;
+    background: #292625;
+    border-radius: 50%
+}
+
+.filepond--drip-blob, .filepond--drop-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    will-change: transform,opacity
+}
+
+.filepond--drop-label {
+    right: 0;
+    margin: 0;
+    color: #4f4f4f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+    .filepond--drop-label.filepond--drop-label label {
+        display: block;
+        margin: 0;
+        padding: .5em
+    }
+
+    .filepond--drop-label label {
+        cursor: default;
+        font-size: .875em;
+        font-weight: 400;
+        text-align: center;
+        line-height: 1.5
+    }
+
+.filepond--label-action {
+    text-decoration: underline;
+    -webkit-text-decoration-skip: ink;
+    text-decoration-skip-ink: auto;
+    -webkit-text-decoration-color: #a7a4a4;
+    text-decoration-color: #a7a4a4;
+    cursor: pointer
+}
+
+.filepond--root[data-disabled] .filepond--drop-label label {
+    opacity: .5
+}
+
+.filepond--file-action-button.filepond--file-action-button {
+    font-size: 1em;
+    width: 1.625em;
+    height: 1.625em;
+    font-family: inherit;
+    line-height: inherit;
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    will-change: transform,opacity
+}
+
+    .filepond--file-action-button.filepond--file-action-button span {
+        position: absolute;
+        overflow: hidden;
+        height: 1px;
+        width: 1px;
+        padding: 0;
+        border: 0;
+        clip: rect(1px,1px,1px,1px);
+        -webkit-clip-path: inset(50%);
+        clip-path: inset(50%);
+        white-space: nowrap
+    }
+
+    .filepond--file-action-button.filepond--file-action-button svg {
+        width: 100%;
+        height: 100%
+    }
+
+    .filepond--file-action-button.filepond--file-action-button:after {
+        position: absolute;
+        left: -.75em;
+        right: -.75em;
+        top: -.75em;
+        bottom: -.75em;
+        content: ""
+    }
+
+.filepond--file-action-button {
+    cursor: auto;
+    color: #fff;
+    border-radius: 50%;
+    background-color: rgba(0,0,0,.5);
+    background-image: none;
+    box-shadow: 0 0 0 0 hsla(0,0%,100%,0);
+    transition: box-shadow .25s ease-in
+}
+
+    .filepond--file-action-button:focus, .filepond--file-action-button:hover {
+        box-shadow: 0 0 0 .125em hsla(0,0%,100%,.9)
+    }
+
+    .filepond--file-action-button[disabled] {
+        color: hsla(0,0%,100%,.5);
+        background-color: rgba(0,0,0,.25)
+    }
+
+    .filepond--file-action-button[hidden] {
+        display: none
+    }
+
+.filepond--action-edit-item.filepond--action-edit-item {
+    width: 2em;
+    height: 2em;
+    padding: .1875em
+}
+
+    .filepond--action-edit-item.filepond--action-edit-item[data-align*=center] {
+        margin-left: -.1875em
+    }
+
+    .filepond--action-edit-item.filepond--action-edit-item[data-align*=bottom] {
+        margin-bottom: -.1875em
+    }
+
+.filepond--action-edit-item-alt {
+    border: none;
+    line-height: inherit;
+    background: transparent;
+    font-family: inherit;
+    color: inherit;
+    outline: none;
+    padding: 0;
+    margin: 0 0 0 .25em;
+    pointer-events: all;
+    position: absolute
+}
+
+    .filepond--action-edit-item-alt svg {
+        width: 1.3125em;
+        height: 1.3125em
+    }
+
+    .filepond--action-edit-item-alt span {
+        font-size: 0;
+        opacity: 0
+    }
+
+.filepond--file-info {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1;
+    margin: 0 .5em 0 0;
+    min-width: 0;
+    will-change: transform,opacity;
+    pointer-events: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+    .filepond--file-info * {
+        margin: 0
+    }
+
+    .filepond--file-info .filepond--file-info-main {
+        font-size: .75em;
+        line-height: 1.2;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 100%
+    }
+
+    .filepond--file-info .filepond--file-info-sub {
+        font-size: .625em;
+        opacity: .5;
+        transition: opacity .25s ease-in-out;
+        white-space: nowrap
+    }
+
+        .filepond--file-info .filepond--file-info-sub:empty {
+            display: none
+        }
+
+.filepond--file-status {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin: 0;
+    min-width: 2.25em;
+    text-align: right;
+    will-change: transform,opacity;
+    pointer-events: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+    .filepond--file-status * {
+        margin: 0;
+        white-space: nowrap
+    }
+
+    .filepond--file-status .filepond--file-status-main {
+        font-size: .75em;
+        line-height: 1.2
+    }
+
+    .filepond--file-status .filepond--file-status-sub {
+        font-size: .625em;
+        opacity: .5;
+        transition: opacity .25s ease-in-out
+    }
+
+.filepond--file-wrapper.filepond--file-wrapper {
+    border: none;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    height: 100%
+}
+
+    .filepond--file-wrapper.filepond--file-wrapper > legend {
+        position: absolute;
+        overflow: hidden;
+        height: 1px;
+        width: 1px;
+        padding: 0;
+        border: 0;
+        clip: rect(1px,1px,1px,1px);
+        -webkit-clip-path: inset(50%);
+        clip-path: inset(50%);
+        white-space: nowrap
+    }
+
+.filepond--file {
+    position: static;
+    display: flex;
+    height: 100%;
+    align-items: flex-start;
+    padding: .5625em;
+    color: #fff;
+    border-radius: .5em
+}
+
+    .filepond--file .filepond--file-status {
+        margin-left: auto;
+        margin-right: 2.25em
+    }
+
+    .filepond--file .filepond--processing-complete-indicator {
+        pointer-events: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        z-index: 3
+    }
+
+    .filepond--file .filepond--file-action-button, .filepond--file .filepond--processing-complete-indicator, .filepond--file .filepond--progress-indicator {
+        position: absolute
+    }
+
+    .filepond--file [data-align*=left] {
+        left: .5625em
+    }
+
+    .filepond--file [data-align*=right] {
+        right: .5625em
+    }
+
+    .filepond--file [data-align*=center] {
+        left: calc(50% - .8125em)
+    }
+
+    .filepond--file [data-align*=bottom] {
+        bottom: 1.125em
+    }
+
+    .filepond--file [data-align=center] {
+        top: calc(50% - .8125em)
+    }
+
+    .filepond--file .filepond--progress-indicator {
+        margin-top: .1875em
+    }
+
+        .filepond--file .filepond--progress-indicator[data-align*=right] {
+            margin-right: .1875em
+        }
+
+        .filepond--file .filepond--progress-indicator[data-align*=left] {
+            margin-left: .1875em
+        }
+
+[data-filepond-item-state*=error] .filepond--file-info, [data-filepond-item-state*=invalid] .filepond--file-info, [data-filepond-item-state=cancelled] .filepond--file-info {
+    margin-right: 2.25em
+}
+
+[data-filepond-item-state~=processing] .filepond--file-status-sub {
+    opacity: 0
+}
+
+[data-filepond-item-state~=processing] .filepond--action-abort-item-processing ~ .filepond--file-status .filepond--file-status-sub {
+    opacity: .5
+}
+
+[data-filepond-item-state=processing-error] .filepond--file-status-sub {
+    opacity: 0
+}
+
+[data-filepond-item-state=processing-error] .filepond--action-retry-item-processing ~ .filepond--file-status .filepond--file-status-sub {
+    opacity: .5
+}
+
+[data-filepond-item-state=processing-complete] .filepond--action-revert-item-processing svg {
+    -webkit-animation: fall .5s linear .125s both;
+    animation: fall .5s linear .125s both
+}
+
+[data-filepond-item-state=processing-complete] .filepond--file-status-sub {
+    opacity: .5
+}
+
+[data-filepond-item-state=processing-complete] .filepond--file-info-sub, [data-filepond-item-state=processing-complete] .filepond--processing-complete-indicator:not([style*=hidden]) ~ .filepond--file-status .filepond--file-status-sub {
+    opacity: 0
+}
+
+[data-filepond-item-state=processing-complete] .filepond--action-revert-item-processing ~ .filepond--file-info .filepond--file-info-sub {
+    opacity: .5
+}
+
+[data-filepond-item-state*=error] .filepond--file-wrapper, [data-filepond-item-state*=error] .filepond--panel, [data-filepond-item-state*=invalid] .filepond--file-wrapper, [data-filepond-item-state*=invalid] .filepond--panel {
+    -webkit-animation: shake .65s linear both;
+    animation: shake .65s linear both
+}
+
+[data-filepond-item-state*=busy] .filepond--progress-indicator svg {
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    to {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn)
+    }
+}
+
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    to {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn)
+    }
+}
+
+@-webkit-keyframes shake {
+    10%,90% {
+        -webkit-transform: translateX(-.0625em);
+        transform: translateX(-.0625em)
+    }
+
+    20%,80% {
+        -webkit-transform: translateX(.125em);
+        transform: translateX(.125em)
+    }
+
+    30%,50%,70% {
+        -webkit-transform: translateX(-.25em);
+        transform: translateX(-.25em)
+    }
+
+    40%,60% {
+        -webkit-transform: translateX(.25em);
+        transform: translateX(.25em)
+    }
+}
+
+@keyframes shake {
+    10%,90% {
+        -webkit-transform: translateX(-.0625em);
+        transform: translateX(-.0625em)
+    }
+
+    20%,80% {
+        -webkit-transform: translateX(.125em);
+        transform: translateX(.125em)
+    }
+
+    30%,50%,70% {
+        -webkit-transform: translateX(-.25em);
+        transform: translateX(-.25em)
+    }
+
+    40%,60% {
+        -webkit-transform: translateX(.25em);
+        transform: translateX(.25em)
+    }
+}
+
+@-webkit-keyframes fall {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.5);
+        transform: scale(.5);
+        -webkit-animation-timing-function: ease-out;
+        animation-timing-function: ease-out
+    }
+
+    70% {
+        opacity: 1;
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+        -webkit-animation-timing-function: ease-in-out;
+        animation-timing-function: ease-in-out
+    }
+
+    to {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        -webkit-animation-timing-function: ease-out;
+        animation-timing-function: ease-out
+    }
+}
+
+@keyframes fall {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.5);
+        transform: scale(.5);
+        -webkit-animation-timing-function: ease-out;
+        animation-timing-function: ease-out
+    }
+
+    70% {
+        opacity: 1;
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+        -webkit-animation-timing-function: ease-in-out;
+        animation-timing-function: ease-in-out
+    }
+
+    to {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        -webkit-animation-timing-function: ease-out;
+        animation-timing-function: ease-out
+    }
+}
+
+.filepond--hopper[data-hopper-state=drag-over] > * {
+    pointer-events: none
+}
+
+.filepond--hopper[data-hopper-state=drag-over]:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100
+}
+
+.filepond--progress-indicator {
+    z-index: 103
+}
+
+.filepond--file-action-button {
+    z-index: 102
+}
+
+.filepond--file-status {
+    z-index: 101
+}
+
+.filepond--file-info {
+    z-index: 100
+}
+
+.filepond--item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    padding: 0;
+    margin: .25em;
+    will-change: transform,opacity
+}
+
+    .filepond--item > .filepond--panel {
+        z-index: -1
+    }
+
+        .filepond--item > .filepond--panel .filepond--panel-bottom {
+            box-shadow: 0 .0625em .125em -.0625em rgba(0,0,0,.25)
+        }
+
+    .filepond--item > .filepond--file-wrapper, .filepond--item > .filepond--panel {
+        transition: opacity .15s ease-out
+    }
+
+    .filepond--item[data-drag-state] {
+        cursor: -webkit-grab;
+        cursor: grab
+    }
+
+        .filepond--item[data-drag-state] > .filepond--panel {
+            transition: box-shadow .125s ease-in-out;
+            box-shadow: 0 0 0 transparent
+        }
+
+    .filepond--item[data-drag-state=drag] {
+        cursor: -webkit-grabbing;
+        cursor: grabbing
+    }
+
+        .filepond--item[data-drag-state=drag] > .filepond--panel {
+            box-shadow: 0 .125em .3125em rgba(0,0,0,.325)
+        }
+
+    .filepond--item[data-drag-state]:not([data-drag-state=idle]) {
+        z-index: 2
+    }
+
+.filepond--item-panel {
+    background-color: #64605e
+}
+
+[data-filepond-item-state=processing-complete] .filepond--item-panel {
+    background-color: #369763
+}
+
+[data-filepond-item-state*=error] .filepond--item-panel, [data-filepond-item-state*=invalid] .filepond--item-panel {
+    background-color: #c44e47
+}
+
+.filepond--item-panel {
+    border-radius: .5em;
+    transition: background-color .25s
+}
+
+.filepond--list-scroller {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    will-change: transform
+}
+
+    .filepond--list-scroller[data-state=overflow] {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        -webkit-mask: linear-gradient(180deg,#000 calc(100% - .5em),transparent);
+        mask: linear-gradient(180deg,#000 calc(100% - .5em),transparent)
+    }
+
+        .filepond--list-scroller[data-state=overflow] .filepond--list {
+            bottom: 0;
+            right: 0
+        }
+
+    .filepond--list-scroller::-webkit-scrollbar {
+        background: transparent
+    }
+
+        .filepond--list-scroller::-webkit-scrollbar:vertical {
+            width: 1em
+        }
+
+        .filepond--list-scroller::-webkit-scrollbar:horizontal {
+            height: 0
+        }
+
+    .filepond--list-scroller::-webkit-scrollbar-thumb {
+        background-color: rgba(0,0,0,.3);
+        border-radius: 99999px;
+        border: .3125em solid transparent;
+        background-clip: content-box
+    }
+
+.filepond--list.filepond--list {
+    position: absolute;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    will-change: transform
+}
+
+.filepond--list {
+    left: .75em;
+    right: .75em
+}
+
+.filepond--root[data-style-panel-layout~=integrated] {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    margin: 0
+}
+
+    .filepond--root[data-style-panel-layout~=circle] .filepond--panel-root, .filepond--root[data-style-panel-layout~=integrated] .filepond--panel-root {
+        border-radius: 0
+    }
+
+        .filepond--root[data-style-panel-layout~=circle] .filepond--panel-root > *, .filepond--root[data-style-panel-layout~=integrated] .filepond--panel-root > * {
+            display: none
+        }
+
+    .filepond--root[data-style-panel-layout~=circle] .filepond--drop-label, .filepond--root[data-style-panel-layout~=integrated] .filepond--drop-label {
+        bottom: 0;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 7
+    }
+
+    .filepond--root[data-style-panel-layout~=circle] .filepond--item-panel, .filepond--root[data-style-panel-layout~=integrated] .filepond--item-panel {
+        display: none
+    }
+
+    .filepond--root[data-style-panel-layout~=compact] .filepond--list-scroller, .filepond--root[data-style-panel-layout~=integrated] .filepond--list-scroller {
+        overflow: hidden;
+        height: 100%;
+        margin-top: 0;
+        margin-bottom: 0
+    }
+
+    .filepond--root[data-style-panel-layout~=compact] .filepond--list, .filepond--root[data-style-panel-layout~=integrated] .filepond--list {
+        left: 0;
+        right: 0;
+        height: 100%
+    }
+
+    .filepond--root[data-style-panel-layout~=compact] .filepond--item, .filepond--root[data-style-panel-layout~=integrated] .filepond--item {
+        margin: 0
+    }
+
+    .filepond--root[data-style-panel-layout~=compact] .filepond--file-wrapper, .filepond--root[data-style-panel-layout~=integrated] .filepond--file-wrapper {
+        height: 100%
+    }
+
+    .filepond--root[data-style-panel-layout~=compact] .filepond--drop-label, .filepond--root[data-style-panel-layout~=integrated] .filepond--drop-label {
+        z-index: 7
+    }
+
+.filepond--root[data-style-panel-layout~=circle] {
+    border-radius: 99999rem;
+    overflow: hidden
+}
+
+    .filepond--root[data-style-panel-layout~=circle] > .filepond--panel {
+        border-radius: inherit
+    }
+
+        .filepond--root[data-style-panel-layout~=circle] .filepond--file-info, .filepond--root[data-style-panel-layout~=circle] .filepond--file-status, .filepond--root[data-style-panel-layout~=circle] > .filepond--panel > * {
+            display: none
+        }
+
+    .filepond--root[data-style-panel-layout~=circle] .filepond--action-edit-item {
+        opacity: 1 !important;
+        visibility: visible !important
+    }
+
+@media not all and (min-resolution:0.001dpcm) {
+    @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+        .filepond--root[data-style-panel-layout~=circle] {
+            will-change: transform
+        }
+    }
+}
+
+.filepond--panel-root {
+    border-radius: .5em;
+    background-color: #f1f0ef
+}
+
+.filepond--panel {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    margin: 0;
+    height: 100% !important;
+    pointer-events: none
+}
+
+.filepond-panel:not([data-scalable=false]) {
+    height: auto !important
+}
+
+.filepond--panel[data-scalable=false] > div {
+    display: none
+}
+
+.filepond--panel[data-scalable=true] {
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    background-color: transparent !important;
+    border: none !important
+}
+
+.filepond--panel-bottom, .filepond--panel-center, .filepond--panel-top {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0
+}
+
+.filepond--panel-bottom, .filepond--panel-top {
+    height: .5em
+}
+
+.filepond--panel-top {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom: none !important
+}
+
+    .filepond--panel-top:after {
+        content: "";
+        position: absolute;
+        height: 2px;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+        background-color: inherit
+    }
+
+.filepond--panel-bottom, .filepond--panel-center {
+    will-change: transform;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform-origin: left top;
+    transform-origin: left top;
+    -webkit-transform: translate3d(0,.5em,0);
+    transform: translate3d(0,.5em,0)
+}
+
+.filepond--panel-bottom {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-top: none !important
+}
+
+    .filepond--panel-bottom:before {
+        content: "";
+        position: absolute;
+        height: 2px;
+        left: 0;
+        right: 0;
+        top: -1px;
+        background-color: inherit
+    }
+
+.filepond--panel-center {
+    height: 100px !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    border-radius: 0 !important
+}
+
+    .filepond--panel-center:not([style]) {
+        visibility: hidden
+    }
+
+.filepond--progress-indicator {
+    position: static;
+    width: 1.25em;
+    height: 1.25em;
+    color: #fff;
+    margin: 0;
+    pointer-events: none;
+    will-change: transform,opacity
+}
+
+    .filepond--progress-indicator svg {
+        width: 100%;
+        height: 100%;
+        vertical-align: top;
+        transform-box: fill-box
+    }
+
+    .filepond--progress-indicator path {
+        fill: none;
+        stroke: currentColor
+    }
+
+.filepond--list-scroller {
+    z-index: 6
+}
+
+.filepond--drop-label {
+    z-index: 5
+}
+
+.filepond--drip {
+    z-index: 3
+}
+
+.filepond--root > .filepond--panel {
+    z-index: 2
+}
+
+.filepond--browser {
+    z-index: 1
+}
+
+.filepond--root {
+    box-sizing: border-box;
+    position: relative;
+    margin-bottom: 1em;
+    font-size: 1rem;
+    line-height: normal;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+    font-weight: 450;
+    text-align: left;
+    text-rendering: optimizeLegibility;
+    direction: ltr;
+    contain: layout style size
+}
+
+    .filepond--root * {
+        box-sizing: inherit;
+        line-height: inherit
+    }
+
+    .filepond--root :not(text) {
+        font-size: inherit
+    }
+
+    .filepond--root[data-disabled] {
+        pointer-events: none
+    }
+
+        .filepond--root[data-disabled] .filepond--list-scroller {
+            pointer-events: all
+        }
+
+        .filepond--root[data-disabled] .filepond--list {
+            pointer-events: none
+        }
+
+    .filepond--root .filepond--drop-label {
+        min-height: 4.75em
+    }
+
+    .filepond--root .filepond--list-scroller {
+        margin-top: 1em;
+        margin-bottom: 1em
+    }
+
+    .filepond--root .filepond--credits {
+        position: absolute;
+        right: 0;
+        opacity: .175;
+        line-height: .85;
+        font-size: 11px;
+        color: inherit;
+        text-decoration: none;
+        z-index: 3;
+        bottom: -14px
+    }
+
+        .filepond--root .filepond--credits[style] {
+            top: 0;
+            bottom: auto;
+            margin-top: 14px
+        }
+
+</style >
+<style >
+.tippy-box[data-animation=fade][data-state=hidden] {
+    opacity: 0
+}
+
+[data-tippy-root] {
+    max-width: calc(100vw - 10px)
+}
+
+.tippy-box {
+    position: relative;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.4;
+    outline: 0;
+    transition-property: transform,visibility,opacity
+}
+
+    .tippy-box[data-placement^=top] > .tippy-arrow {
+        bottom: 0
+    }
+
+        .tippy-box[data-placement^=top] > .tippy-arrow:before {
+            bottom: -7px;
+            left: 0;
+            border-width: 8px 8px 0;
+            border-top-color: initial;
+            transform-origin: center top
+        }
+
+    .tippy-box[data-placement^=bottom] > .tippy-arrow {
+        top: 0
+    }
+
+        .tippy-box[data-placement^=bottom] > .tippy-arrow:before {
+            top: -7px;
+            left: 0;
+            border-width: 0 8px 8px;
+            border-bottom-color: initial;
+            transform-origin: center bottom
+        }
+
+    .tippy-box[data-placement^=left] > .tippy-arrow {
+        right: 0
+    }
+
+        .tippy-box[data-placement^=left] > .tippy-arrow:before {
+            border-width: 8px 0 8px 8px;
+            border-left-color: initial;
+            right: -7px;
+            transform-origin: center left
+        }
+
+    .tippy-box[data-placement^=right] > .tippy-arrow {
+        left: 0
+    }
+
+        .tippy-box[data-placement^=right] > .tippy-arrow:before {
+            left: -7px;
+            border-width: 8px 8px 8px 0;
+            border-right-color: initial;
+            transform-origin: center right
+        }
+
+    .tippy-box[data-inertia][data-state=visible] {
+        transition-timing-function: cubic-bezier(.54,1.5,.38,1.11)
+    }
+
+.tippy-arrow {
+    width: 16px;
+    height: 16px;
+    color: #333
+}
+
+    .tippy-arrow:before {
+        content: "";
+        position: absolute;
+        border-color: transparent;
+        border-style: solid
+    }
+
+.tippy-content {
+    position: relative;
+    padding: 5px 9px;
+    z-index: 1
+}
+
+</style >
+<style type="text/css" >
+div.eapps-widget {
+    position: relative
+}
+
+div.eapps-widget.eapps-widget-show-toolbar:before {
+    position: absolute;
+    content: "";
+    display: block;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    border: 1px solid transparent;
+    transition: border .3s ease;
+    z-index: 1
+}
+
+.eapps-widget-toolbar {
+    position: absolute;
+    top: -32px;
+    left: 0;
+    right: 0;
+    display: block;
+    z-index: 99999;
+    padding-bottom: 4px;
+    transition: all .3s ease;
+    pointer-events: none;
+    opacity: 0
+}
+
+.eapps-widget:hover .eapps-widget-toolbar {
+    opacity: 1;
+    pointer-events: auto
+}
+
+.eapps-widget-toolbar a {
+    text-decoration: none;
+    box-shadow: none !important
+}
+
+.eapps-widget-toolbar-panel {
+    border-radius: 6px;
+    background-color: #222;
+    color: #fff;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -ms-flex-align: center;
+    align-items: center;
+    top: 0;
+    position: relative;
+    transition: all .3s ease;
+    opacity: 0;
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    box-shadow: 0 0 0 1px hsla(0,0%,100%,.2);
+    height: 28px
+}
+
+.eapps-widget:hover .eapps-widget-toolbar-panel {
+    opacity: 1
+}
+
+.eapps-widget-toolbar-panel-wrapper {
+    width: 100%;
+    position: relative
+}
+
+.eapps-widget-toolbar-panel-only-you {
+    position: absolute;
+    top: -24px;
+    font-size: 11px;
+    line-height: 14px;
+    color: #9c9c9c;
+    padding: 5px 4px
+}
+
+.eapps-widget-toolbar-panel-logo {
+    width: 28px;
+    height: 28px;
+    border-right: 1px solid hsla(0,0%,100%,.2);
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center
+}
+
+    .eapps-widget-toolbar-panel-logo svg {
+        display: block;
+        width: 15px;
+        height: 15px;
+        fill: #f93262
+    }
+
+.eapps-widget-toolbar-panel-edit {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 9px;
+    border-right: 1px solid hsla(0,0%,100%,.2);
+    color: #fff;
+    text-decoration: none
+}
+
+.eapps-widget-toolbar-panel-edit-icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 8px
+}
+
+    .eapps-widget-toolbar-panel-edit-icon svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        fill: #fff
+    }
+
+.eapps-widget-toolbar-panel-views {
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    align-items: center
+}
+
+.eapps-widget-toolbar-panel-views-label {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+    margin-left: 8px
+}
+
+.eapps-widget-toolbar-panel-views-bar {
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    width: 70px;
+    height: 3px;
+    border-radius: 2px;
+    margin-left: 8px;
+    background-color: hsla(0,0%,100%,.3)
+}
+
+.eapps-widget-toolbar-panel-views-bar-inner {
+    border-radius: 2px;
+    background-color: #4ad504
+}
+
+.eapps-widget-toolbar-panel-views-green .eapps-widget-toolbar-panel-views-bar-inner {
+    background-color: #4ad504
+}
+
+.eapps-widget-toolbar-panel-views-red .eapps-widget-toolbar-panel-views-bar-inner {
+    background-color: #ff4734
+}
+
+.eapps-widget-toolbar-panel-views-orange .eapps-widget-toolbar-panel-views-bar-inner {
+    background-color: #ffb400
+}
+
+.eapps-widget-toolbar-panel-views-percent {
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    margin-left: 8px;
+    margin-right: 8px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px
+}
+
+.eapps-widget-toolbar-panel-views-get-more {
+    padding: 9px 16px;
+    background-color: #f93262;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 400;
+    border-radius: 0 6px 6px 0
+}
+
+.eapps-widget-toolbar-panel-share {
+    position: absolute;
+    top: 0;
+    display: inline-block;
+    margin-left: 8px;
+    width: 83px;
+    height: 28px;
+    padding-bottom: 4px;
+    box-sizing: content-box !important
+}
+
+    .eapps-widget-toolbar-panel-share:hover .eapps-widget-toolbar-panel-share-block {
+        opacity: 1;
+        pointer-events: all
+    }
+
+.eapps-widget-toolbar-panel-share-button {
+    padding: 0 18px;
+    height: 28px;
+    background-color: #1c91ff;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 400;
+    border-radius: 6px;
+    position: absolute;
+    top: 0;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    cursor: default;
+    -ms-flex-align: center;
+    align-items: center
+}
+
+    .eapps-widget-toolbar-panel-share-button svg {
+        display: inline-block;
+        margin-right: 6px;
+        fill: #fff;
+        position: relative;
+        top: -1px
+    }
+
+.eapps-widget-toolbar-panel-share-block {
+    position: absolute;
+    background: #fff;
+    border: 1px solid hsla(0,0%,7%,.1);
+    border-radius: 10px;
+    width: 209px;
+    top: 32px;
+    transform: translateX(-63px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all .3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,.05)
+}
+
+    .eapps-widget-toolbar-panel-share-block:hover {
+        opacity: 1;
+        pointer-events: all
+    }
+
+.eapps-widget-toolbar-panel-share-block-text {
+    color: #111;
+    font-size: 15px;
+    font-weight: 400;
+    padding: 12px 0;
+    text-align: center
+}
+
+.eapps-widget-toolbar-panel-share-block-text-icon {
+    padding-bottom: 4px
+}
+
+.eapps-widget-toolbar-panel-share-block-actions {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    border-top: 1px solid hsla(0,0%,7%,.1)
+}
+
+.eapps-widget-toolbar-panel-share-block-actions-item {
+    width: 33.333333%;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 39px;
+    transition: all .3s ease;
+    background-color: transparent
+}
+
+    .eapps-widget-toolbar-panel-share-block-actions-item:hover {
+        background-color: #fafafa
+    }
+
+    .eapps-widget-toolbar-panel-share-block-actions-item a {
+        width: 100%;
+        height: 100%;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -ms-flex-align: center;
+        align-items: center
+    }
+
+.eapps-widget-toolbar-panel-share-block-actions-item-icon {
+    width: 16px;
+    height: 16px;
+    display: block
+}
+
+.eapps-widget-toolbar-panel-share-block-actions-item-facebook .eapps-widget-toolbar-panel-share-block-actions-item-icon {
+    fill: #3c5a9b
+}
+
+.eapps-widget-toolbar-panel-share-block-actions-item-twitter .eapps-widget-toolbar-panel-share-block-actions-item-icon {
+    fill: #1ab2e8
+}
+
+.eapps-widget-toolbar-panel-share-block-actions-item-google .eapps-widget-toolbar-panel-share-block-actions-item-icon {
+    fill: #dd4b39
+}
+
+.eapps-widget-toolbar-panel-share-block-actions-item:not(:last-child) {
+    border-right: 1px solid hsla(0,0%,7%,.1)
+}
+
+</style >
+<style type="text/css" >
+.fancybox-margin {
+    margin-right: 17px;
+}
+
+</style >
+<style type="text/css" >
+.nolt-feedback-button {
+    --shadow-color: rgba(0,0,0,0.25);
+    display: inline-flex;
+    background: #fd6a65;
+    border-radius: 4px;
+    color: #fff;
+    font: normal normal 500 13px/1.2 Helvetica Neue,Arial,sans-serif;
+    padding: 6px 10px;
+    white-space: nowrap;
+    outline: 0;
+    text-decoration: none;
+    text-shadow: .05em 0 var(--shadow-color),0 .05em var(--shadow-color),-.05em 0 var(--shadow-color),0 -.05em var(--shadow-color)
+}
+
+.nolt-feedback-button:active, .nolt-feedback-button:focus, .nolt-feedback-button:hover {
+    background: #fc4e49
+}
+
+.nolt-feedback-button:active {
+    box-shadow: inset 0 3px 7px rgba(0,0,0,.1)
+}
+
+.nolt-feedback-button:before {
+    content: " ";
+    display: inline-block;
+    position: relative;
+    top: 1px;
+    margin-right: 6px;
+    background: transparent 0 0 no-repeat;
+    background-image: url(data:image/svg+xml;charset=utf-8;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0iI0ZGRiIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMCAwaDEydjEySDB6Ii8+PHBhdGggZmlsbC1vcGFjaXR5PSIuOCIgZD0iTTEyIDBoMTJ2MTJIMTJ6Ii8+PHBhdGggZmlsbC1vcGFjaXR5PSIuNiIgZD0iTTEyIDEyaDEydjEySDEyeiIvPjwvZz48L3N2Zz4=);
+    background-size: 13px 13px;
+    height: 13px;
+    width: 13px
+}
+
+</style >
+<style type="text/css" > body.nolt-modal-open {
+    overflow: hidden
+}
+
+.nolt-modal {
+    z-index: 2147483647;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    visibility: hidden
+}
+
+@media (max-width:690px) {
+    .nolt-modal {
+        padding: 0
+    }
+}
+
+.nolt-modal-open .nolt-modal {
+    visibility: visible
+}
+
+.nolt-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    cursor: pointer;
+    background-color: rgba(50,50,50,.9);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .25s
+}
+
+.nolt-modal-open .nolt-overlay {
+    opacity: 1;
+    visibility: visible
+}
+
+.nolt-dialog {
+    position: relative;
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    max-width: 690px;
+    max-height: 800px;
+    overflow: hidden;
+    opacity: 0;
+    -webkit-transform: translateY(2rem);
+    transform: translateY(2rem);
+    transition: opacity .25s ease,-webkit-transform .25s ease;
+    transition: opacity .25s ease,transform .25s ease;
+    transition: opacity .25s ease,transform .25s ease,-webkit-transform .25s ease
+}
+
+@media (max-width:690px) {
+    .nolt-dialog {
+        top: 16px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-radius: 0;
+        max-height: calc(100% - 32px);
+        max-width: 100%
+    }
+}
+
+.nolt-dialog iframe {
+    background: #fff;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0
+}
+
+.nolt-modal-frame-loaded .nolt-dialog {
+    opacity: 1;
+    -webkit-transform: translate(0);
+    transform: translate(0)
+}
+
+.nolt-loader-wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none
+}
+
+.nolt-loader {
+    width: 6rem;
+    height: 2px;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 2px;
+    background-color: rgba(0,0,0,.4);
+    box-shadow: 0 0 1px 0 rgba(0,0,0,.2);
+    position: relative;
+    overflow: hidden;
+    -webkit-transform: rotateY(90deg);
+    transform: rotateY(90deg);
+    transition: -webkit-transform .7s ease;
+    transition: transform .7s ease;
+    transition: transform .7s ease,-webkit-transform .7s ease;
+    transition-delay: .25s
+}
+
+    .nolt-loader:after {
+        content: "";
+        height: 100%;
+        width: 5rem;
+        position: absolute;
+        -webkit-transform: translate(-7.5rem);
+        transform: translate(-7.5rem);
+        background-color: #f9f586;
+        border-radius: 2px;
+        -webkit-animation: nolt-modal-loader .7s ease infinite;
+        animation: nolt-modal-loader .7s ease infinite;
+        -webkit-animation-delay: 1.05s;
+        animation-delay: 1.05s
+    }
+
+.nolt-modal-open .nolt-loader {
+    -webkit-transform: rotateY(0);
+    transform: rotateY(0)
+}
+
+@-webkit-keyframes nolt-modal-loader {
+    0%,to {
+        -webkit-transform: translate(-7.5rem);
+        transform: translate(-7.5rem)
+    }
+
+    50% {
+        -webkit-transform: translate(2.5rem);
+        transform: translate(2.5rem)
+    }
+}
+
+@keyframes nolt-modal-loader {
+    0%,to {
+        -webkit-transform: translate(-7.5rem);
+        transform: translate(-7.5rem)
+    }
+
+    50% {
+        -webkit-transform: translate(2.5rem);
+        transform: translate(2.5rem)
+    }
+}
+
+.nolt-close {
+    position: fixed;
+    right: 32px;
+    top: 24px;
+    opacity: .5;
+    cursor: pointer;
+    transition: opacity .1s ease;
+    pointer-events: none;
+    z-index: 1
+}
+
+@media (max-width:850px) {
+    .nolt-close {
+        right: 4px;
+        top: 0;
+        -webkit-transform: scale(.6);
+        transform: scale(.6)
+    }
+}
+
+@media (max-width:690px) {
+    .nolt-close {
+        right: 14px
+    }
+}
+
+.nolt-close-icon {
+    position: relative;
+    width: 32px;
+    height: 32px
+}
+
+    .nolt-close-icon:after, .nolt-close-icon:before {
+        position: absolute;
+        left: 15px;
+        content: " ";
+        height: 33px;
+        width: 3px;
+        background-color: #fff
+    }
+
+    .nolt-close-icon:before {
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg)
+    }
+
+    .nolt-close-icon:after {
+        -webkit-transform: rotate(-45deg);
+        transform: rotate(-45deg)
+    }
+
+</style >

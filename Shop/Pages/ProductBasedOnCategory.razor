@@ -1,0 +1,118 @@
+﻿@page "/category/{CategoryName}"
+@inject IUnitOfWork unitOfwork
+@inject RealtimeService realTime
+@inject IJSRuntime js
+@inject Extensions ex 
+<section class="section py-3">
+    <div class="container">
+        <div class="section-header mb-4 d-flex">
+            <h2 class="section--title"><span> @CategoryName </span></h2>
+            <div id="sort" class="sort">
+                <button id="sort-toggle" type="button" class="btn btn-primary">
+                    <i class="sicon-list-reorder"></i>
+                    ترتيب
+                </button>
+                <ul id="sort-options">
+                    <li class="col no-border-bottom">
+                        <div class="checkbox radio">
+                            <input name="sort-opt" type="radio" checked="" id="opt-1" value="ourSuggest">
+                            <label for="opt-1"> مقترحاتنا </label>
+                        </div>
+                        <div class="checkbox radio">
+                            <input name="sort-opt" type="radio" id="opt-2" value="bestSell">
+                            <label for="opt-2">الاكثر مبيعاً</label>
+                        </div>
+                        <div class="checkbox radio">
+                            <input name="sort-opt" type="radio" id="opt-3" value="topRated">
+                            <label for="opt-3">الاعلى تقيماً</label>
+                        </div>
+                        <div class="checkbox radio">
+                            <input name="sort-opt" type="radio" id="opt-4" value="priceFromTopToLow">
+                            <label for="opt-4">السعر من الاعلى إلى الاقل</label>
+                        </div>
+                        <div class="checkbox radio">
+                            <input name="sort-opt" type="radio" id="opt-5" value="priceFromLowToTop">
+                            <label for="opt-5">السعر من الاقل إلى الاعلى</label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="product-sorted">
+            <div class="row products-grid infinite-scroll  mobile-card-no-margin  grid-col-2  eq-height">
+
+                @foreach (var product in ProductModels)
+                {
+                    if (product.CategoryModel?.Name == CategoryName)
+                    {
+                        <div class="col-xs-6 col-sm-4 col-lg-3 product-box">
+                            <div class="product cover">
+                                <a href="/@product.ID" rel="canonical">
+                                    @*<span class="promotion-title">خصم 30%</span>*@
+                                    <span class="img-cont">
+                                        <img src="@product.Images.LastOrDefault().ImageUrl" class=" lazyloaded">
+                                    </span>
+                                    <h3 class="product-title">@product.Name</h3>
+                                    <h4 class="product-subtitle"></h4>
+                                </a>
+                                <div class="product-footer" style="margin-top: auto">
+                                    <p class="product-price"> <span class="price-after">@product.Price ر.س</span> </p>
+
+                                    <a @onclick="()=> ex.AddToCart(product,orderModel) " class="product-add add_to_cart_btn">
+                                        <span class="sicon-cart"></span>
+                                        <span>أضف للسلة</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+
+                }
+
+            </div>
+            <div id="load_more_wrapper" class="stripes-wrapper mt-20" style="display: none">
+                <button id="load_more" class="btn btn-primary btn-medium btn-loader">عرض المزيد</button>
+            </div>
+            <div class="cart-nav cart-nav-small" style="text-align:center;display: none">
+            </div>
+            <div class="page-load-status" style="display: none">
+                <div class="infinite-scroll-request">
+                    <div class="loader loader-small loader-light"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@code{
+    [Parameter]
+    public string CategoryName { get; set; } = "";
+    IEnumerable<ProductModel> ProductModels = new List<ProductModel>();
+    private OrderModel orderModel = new OrderModel();
+
+    private void AddToCart(ProductModel productModel)
+    {
+        try
+        {
+            orderModel.IdProduct = productModel.ID;
+            orderModel.IdUser = realTime.GetCurrentUser().Result;
+            orderModel.Price = productModel.Price.Value;
+            orderModel.Date = DateTime.Now;
+            unitOfwork.OrderRepository.Add(orderModel);
+            unitOfwork.Complete();
+            realTime.Price += orderModel.Price;
+            realTime.Quantity += orderModel.Quantity;
+        }
+        catch (Exception e)
+        {
+            js.ToastrError(e.Message);
+        }
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        ProductModels = await unitOfwork.ProductRepository.GetALL();
+    }
+
+}

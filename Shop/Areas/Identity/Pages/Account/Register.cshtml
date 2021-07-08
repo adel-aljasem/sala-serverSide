@@ -47,64 +47,21 @@
                             <div class="panel-body">
                                 <div class="text-center">
 
-                                    <h5 class="content-group-lg"> ✨مرحبا بك في عالم التجارة الإلكترونية✨ </h5>
+                                    <h5 class="content-group-lg"> ✨مرحبا بك ✨ </h5>
                                 </div>
                                 <form id="form" class="stepy-validation ajax" method="post" style="margin-top: 0;">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label>اسم المتجر <span class="text-danger">*</span></label>
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="sicon-store2"></i></span>
-                                                    <input asp-for="Input.StoreName" type="text"  class="form-control required data-hj-whitelist" maxlength="30" placeholder="متجر ..." >
-                                                </div>
-                                                <span asp-validation-for="Input.StoreName" class="text-danger"></span>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label>رابط المتجر <span class="text-danger">*</span></label>
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="sicon-link"></i></span>
-                                                    <input asp-for="Input.StoreLink" type="text" class="form-control text-left-align allow-english-only data-hj-whitelist" maxlength="30" placeholder="store_name" id="store_url" style="direction:ltr">
-                                                    <span class="input-group-addon text-ltr">salla.sa/</span>
-                                                </div>
-                                                <span class="text-muted text-size-small">سيكون هو رابط المتجر الذي يمكن للعملاء الدخول عليه للطلب. يجب استخدام الأحرف الانجليزية والارقام</span>
-                                                <span asp-validation-for="Input.StoreLink" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label>نوع الكيان <span class="text-danger">*</span></label>
-
-                                                <select asp-for="Input.StoreType" class="btn dropdown-toggle bs-placeholder btn-default bootstrap-select bootstrap-select--full" required="required">
-                                                    <option class="bs-title-option" value="">اختر نوع الكيان</option>
-                                                    <option value="person" data-icon="sicon-user">فرد</option>
-                                                    <option value="company" data-icon="sicon-bank-building">مؤسسة</option>
-                                                    <option value="firm" data-icon="sicon-village">شركة</option>
-                                                    <option value="charity" data-icon="sicon-heart-money">جمعية خيرية</option>
-                                                </select>
-                                                <span asp-validation-for="Input.StoreType" class="text-danger"></span>
-
-
-                                                <span class="text-muted text-size-small">حدد نوع الكيان الخاص بك</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
+                                   
+                                    
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>مدير المتجر <span class="text-danger">*</span></label>
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="sicon-user"></i></span>
-                                                    <input asp-for="Input.UserName" type="text" id="first_name" class="form-control required data-hj-whitelist" placeholder=" الاسم الكريم ">
+                                                    <input asp-for="Input.Name" type="text" id="first_name" class="form-control required data-hj-whitelist" placeholder=" الاسم الكريم ">
                                                 </div>
-                                                <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                                                <span asp-validation-for="Input.Name" class="text-danger"></span>
 
                                             </div>
                                         </div>

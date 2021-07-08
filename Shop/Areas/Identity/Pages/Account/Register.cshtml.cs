@@ -63,7 +63,7 @@ namespace Shop.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser {Name = Input.UserName,UserName = Input.Email, Email = Input.Email,StoreLink = Input.StoreLink,StoreName = Input.StoreName,StoreType = Input.StoreType,PhoneNumber = Input.PhoneNumber };
+                var user = new ApplicationUser {Name = Input.Name,UserName = Input.Email, Email = Input.Email,PhoneNumber = Input.PhoneNumber };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 await _userManager.AddToRoleAsync(user,SD.Role_Customer);
                 

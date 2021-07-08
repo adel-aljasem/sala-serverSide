@@ -40,21 +40,21 @@ namespace DataAccess.Repository
             }
             catch (Exception e)
             {
-                await jSRuntime.ToastrError(e.Message);
+                jSRuntime.ToastrError(e.Message);
                 return null;
             }
         }
 
-        public async Task<ApplicationUser> GetUser(string id)
+        public  ApplicationUser GetUser(string id)
         {
             try
             {
-                return  await UserManager.FindByIdAsync(id);
+                return  UserManager.FindByIdAsync(id).Result;
 
             }
             catch (Exception e)
             {
-                await jSRuntime.ToastrError(e.Message);
+                 jSRuntime.ToastrError(e.Message);
                 return null;
             }
         }
@@ -72,17 +72,17 @@ namespace DataAccess.Repository
         //    }
         //}
 
-        public async Task Update(string id)
+        public void Update(string id)
         {
             try
             {
-                var user = await UserManager.FindByIdAsync(id);
-                await UserManager.UpdateAsync(user);
+                var user =  UserManager.FindByIdAsync(id).Result;
+                 UserManager.UpdateAsync(user);
 
             }
             catch (Exception e)
             {
-                await jSRuntime.ToastrError(e.Message);
+                 jSRuntime.ToastrError(e.Message);
             }
         }
     }

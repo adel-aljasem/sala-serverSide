@@ -1,0 +1,186 @@
+﻿@page "/customers/{id}"
+@inject NavigationManager nav
+@inject IUnitOfWork unitOfwork
+@layout AdminLayout
+
+
+<div class="content-wrapper content-padding" id="content_box">
+
+
+
+
+
+    <div class="content ">
+
+
+        <div class="page-header page-header-xs">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="page-header-content">
+
+                        <div class="page-title breadcrumb-container mobile-webview-hide">
+                            <nav class="nav-breadcrumb" aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item home">
+                                        <a href="@nav.BaseUri">
+                                            <i class="sicon-home"></i>
+                                            الرئيسية
+                                        </a>
+                                    </li>
+                                    <li class="breadcrumb-item ">
+                                        <a href="/customers">
+                                            العملاء
+                                        </a>
+                                    </li>
+                                    <li class="breadcrumb-item active">adelaljasem</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="heading-elements heading-help mobile-webview-hide">
+                            <div class="btn-group heading-btn">
+                                <button class="btn bg-tiffany btn-icon btn-sm load_help_center_modal" data-toggle="dropdown">
+                                    <i class="sicon-life-ring"></i>
+                                    <span>مساعدة ؟</span>
+                                </button>
+                            </div>
+                            <div id="help_center_div"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h6 class="panel-title title-thin"> العميل </h6>
+                                <div class="heading-elements">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-tiffany btn-xs dropdown-toggle" data-toggle="dropdown">
+                                            <i class="sicon-user"></i>&nbsp; خيارات العميل
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li>
+                                                <a href="#" data-toggle="modal" data-target="#modal_message_send" class="button_message_send">
+                                                    <i class="sicon-chat-conversation"></i> ارسال رسالة
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" data-toggle="modal" data-target="#modal_customer">
+                                                    <i class="sicon-edit"></i> تعديل العميل
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="unban-customer" style="display: none">
+                                                    <i class="sicon-check"></i> إلغاء الحظر
+                                                </a>
+                                                <a class="ban-customer">
+                                                    <i class="sicon-block"></i> حظر العميل
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="https://assets.salla.sa/cp/assets/images/avatar_male.png">
+                                            <img src="https://assets.salla.sa/cp/assets/images/avatar_male.png" class="img-circle img-lg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h6 class="media-heading">@Customer.Name</h6>
+                                        <a href="tel:@Customer.PhoneNumber" style="direction: ltr; display: inline-block; text-align: right;">
+                                            @Customer.PhoneNumber
+                                            <span style="direction: rtl; display: inline-block; background: #5CD5C4; margin-left: 5px; color: #fff; padding: 2px 9px; border-radius: 99px; font-size: 12px;"><i class="sicon-phone" style="vertical-align: text-bottom; font-size: 13px;"></i> اتصل</span>
+                                        </a>
+                                    </div>
+                                    <div class="media-right media-body-middle">
+                                        <p class="text-muted">جدة, السعودية</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-flat">
+                            <div class="panel-heading">
+                                <h6 class="panel-title"><i class="sicon-box"></i>&nbsp; الطلبات</h6>
+                                <div class="heading-elements">
+                                    <ul class="nav nav-pills nav-pills-toolbar text-right nav-pills-small hidden">
+                                        <li class="active">
+                                            <a href=""> الكل</a>
+                                        </li>
+                                        <li class="">
+                                            <a href="">بإنتظار المراجعة</a>
+                                        </li>
+                                        <li class="">
+                                            <a href=""> قيد التنفيذ </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="no-more-tables">
+                                <table class="table text-nowrap">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <span class="text-muted"> لا توجد بيانات</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="footer text-muted">
+            <a href="https://s.salla.sa" target="_blank"> سلة</a> © 2021
+        </div>
+
+    </div>
+</div>
+
+<Shop.Pages.Admin.Modals.Modal_Customer ApplicationUser="Customer" StateChanged="UpdateUser" />
+<Shop.Pages.Admin.Modals.Modal_message_send ApplicationUser="Customer" />
+@code {
+
+    [Parameter]
+    public string Id { get; set; }
+
+    public ApplicationUser Customer { get; set; } = new ApplicationUser();
+
+    protected async override Task OnInitializedAsync()
+    {
+
+        await UpdateUser();
+
+    }
+
+    private async Task UpdateUser()
+    {
+        Customer = unitOfwork.UserRepository.GetUser(Id);
+
+        if (Customer == null)
+        {
+            nav.NavigateTo("/");
+        }
+    }
+
+
+}
